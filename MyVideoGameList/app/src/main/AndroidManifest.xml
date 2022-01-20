@@ -10,7 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyVideoGameList">
         <activity
-            android:name=".MainActivity"
+            android:name=".RandomaticActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GamesListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserGameRating"
+            android:exported="false" />
+        <activity
+            android:name=".GameScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Home"
             android:exported="false" />
     </application>
 
