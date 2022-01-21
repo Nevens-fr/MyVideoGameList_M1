@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">My Video Game List</string>
+    <string name="close_button">X</string>
+    <string name="abandonned_button">Abandonned</string>
+    <string name="playing_button">Playing</string>
+    <string name="on_hold_button">On-hold</string>
+    <string name="planned_button">Planned</string>
+    <string name="finished_button">Finished</string>
+    <string name="placeholder_game_name">Game name</string>
+    <string name="my_score">My score</string>
+    <string name="status">Status</string>
+    <string name="save_text_game_rating">Save</string>
+    <string name="cancel">cancel</string>
+    <string name="my_time">My time</string>
+    <string name="hours">H</string>
+    <string name="empty_time">- -</string>
+    <string name="minutes">Min</string>
+    <string name="feedback">My feedback</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="randomatic">Randomatic</string>
+    <string name="my_lists">My lists</string>
+    <string name="games_lists">Games lists</string>
+
+    <string name="ten">10</string>
+    <string name="nine">9</string>
+    <string name="height">8</string>
+    <string name="seven">7</string>
+    <string name="six">6</string>
+    <string name="five">5</string>
+    <string name="four">4</string>
+    <string name="three">3</string>
+    <string name="two">2</string>
+    <string name="one">1</string>
+    <string name="zero">0</string>
+
 </resources>

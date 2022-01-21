@@ -4,6 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".GamesListActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/toolbar_top"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_game_rating_game_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="@string/games_lists"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/toolbar_top"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp">
+
+        <Button
+            android:id="@+id/home_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:backgroundTint="@color/toolbar_top"
+            android:text="@string/home"
+            android:textSize="12dp"
+            android:paddingTop="9dp"
+            android:drawableTop="?attr/homeAsUpIndicator"
+            android:drawableTint="#9A9696"/>
+
+        <Button
+            android:id="@+id/search_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:backgroundTint="@color/toolbar_top"
+            android:drawableTint="#9A9696"
+            android:text="@string/search"
+            android:textSize="12dp"
+            android:paddingTop="9dp"
+            android:drawableTop="?android:attr/actionModeWebSearchDrawable"
+            app:iconTint="#B6B0B0" />
+
+        <Button
+            android:id="@+id/randomatic_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:backgroundTint="@color/toolbar_top"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/randomatic"
+            android:textSize="12dp"
+            android:drawableTop="@android:drawable/ic_menu_help" />
+
+        <Button
+            android:id="@+id/my_lists_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:backgroundTint="@color/toolbar_top"
+            android:drawableTop="@android:drawable/ic_menu_sort_by_size"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/my_lists"
+            android:textSize="12dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
