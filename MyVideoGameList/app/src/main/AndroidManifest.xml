@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyVideoGameList">
+
         <activity
             android:name=".RandomaticActivity"
             android:exported="false" />
@@ -16,17 +17,22 @@
             android:name=".GamesListActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".GameScreenActivity"
             android:exported="false" />
         <activity
             android:name=".UserGameRating"
             android:exported="false" />
         <activity
-            android:name=".GameScreenActivity"
+            android:name=".SearchActivity"
             android:exported="false" />
         <activity
             android:name=".Home"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

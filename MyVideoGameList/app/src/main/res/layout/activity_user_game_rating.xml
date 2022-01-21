@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:orientation="vertical"
-        app:background="#000000"
+        app:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
@@ -394,7 +394,7 @@
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/toolbar_top"
+        android:background="@drawable/top_border"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="0dp">
