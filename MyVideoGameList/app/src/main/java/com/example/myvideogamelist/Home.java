@@ -2,7 +2,9 @@ package com.example.myvideogamelist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class Home extends AppCompatActivity {
 
@@ -14,5 +16,13 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         navigationBar.init(this);
+
+        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UserGameRating.class);
+                startActivity(intent);
+            }
+        });
     }
 }

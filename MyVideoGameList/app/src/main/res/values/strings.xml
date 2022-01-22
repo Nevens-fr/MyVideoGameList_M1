@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">My Video Game List</string>
     <string name="close_button">X</string>
-    <string name="abandonned_button">Abandonned</string>
+    <string name="abandonned_button">Abandoned</string>
     <string name="playing_button">Playing</string>
     <string name="on_hold_button">On-hold</string>
     <string name="planned_button">Planned</string>
@@ -10,7 +10,7 @@
     <string name="my_score">My score</string>
     <string name="status">Status</string>
     <string name="save_text_game_rating">Save</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="my_time">My time</string>
     <string name="hours">H</string>
     <string name="empty_time">- -</string>
@@ -21,13 +21,14 @@
     <string name="randomatic">Randomatic</string>
     <string name="my_lists">My lists</string>
     <string name="games_lists">Games lists</string>
+    <string name="empty_text"> </string>
     
     <string name="genreAll">All</string>
     <string name="genreFinished">Finished</string>
     <string name="genrePlaying">Playing</string>
     <string name="genreOnHold">On-hold</string>
     <string name="genrePlanned">Planned</string>
-    <string name="genreAbandonned">Abandonned</string>
+    <string name="genreAbandonned">Abandoned</string>
 
     <string name="searchName">Name</string>
     <string name="searchDevs">Devs</string>

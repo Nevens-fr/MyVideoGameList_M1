@@ -81,6 +81,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <Space
@@ -93,13 +94,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:backgroundTint="@color/black"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/abandonned_button"
                 android:textSize="12sp"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp"
+                app:backgroundTint="@null"
+                android:background="@drawable/button_border_white"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <Space
@@ -112,10 +112,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:backgroundTint="@color/black"
-                android:text="@string/finished_button"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp" />
+                app:backgroundTint="@null"
+                android:background="@drawable/button_border_white"
+                android:text="@string/finished_button" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -127,10 +126,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:backgroundTint="@color/black"
                 android:text="@string/planned_button"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp" />
+                app:backgroundTint="@null"
+                android:background="@drawable/button_border_white" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -155,10 +153,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:backgroundTint="@color/black"
                 android:text="@string/on_hold_button"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp" />
+                app:backgroundTint="@null"
+                android:background="@drawable/button_border_white" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -170,10 +167,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:backgroundTint="@color/black"
                 android:text="@string/playing_button"
-                app:strokeColor="@color/white"
-                app:strokeWidth="2dp" />
+                app:backgroundTint="@null"
+                android:background="@drawable/button_border_white" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -181,91 +177,6 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="@string/my_score"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/white" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/left2_button_game_rating_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/black"
-                android:text="@string/ten"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/light_grey"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/left1_button_game_rating_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/black"
-                android:text="@string/nine"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/grey"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/center_button_game_rating_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/toolbar_top"
-                android:insetTop="1dp"
-                android:insetBottom="1dp"
-                android:text="@string/height"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:strokeColor="@color/text_orange_color"
-                app:strokeWidth="5dp" />
-
-            <Button
-                android:id="@+id/right1_button_game_rating_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/black"
-                android:text="@string/seven"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#656262"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/right2_button_game_rating_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/black"
-                android:text="@string/six"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/light_grey"
-                android:textStyle="bold" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -406,7 +317,7 @@
             android:layout_weight="0"
             android:backgroundTint="@color/toolbar_top"
             android:text="@string/home"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:paddingTop="9dp"
             android:drawableTop="?attr/homeAsUpIndicator"
             android:drawableTint="#9A9696"/>
@@ -419,7 +330,7 @@
             android:backgroundTint="@color/toolbar_top"
             android:drawableTint="#9A9696"
             android:text="@string/search"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:paddingTop="9dp"
             android:drawableTop="?android:attr/actionModeWebSearchDrawable"
             app:iconTint="#B6B0B0" />
@@ -433,7 +344,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:text="@string/randomatic"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:drawableTop="@android:drawable/ic_menu_help" />
 
         <Button
@@ -446,8 +357,191 @@
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:text="@string/my_lists"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="@string/my_score"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white" />
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/empty_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_orange_border"
+                        app:backgroundTint="@null"
+                        android:text="@string/empty_time"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/ten_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:text="@string/ten"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/nine_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:text="@string/nine"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/height_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:text="@string/height"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/seven_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/seven"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/six_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:text="@string/six"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/five_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/five"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/four_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/four"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/three_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/three"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/two_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/two"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/one_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/one"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/zero_rating_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/zero"
+                        android:background="@drawable/button_black_border"
+                        app:backgroundTint="@null"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
