@@ -42,7 +42,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/search_all_button_id"
+                android:id="@+id/search_name_button_id"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/toolbar_top"
@@ -102,25 +102,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
         <EditText
-            android:id="@+id/feedback_game_rating_id"
+            android:id="@+id/user_search_text_id"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/edittext_bottom_border"
-            android:ems="10"
+            android:layout_weight="1"
             android:hint="@string/searchNameEditText"
             android:inputType="textPersonName"
             android:text=""
             android:textColor="@color/white"
             android:textColorHint="@color/light_grey"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
+            android:paddingLeft="20dp" />
+
+        <Button
+            android:id="@+id/launch_search_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/black"
+            android:text="Button"
+            app:icon="?android:attr/actionModeWebSearchDrawable"
+            app:iconTint="@color/grey" />
     </LinearLayout>
 
     <LinearLayout
