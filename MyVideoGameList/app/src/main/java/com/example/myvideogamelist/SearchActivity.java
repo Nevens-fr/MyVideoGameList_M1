@@ -3,12 +3,19 @@ package com.example.myvideogamelist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
+import com.example.myvideogamelist.ApiGestion.ImageFromUrl;
 import com.example.myvideogamelist.ApiGestion.SearchGameAPI;
 
 public class SearchActivity extends AppCompatActivity {
@@ -29,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
 
         selectedButton = findViewById(R.id.search_name_button_id);
         searchType = "search";
+        createCard(0);
     }
 
     /**
@@ -123,5 +131,21 @@ public class SearchActivity extends AppCompatActivity {
                 gamesAPI.requestWithParam(searchGameAPI);
             }
         });
+    }
+
+    private void createCard(int i){
+        LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
+
+        ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText("New name"+searchType +" " + i);
+
+        ImageView imageView = new ImageView(getApplicationContext());
+        new ImageFromUrl(imageView).execute("");
+
+        ((LinearLayout)v.findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(imageView,0);
+
+        ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(v);
+        if(i < 2)
+            createCard(++i);
     }
 }

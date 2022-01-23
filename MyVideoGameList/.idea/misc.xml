@@ -11,6 +11,9 @@
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/edittext_border.xml" value="0.37864583333333335" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/edittext_bottom_border.xml" value="0.37864583333333335" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21875" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/image_for_card.xml" value="0.37864583333333335" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/rounded_border.xml" value="0.37864583333333335" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/to_clone_layout.xml" value="0.37864583333333335" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/top_border.xml" value="0.37864583333333335" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_game_screen.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_game_search.xml" value="0.33" />
@@ -20,6 +23,7 @@
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_randomatic.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_search.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_user_game_rating.xml" value="0.33" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/to_clone_layout.xml" value="0.3625" />
       </map>
     </option>
   </component>

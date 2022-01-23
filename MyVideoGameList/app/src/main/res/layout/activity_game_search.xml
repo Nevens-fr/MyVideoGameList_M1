@@ -103,6 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:id="@+id/linearLayout4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
         android:paddingLeft="20dp"
@@ -192,5 +193,36 @@
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView_search_id"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout4"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_to_insert_clones_search_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/loading_search_text_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:drawableTop="@android:drawable/stat_notify_sync"
+                android:text="@string/loading"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
