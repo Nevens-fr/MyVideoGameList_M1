@@ -218,10 +218,23 @@
                 android:drawableTop="@android:drawable/stat_notify_sync"
                 android:text="@string/loading"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/text_orange_color"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/error_fetch_data_text_search_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/error_on_fetching_data"
+                android:textAlignment="center"
+                android:textColor="@color/text_orange_color"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:drawableTopCompat="?android:attr/alertDialogIcon" />
         </LinearLayout>
     </ScrollView>
 

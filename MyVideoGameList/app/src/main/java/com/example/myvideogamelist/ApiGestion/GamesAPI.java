@@ -1,5 +1,9 @@
 package com.example.myvideogamelist.ApiGestion;
 
+import android.app.Activity;
+
+import com.example.myvideogamelist.MyActivityImageDiplayable;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -35,9 +39,9 @@ public class GamesAPI {
     /**
      * Make a Http reqyest withs params
      * @param searchGameAPI a class containing all params for the request
-     * @throws Exception
+     * @param currentActivity activity running
      */
-    public void requestWithParam(SearchGameAPI searchGameAPI){
+    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDiplayable currentActivity){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -67,6 +71,13 @@ public class GamesAPI {
             }
         });
         thread.start();
+        try {
+            thread.join();
+            currentActivity.getApiInfo(obj);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            currentActivity.getApiInfo(null);
+        }
     }
 
     public void requestGameById(String id){
@@ -111,6 +122,7 @@ public class GamesAPI {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+            obj = null;
         }
     }
 

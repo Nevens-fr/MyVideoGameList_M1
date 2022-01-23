@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,10 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
-import com.example.myvideogamelist.ApiGestion.ImageFromUrl;
 import com.example.myvideogamelist.ApiGestion.SearchGameAPI;
+import com.squareup.picasso.Picasso;
 
-public class SearchActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class SearchActivity extends AppCompatActivity implements MyActivityImageDiplayable{
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
 
@@ -30,19 +33,20 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_search);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         navigationBar.init(this);
         connectButtonSearch();
 
         selectedButton = findViewById(R.id.search_name_button_id);
         searchType = "search";
-        createCard(0);
     }
 
     /**
      * Create buttons interactions for user search options
      */
     private void connectButtonSearch(){
+        MyActivityImageDiplayable currentActivity = this;
         findViewById(R.id.search_name_button_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,25 +131,63 @@ public class SearchActivity extends AppCompatActivity {
                     case "developers" : searchGameAPI.setDevelopers( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
                     case "search" : searchGameAPI.setSearch( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
                 }
+                findViewById(R.id.loading_search_text_id).setVisibility(View.VISIBLE);
+                findViewById(R.id.error_fetch_data_text_search_id).setVisibility(View.GONE);
                 searchGameAPI.setPage_size("10");
-                gamesAPI.requestWithParam(searchGameAPI);
+                gamesAPI.requestWithParam(searchGameAPI, currentActivity);
             }
         });
     }
 
-    private void createCard(int i){
-        LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
+    /**
+     * Get the info from the api to render it
+     * @param obj json object containing api data
+     */
+    @Override
+    public void getApiInfo(JSONObject obj){
+        findViewById(R.id.loading_search_text_id).setVisibility(View.GONE);
 
-        ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText("New name"+searchType +" " + i);
+        if(obj == null){
+            findViewById(R.id.error_fetch_data_text_search_id).setVisibility(View.VISIBLE);
+        }
+        else{
+            System.out.println(obj);
+            createCard(obj, 0, 10);
+        }
+    }
 
-        ImageView imageView = new ImageView(getApplicationContext());
-        new ImageFromUrl(imageView).execute("");
 
-        ((LinearLayout)v.findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(imageView,0);
+    /**
+     * Create a game card with display game info
+     * @param obj json object containing api data
+     * @param actualElem indice of game to display
+     * @param maxElem max number of games
+     */
+    private void createCard(JSONObject obj,int actualElem, int maxElem){
 
-        ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(v);
-        if(i < 2)
-            createCard(++i);
+        JSONObject game =null;
+
+        try {
+            game = obj.getJSONArray("results").getJSONObject(actualElem);
+            LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
+
+            ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(game.getString("name"));
+            ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(game.getString("released"));
+            ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText("Metacritic: " +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
+            ((TextView)v.findViewById(R.id.playtime_search_id)).setText("Playtime: " +game.getString("playtime"));
+
+            ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(v);
+
+            ImageView imgV = new ImageView(this);
+            Picasso.get().load(game.getJSONArray("short_screenshots").getJSONObject(0).getString("image")).resize(400,400).centerInside().into(imgV);
+
+            ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).addView(imgV,0 );
+
+            if(actualElem + 1 < maxElem)//to build next card
+                createCard(obj, ++actualElem, maxElem);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
