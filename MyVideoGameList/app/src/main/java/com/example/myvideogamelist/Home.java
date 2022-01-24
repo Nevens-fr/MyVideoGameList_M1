@@ -17,12 +17,5 @@ public class Home extends AppCompatActivity {
 
         navigationBar.init(this);
 
-        findViewById(R.id.button_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UserGameRating.class);
-                startActivity(intent);
-            }
-        });
     }
 }

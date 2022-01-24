@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,8 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
     private JSONObject game, gameFromSearchData;
+    private boolean isHiddenDesc= true;
+    private int predHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,29 +53,54 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
      */
     private void fillGameData(){
         try {
-            Picasso.get().load(game.getString("background_image")).resize(800,400).centerInside().into((ImageView)findViewById(R.id.image_top_game_screen_id));
             ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setText(game.getString("name"));
-            ((TextView)findViewById(R.id.released_date_game_screen_id)).setText("Released date: "+ game.getString("released"));
+            ((TextView)findViewById(R.id.released_date_game_screen_id)).setText("Released:\n"+ game.getString("released"));
             ((TextView)findViewById(R.id.description_game_screen_id)).setText(Html.fromHtml(game.getString("description")));
-            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Devs", game.getJSONArray("developers")));
-            ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(computeDatasFromArray("Publishers", game.getJSONArray("publishers")));
-            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime: "+game.getString("playtime")+" hours");
-            ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic: " +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")+" score"));
-            ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("Genres", game.getJSONArray("genres")));
+            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Devs:\n", game.getJSONArray("developers"),""));
+            ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(computeDatasFromArray("Publishers:\n", game.getJSONArray("publishers"),""));
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+game.getString("playtime")+" hours");
+            ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic:\n" +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
+            ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("", game.getJSONArray("genres"), "\t\t\t"));
             addScreen();
+
+            //If game name is too large for title, reduce size
+            if(game.getString("name").length() > 20){
+                System.out.println(((TextView)findViewById(R.id.text_game_name_game_screen_id)).getTextSize());
+                ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setTextSize(15);
+            }
+
+            //Making description bigger or shorter on click
+            findViewById(R.id.description_game_screen_id).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(isHiddenDesc) {
+                        isHiddenDesc = false;
+                        predHeight = findViewById(R.id.description_game_screen_id).getLayoutParams().height;
+                        ((TextView) findViewById(R.id.description_show_game_screen_id)).setText(getString(R.string.click_to_less_desc));
+                        findViewById(R.id.description_game_screen_id).getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                        findViewById(R.id.description_game_screen_id).requestLayout();
+                    }
+                    else{
+                        ((TextView) findViewById(R.id.description_show_game_screen_id)).setText(getString(R.string.click_to_show_desc));
+                        findViewById(R.id.description_game_screen_id).getLayoutParams().height = predHeight;
+                        findViewById(R.id.description_game_screen_id).requestLayout();
+                        isHiddenDesc = true;
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Add image to scroll section
+     * Add images to scroll section
      */
     private void addScreen(){
         try {
-            for(int i = 1; i < gameFromSearchData.getJSONArray("short_screenshots").length();i++){
+            for(int i = 0; i < gameFromSearchData.getJSONArray("short_screenshots").length();i++){
                 ImageView imgV = new ImageView(this);
-                Picasso.get().load(gameFromSearchData.getJSONArray("short_screenshots").getJSONObject(i).getString("image")).resize(800, 400).centerInside().into(imgV);
+                Picasso.get().load(gameFromSearchData.getJSONArray("short_screenshots").getJSONObject(i).getString("image")).resize(1000, 600).centerInside().into(imgV);
 
                 ((LinearLayout)findViewById(R.id.linear_layout_inside_scroll_view_game_screen_id)).addView(imgV);
             }
@@ -88,13 +116,15 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
      * @param array json array
      * @return string containing data
      */
-    private String computeDatasFromArray(String category, JSONArray array){
+    private String computeDatasFromArray(String category, JSONArray array, String elemToAdd){
         try{
-            String elem =category+": ";
+            String elem =category;
             for(int i = 0; i < array.length(); i++){
-                elem += array.getJSONObject(i).getString("name");
-                if(i+1 < array.length())
+                elem += array.getJSONObject(i).getString("name") + elemToAdd;
+                if(i+1 < array.length() && elemToAdd.isEmpty())
                     elem += ", ";
+                else if(i+1 < array.length())
+                    elem += "-"+elemToAdd;
             }
             return elem;
         }
@@ -107,16 +137,26 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
      * Add action on buttons
      */
     private void connectButtons(){
+        //on click on cross button
         findViewById(R.id.button_back_game_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        //on click on edit button on game info
+        findViewById(R.id.button_to_user_rating_game_screen_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UserGameRating.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
-     * Get data from game API
+     * Receive data from game API
      * @param obj JSON data from game API
      */
     @Override

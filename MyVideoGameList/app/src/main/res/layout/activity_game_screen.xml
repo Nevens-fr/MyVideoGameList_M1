@@ -7,6 +7,7 @@
     android:background="@color/black"
     tools:context=".GameScreenActivity">
 
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -56,7 +57,7 @@
             android:layout_weight="0"
             android:backgroundTint="@color/toolbar_top"
             android:text="@string/home"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:paddingTop="9dp"
             android:drawableTop="?attr/homeAsUpIndicator"
             android:drawableTint="#9A9696"/>
@@ -69,7 +70,7 @@
             android:backgroundTint="@color/toolbar_top"
             android:drawableTint="#9A9696"
             android:text="@string/search"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:paddingTop="9dp"
             android:drawableTop="?android:attr/actionModeWebSearchDrawable"
             app:iconTint="#B6B0B0" />
@@ -83,7 +84,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:text="@string/randomatic"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:drawableTop="@android:drawable/ic_menu_help" />
 
         <Button
@@ -96,7 +97,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:text="@string/my_lists"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -128,7 +129,8 @@
                         android:id="@+id/image_top_game_screen_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:srcCompat="@tools:sample/avatars" />
+                        tools:srcCompat="@tools:sample/avatars"
+                        android:contentDescription="@string/gameImage" />
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -143,17 +145,30 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:layout_margin="10dp"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:text="released_date_game_screen_id" />
 
                 <TextView
-                    android:id="@+id/dev_game_screen_id"
+                    android:id="@+id/metacritic_game_screen_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:textColor="@color/white"
                     android:layout_weight="1"
-                    android:text="dev_game_screen_id" />
+                    android:gravity="center"
+                    android:text="metacritic_game_screen_id"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/average_time_game_screen_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="average_time_game_screen_id"
+                    android:textColor="@color/white" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -163,7 +178,7 @@
 
                 <TextView
                     android:id="@+id/publisher_game_screen_id"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textColor="@color/white"
@@ -171,24 +186,45 @@
                     android:text="publisher_game_screen_id" />
 
                 <TextView
-                    android:id="@+id/genres_game_screen_id"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/dev_game_screen_id"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:textColor="@color/white"
                     android:layout_weight="1"
-                    android:text="genres_game_screen_id" />
+                    android:text="dev_game_screen_id"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/description_game_screen_id"
-                android:layout_width="wrap_content"
+                android:id="@+id/genres_game_screen_id"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="genres_game_screen_id"
+                android:textColor="@color/blue" />
+
+            <TextView
+                android:id="@+id/description_game_screen_id"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/white"
                 android:layout_weight="1"
                 android:text="description_game_screen_id" />
+
+            <TextView
+                android:id="@+id/description_show_game_screen_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:layout_weight="1"
+                android:text="@string/click_to_show_desc" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -215,31 +251,29 @@
                     android:text="user_score_game_screen_id" />
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/api_compliant_game_screen_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/average_time_game_screen_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:text="average_time_game_screen_id" />
-
-                <TextView
-                    android:id="@+id/metacritic_game_screen_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:text="metacritic_game_screen_id" />
-            </LinearLayout>
+                android:layout_margin="10dp"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:textColor="@color/grey"
+                android:layout_weight="1"
+                android:text="@string/data_from" />
 
         </LinearLayout>
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/button_to_user_rating_game_screen_id"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:background="@drawable/button_orange_border"
+        android:backgroundTint="@null"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
