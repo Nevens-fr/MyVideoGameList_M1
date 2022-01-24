@@ -6,8 +6,7 @@ package com.example.myvideogamelist.ApiGestion;
 public class SearchGameAPI {
 
     private String page, page_size, search, parent_platforms,
-        platforms, stores, developers, publishers, genres, tags,
-        dates, metacritic;
+        platforms, genres, dates, metacritic;
 
     /**
      * Constructor that put every parameter to null
@@ -18,11 +17,7 @@ public class SearchGameAPI {
         search = null;
         parent_platforms = null;
         platforms = null;
-        stores = null;
-        developers = null;
-        publishers = null;
         genres = null;
-        tags = null;
         dates = null;
         metacritic = null;
     }
@@ -67,44 +62,12 @@ public class SearchGameAPI {
         this.platforms = platforms;
     }
 
-    public String getStores() {
-        return stores;
-    }
-
-    public void setStores(String stores) {
-        this.stores = stores;
-    }
-
-    public String getDevelopers() {
-        return developers;
-    }
-
-    public void setDevelopers(String developers) {
-        this.developers = developers;
-    }
-
-    public String getPublishers() {
-        return publishers;
-    }
-
-    public void setPublishers(String publishers) {
-        this.publishers = publishers;
-    }
-
     public String getGenres() {
         return genres;
     }
 
     public void setGenres(String genres) {
         this.genres = genres;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public String getDates() {
@@ -134,14 +97,9 @@ public class SearchGameAPI {
         build += page == null ? "":"&page="+page;
         build += page_size == null ? "":"&page_size="+page_size;
         build += search == null ? "":"&search="+search;
-        build += parent_platforms == null ? "":"&parent_platforms="+parent_platforms;
         build += platforms == null ? "":"&platforms="+platforms;
-        build += stores == null ? "":"&stores="+stores;
-        build += developers == null ? "":"&developers="+developers;
         build += genres == null ? "":"&genres="+genres;
-        build += tags == null ? "":"&tags="+tags;
         build += dates == null ? "":"&dates="+dates;
-        build += metacritic == null ? "":"&metacritic="+metacritic;
 
         return build;
     }

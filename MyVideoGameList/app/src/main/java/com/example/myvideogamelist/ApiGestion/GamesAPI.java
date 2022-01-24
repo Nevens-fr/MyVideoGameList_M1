@@ -41,7 +41,7 @@ public class GamesAPI {
      * @param searchGameAPI a class containing all params for the request
      * @param currentActivity activity running
      */
-    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDiplayable currentActivity){
+    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDiplayable currentActivity) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -80,7 +80,11 @@ public class GamesAPI {
         }
     }
 
-    public void requestGameById(String id){
+    /**
+     * Request game data from a game id
+     * @param id the game id
+     */
+    public void requestGameById(String id, MyActivityImageDiplayable currentActivity) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -102,7 +106,6 @@ public class GamesAPI {
                     }
                     in.close();
 
-                    System.out.println(content);
                     parseResponse();
                 } catch (
                         Exception e) {
@@ -111,6 +114,13 @@ public class GamesAPI {
             }
         });
         thread.start();
+        try {
+            thread.join();
+            currentActivity.getApiInfo(obj);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            currentActivity.getApiInfo(null);
+        }
     }
 
     /**
@@ -123,6 +133,21 @@ public class GamesAPI {
         catch (Exception e){
             System.out.println(e.getMessage());
             obj = null;
+        }
+    }
+
+    /**
+     * Parse the JSON response from a string
+     * @param response string json to parse
+     * @return parsed string
+     */
+    public JSONObject parseResponse(String response){
+        try {
+            return new JSONObject(response);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
