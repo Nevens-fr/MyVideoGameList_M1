@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class Home extends AppCompatActivity {
+import com.example.myvideogamelist.ApiGestion.Database;
+
+import org.json.JSONObject;
+
+public class Home extends AppCompatActivity{
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
 
@@ -17,5 +21,8 @@ public class Home extends AppCompatActivity {
 
         navigationBar.init(this);
 
+        //get users and games data since launch
+        Database.getDatabase().requestGet(0);
+        Database.getDatabase().requestGet(1);
     }
 }
