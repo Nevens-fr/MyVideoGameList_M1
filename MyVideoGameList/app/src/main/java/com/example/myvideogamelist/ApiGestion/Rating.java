@@ -1,5 +1,8 @@
 package com.example.myvideogamelist.ApiGestion;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Rating {
 
     String id, feedback, hours, min, status, score;
@@ -8,15 +11,25 @@ public class Rating {
         this.id = id;
     }
 
-    @Override
-    public String toString(){
-        String elem = "{\"id\":\""+id+"\",";
-        elem += "\"hours\":\""+hours+"\",";
-        elem += "\"min\":\""+min+"\",";
-        elem += "\"status\":\""+status+"\",";
-        elem += "\"score\":\""+score+"\"";
+    /**
+     * Create and return an json object
+     * @return json object from the class
+     */
+    public JSONObject getJSONObject(){
+        try{
+            JSONObject obj = new JSONObject();
+            obj.put("id", id);
+            obj.put("feedback", feedback);
+            obj.put("hours", hours);
+            obj.put("min", min);
+            obj.put("status", status);
+            obj.put("score", score);
 
-        return elem +"}";
+            return obj;
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     public String getId() {

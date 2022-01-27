@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.myvideogamelist.ApiGestion.Database;
+import com.example.myvideogamelist.ApiGestion.Rating;
+import com.example.myvideogamelist.ApiGestion.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Home extends AppCompatActivity{

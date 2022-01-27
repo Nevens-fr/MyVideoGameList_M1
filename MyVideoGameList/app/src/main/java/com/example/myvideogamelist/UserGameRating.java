@@ -2,14 +2,20 @@ package com.example.myvideogamelist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.myvideogamelist.ApiGestion.Database;
+
+import org.json.JSONObject;
 
 public class UserGameRating extends AppCompatActivity {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
+    private Database database = Database.getDatabase();
 
     private int tab[] = {10,9,8,7,6};
 
@@ -19,7 +25,7 @@ public class UserGameRating extends AppCompatActivity {
 
     private View selectedStatusButton, selectedRatingButton;
 
-    private boolean isEmptyStatus;
+    private boolean isEmptyStatus, dataChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +34,80 @@ public class UserGameRating extends AppCompatActivity {
 
         navigationBar.init(this);
 
-        selectedRatingButton = findViewById(R.id.empty_rating_id);
-        selectedStatusButton = null;
-        isEmptyStatus = true;
+        Intent intent = getIntent();
+        String gameID = intent.getStringExtra("gameID");
 
-        connectRatingButtons();
-        connectTopToolbarButtons();
-        connectStatusButtons();
+        look4GameInUserData(gameID);
+    }
+
+    /**
+     * If user has data on this game, we use it, else default
+     * @param gameId the game ID
+     */
+    private void look4GameInUserData(String gameId){
+        try{
+            Boolean over = false;
+            for(int i = 0; i < database.getCurrentUser().getJSONArray("games").length() && !over; i++){
+                if (gameId.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
+                    useUserData(database.getCurrentUser().getJSONArray("games").getJSONObject(i));
+                    over = true;
+                }
+            }
+        }
+        catch (Exception e){
+            selectedRatingButton = findViewById(R.id.empty_rating_id);
+            selectedStatusButton = null;
+            isEmptyStatus = true;
+        }
+        finally {
+            connectRatingButtons();
+            connectTopToolbarButtons();
+            connectStatusButtons();
+        }
+    }
+
+    /**
+     * Apply user data on game
+     * @param data jsonobject with user data on this game
+     * @throws Exception data not found
+     */
+    private void useUserData(JSONObject data) throws Exception{
+        ((TextView)findViewById(R.id.feedback_game_rating_id)).setText(data.getString("feedback"));
+        ((TextView)findViewById(R.id.edit_text_minutes_game_rating_id)).setText(data.getString("min"));
+        ((TextView)findViewById(R.id.edit_text_hours_game_rating_id)).setText(data.getString("hours"));
+
+        //Applying user's status on game
+        switch (data.getString("status")){
+            case "Finished"  :  findViewById(R.id.finished_button_id).setBackgroundResource(R.drawable.button_border_orange);
+                                selectedStatus = 1;
+                                break;
+            case "Abandoned" :  findViewById(R.id.abandonned_button_id).setBackgroundResource(R.drawable.button_border_orange);
+                                selectedStatus = 0;
+                                break;
+            case "Playing"   :  findViewById(R.id.playing_button_id).setBackgroundResource(R.drawable.button_border_orange);
+                                selectedStatus = 4;
+                                break;
+            case "On-hold"   :  findViewById(R.id.on_hold_button_id).setBackgroundResource(R.drawable.button_border_orange);
+                                selectedStatus = 3;
+                                break;
+            case "Planned"   :  findViewById(R.id.planned_button_id).setBackgroundResource(R.drawable.button_border_orange);
+                                selectedStatus = 2;
+        }
+
+        switch (data.getString("score")){
+            case "--" :findViewById(R.id.empty_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = -1;break;
+            case "10" :findViewById(R.id.ten_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 10;break;
+            case "9" :findViewById(R.id.nine_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 9;break;
+            case "8" :findViewById(R.id.height_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 8;break;
+            case "7" :findViewById(R.id.seven_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 7;break;
+            case "6" :findViewById(R.id.six_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 6;break;
+            case "5" :findViewById(R.id.five_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 5;break;
+            case "4" :findViewById(R.id.four_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 4;break;
+            case "3" :findViewById(R.id.three_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 3;break;
+            case "2" :findViewById(R.id.two_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 2;break;
+            case "1" :findViewById(R.id.one_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 1;break;
+            case "0" :findViewById(R.id.zero_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 0;
+        }
     }
 
     /**
@@ -47,6 +120,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 setWhiteStrokeStatusButtons(findViewById(R.id.abandonned_button_id));
                 selectedStatus = 0;
+                dataChanged = true;
                 findViewById(R.id.abandonned_button_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -57,6 +131,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 setWhiteStrokeStatusButtons(findViewById(R.id.finished_button_id));
                 selectedStatus = 1;
+                dataChanged = true;
                 findViewById(R.id.finished_button_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -67,6 +142,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 setWhiteStrokeStatusButtons(findViewById(R.id.planned_button_id));
                 selectedStatus = 2;
+                dataChanged = true;
                 findViewById(R.id.planned_button_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -77,6 +153,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 setWhiteStrokeStatusButtons(findViewById(R.id.on_hold_button_id));
                 selectedStatus = 3;
+                dataChanged = true;
                 findViewById(R.id.on_hold_button_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -87,6 +164,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 setWhiteStrokeStatusButtons(findViewById(R.id.playing_button_id));
                 selectedStatus = 4;
+                dataChanged = true;
                 findViewById(R.id.playing_button_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -108,7 +186,6 @@ public class UserGameRating extends AppCompatActivity {
         findViewById(R.id.button_game_rating_cancel_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO get rid of data from user
                 finish();
             }
         });
@@ -131,6 +208,9 @@ public class UserGameRating extends AppCompatActivity {
                 catch(Exception e){
                     selectedMin = 0;
                 }
+                if(dataChanged){
+                    //TODO save data from user
+                }
                 finish();
             }
         });
@@ -145,6 +225,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.empty_rating_id));
                 selectedRating = -1;
+                dataChanged = true;
                 findViewById(R.id.empty_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -153,6 +234,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.ten_rating_id));
                 selectedRating = 10;
+                dataChanged = true;
                 findViewById(R.id.ten_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -161,6 +243,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.nine_rating_id));
                 selectedRating = 9;
+                dataChanged = true;
                 findViewById(R.id.nine_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -169,6 +252,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.height_rating_id));
                 selectedRating = 8;
+                dataChanged = true;
                 findViewById(R.id.height_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -177,6 +261,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.seven_rating_id));
                 selectedRating = 7;
+                dataChanged = true;
                 findViewById(R.id.seven_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -185,6 +270,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.six_rating_id));
                 selectedRating = 6;
+                dataChanged = true;
                 findViewById(R.id.six_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -193,6 +279,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.five_rating_id));
                 selectedRating = 5;
+                dataChanged = true;
                 findViewById(R.id.five_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -201,6 +288,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.four_rating_id));
                 selectedRating = 4;
+                dataChanged = true;
                 findViewById(R.id.four_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -209,6 +297,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.three_rating_id));
                 selectedRating = 3;
+                dataChanged = true;
                 findViewById(R.id.three_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -217,6 +306,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.two_rating_id));
                 selectedRating = 2;
+                dataChanged = true;
                 findViewById(R.id.two_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -225,6 +315,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.one_rating_id));
                 selectedRating = 1;
+                dataChanged = true;
                 findViewById(R.id.one_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });
@@ -233,6 +324,7 @@ public class UserGameRating extends AppCompatActivity {
             public void onClick(View view) {
                 removeRating_Border(findViewById(R.id.zero_rating_id));
                 selectedRating = 0;
+                dataChanged = true;
                 findViewById(R.id.zero_rating_id).setBackgroundResource(R.drawable.button_border_orange);
             }
         });

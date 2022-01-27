@@ -1,5 +1,8 @@
 package com.example.myvideogamelist.ApiGestion;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Game {
 
     private String idGame, name, releasedDate, playtime, metacritic, description;
@@ -9,41 +12,39 @@ public class Game {
     private String []publishers;
 
     /**
-     * Return a stringified json
-     * @return a stringified json
+     * Create and return an json object
+     * @return json object from the class
      */
-    @Override
-    public String toString(){
-        String elem = "{\"id\":\""+idGame+"\",";
-        elem += "\"name\":\""+name+"\",";
-        elem += "\"released\":\""+releasedDate+"\",";
-        elem += "\"playtime\":\""+playtime+"\",";
-        elem += "\"metacritic\":\""+metacritic+"\",";
-        elem += "\"description\":\""+description+"\",";
+    public JSONObject getJSONObject(){
+        try{
+            JSONObject obj = new JSONObject();
+            JSONArray rating = new JSONArray();
+            obj.put("id", idGame);
+            obj.put("released", releasedDate);
+            obj.put("description", description);
+            obj.put("metacritic", metacritic);
+            obj.put("playtime", playtime);
 
-        elem += "\"genres\"" + returnTab(genres) +",";
-        elem += "\"developers\"" + returnTab(devs) +",";
-        elem += "\"short_screenshots\"" + returnTab(images) +",";
-        elem += "\"publishers\"" + returnTab(publishers) + "}";
+            obj.put("genres", createArray(genres));
+            obj.put("short_screenshots", createArray(images));
+            obj.put("publishers", createArray(publishers));
+            obj.put("developers", createArray(devs));
 
-        return elem;
+            return obj;
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
-    /**
-     * Return an JSON array (in string) made from string array
-     * @param arr string array to jsonify
-     * @return a json array in string
-     */
-    private String returnTab(String []arr){
-        String elem = ":[";
-
-        for(String i : arr){
-            elem += "{\"name\":\""+i+"\"},";
+    private JSONArray createArray(String [] strings) throws  Exception{
+        JSONArray jsonArray = new JSONArray();
+        for(String s : strings){
+            JSONObject elem = new JSONObject();
+            elem.put("name", s);
+            jsonArray.put(name);
         }
-
-        elem = elem.substring(0, elem.length() - 1);
-
-        return elem + "]";
+        return jsonArray;
     }
 
     /**

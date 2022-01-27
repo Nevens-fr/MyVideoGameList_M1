@@ -1,5 +1,8 @@
 package com.example.myvideogamelist.ApiGestion;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class User {
@@ -18,21 +21,27 @@ public class User {
         this.name = name;
     }
 
-    @Override
-    public String toString(){
-        String elem ="{";
-        elem += "\"id\":\"" + id +"\",";
-        elem += "\"name\":\"" + name +"\",";
-        elem += "\"pwd\":\"" + pwd +"\",";
-        elem += "\"games\":[" ;
+    /**
+     * Create and return an json object
+     * @return json object from the class
+     */
+    public JSONObject getJSONObject(){
+        try{
+            JSONObject obj = new JSONObject();
+            JSONArray rating = new JSONArray();
+            obj.put("id", id);
+            obj.put("name", name);
+            obj.put("pwd", pwd);
 
-        for(Rating r : games){
-            elem += r.toString() + ",";
+            for(Rating r : games)
+                rating.put(r.getJSONObject());
+            obj.put("games", rating);
+
+            return obj;
         }
-
-        elem = elem.substring(0, elem.length() - 1);
-
-        return "]" + elem+"}";
+        catch (Exception e){
+            return null;
+        }
     }
 
     /**

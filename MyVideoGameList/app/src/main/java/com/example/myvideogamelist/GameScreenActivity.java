@@ -150,6 +150,10 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), UserGameRating.class);
+                try {
+                    intent.putExtra("gameID", game.getString("id"));
+                }
+                catch (Exception e){System.out.println(e.getMessage());}
                 startActivity(intent);
             }
         });
