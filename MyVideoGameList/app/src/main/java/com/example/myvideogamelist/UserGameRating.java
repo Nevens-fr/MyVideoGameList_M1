@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
+import com.example.myvideogamelist.ApiGestion.Rating;
+import com.example.myvideogamelist.ApiGestion.User;
 
 import org.json.JSONObject;
 
@@ -19,7 +22,12 @@ public class UserGameRating extends AppCompatActivity {
 
     private int tab[] = {10,9,8,7,6};
 
-    private int selectedRating = -1, selectedStatus = -1, selectedHours = -1, selectedMin = -1;
+    private int selectedRating = -1;
+    private int selectedStatus = -1;
+    private int selectedHours = -1;
+    private int selectedMin = -1;
+    private int userGameID =-1;
+    private String gameID;
 
     private String feedback;
 
@@ -35,21 +43,22 @@ public class UserGameRating extends AppCompatActivity {
         navigationBar.init(this);
 
         Intent intent = getIntent();
-        String gameID = intent.getStringExtra("gameID");
+        gameID = intent.getStringExtra("gameID");
 
-        look4GameInUserData(gameID);
+        look4GameInUserData();
     }
 
     /**
      * If user has data on this game, we use it, else default
-     * @param gameId the game ID
      */
-    private void look4GameInUserData(String gameId){
+    private void look4GameInUserData(){
+        Boolean over = false;
         try{
-            Boolean over = false;
             for(int i = 0; i < database.getCurrentUser().getJSONArray("games").length() && !over; i++){
-                if (gameId.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
+                if (gameID.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
                     useUserData(database.getCurrentUser().getJSONArray("games").getJSONObject(i));
+                    userGameID = i;
+                    isEmptyStatus = false;
                     over = true;
                 }
             }
@@ -58,8 +67,14 @@ public class UserGameRating extends AppCompatActivity {
             selectedRatingButton = findViewById(R.id.empty_rating_id);
             selectedStatusButton = null;
             isEmptyStatus = true;
+            e.printStackTrace();
         }
         finally {
+            if(over == false){
+                selectedRatingButton = findViewById(R.id.empty_rating_id);
+                selectedStatusButton = null;
+                isEmptyStatus = true;
+            }
             connectRatingButtons();
             connectTopToolbarButtons();
             connectStatusButtons();
@@ -72,6 +87,7 @@ public class UserGameRating extends AppCompatActivity {
      * @throws Exception data not found
      */
     private void useUserData(JSONObject data) throws Exception{
+
         ((TextView)findViewById(R.id.feedback_game_rating_id)).setText(data.getString("feedback"));
         ((TextView)findViewById(R.id.edit_text_minutes_game_rating_id)).setText(data.getString("min"));
         ((TextView)findViewById(R.id.edit_text_hours_game_rating_id)).setText(data.getString("hours"));
@@ -80,34 +96,64 @@ public class UserGameRating extends AppCompatActivity {
         switch (data.getString("status")){
             case "Finished"  :  findViewById(R.id.finished_button_id).setBackgroundResource(R.drawable.button_border_orange);
                                 selectedStatus = 1;
+                                selectedStatusButton = findViewById(R.id.finished_button_id);
                                 break;
             case "Abandoned" :  findViewById(R.id.abandonned_button_id).setBackgroundResource(R.drawable.button_border_orange);
                                 selectedStatus = 0;
+                                selectedStatusButton =findViewById(R.id.abandonned_button_id);
                                 break;
             case "Playing"   :  findViewById(R.id.playing_button_id).setBackgroundResource(R.drawable.button_border_orange);
                                 selectedStatus = 4;
+                                selectedStatusButton =findViewById(R.id.playing_button_id);
                                 break;
             case "On-hold"   :  findViewById(R.id.on_hold_button_id).setBackgroundResource(R.drawable.button_border_orange);
                                 selectedStatus = 3;
+                                selectedStatusButton =findViewById(R.id.on_hold_button_id);
                                 break;
             case "Planned"   :  findViewById(R.id.planned_button_id).setBackgroundResource(R.drawable.button_border_orange);
                                 selectedStatus = 2;
+                                selectedStatusButton =findViewById(R.id.planned_button_id);
         }
 
         switch (data.getString("score")){
-            case "--" :findViewById(R.id.empty_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = -1;break;
-            case "10" :findViewById(R.id.ten_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 10;break;
-            case "9" :findViewById(R.id.nine_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 9;break;
-            case "8" :findViewById(R.id.height_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 8;break;
-            case "7" :findViewById(R.id.seven_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 7;break;
-            case "6" :findViewById(R.id.six_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 6;break;
-            case "5" :findViewById(R.id.five_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 5;break;
-            case "4" :findViewById(R.id.four_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 4;break;
-            case "3" :findViewById(R.id.three_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 3;break;
-            case "2" :findViewById(R.id.two_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 2;break;
-            case "1" :findViewById(R.id.one_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 1;break;
+            case "--" :findViewById(R.id.empty_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = -1;
+                    selectedRatingButton = findViewById(R.id.empty_rating_id);
+                    break;
+            case "10" :findViewById(R.id.ten_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 10;
+                    selectedRatingButton = findViewById(R.id.ten_rating_id);
+                    break;
+            case "9" :findViewById(R.id.nine_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 9;
+                    selectedRatingButton = findViewById(R.id.nine_rating_id);
+                    break;
+            case "8" :findViewById(R.id.height_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 8;
+                    selectedRatingButton = findViewById(R.id.height_rating_id);
+                    break;
+            case "7" :findViewById(R.id.seven_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 7;
+                    selectedRatingButton = findViewById(R.id.seven_rating_id);
+                    break;
+            case "6" :findViewById(R.id.six_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 6;
+                    selectedRatingButton = findViewById(R.id.six_rating_id);
+                    break;
+            case "5" :findViewById(R.id.five_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 5;
+                    selectedRatingButton = findViewById(R.id.five_rating_id);
+                    break;
+            case "4" :findViewById(R.id.four_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 4;
+                    selectedRatingButton = findViewById(R.id.four_rating_id);
+                    break;
+            case "3" :findViewById(R.id.three_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 3;
+                    selectedRatingButton = findViewById(R.id.three_rating_id);
+                    break;
+            case "2" :findViewById(R.id.two_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 2;
+                    selectedRatingButton = findViewById(R.id.two_rating_id);
+                    break;
+            case "1" :findViewById(R.id.one_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 1;
+                    selectedRatingButton = findViewById(R.id.one_rating_id);
+                    break;
             case "0" :findViewById(R.id.zero_rating_id).setBackgroundResource(R.drawable.button_border_orange); selectedRating = 0;
+                    selectedRatingButton = findViewById(R.id.zero_rating_id);
+                    break;
         }
+        findViewById(R.id.empty_rating_id).setBackgroundResource(R.drawable.button_black_border);
     }
 
     /**
@@ -194,10 +240,10 @@ public class UserGameRating extends AppCompatActivity {
         findViewById(R.id.button_game_rating_save_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO save data from user
                 feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
                 try{
                     selectedHours = Integer.parseInt(((EditText)findViewById(R.id.edit_text_hours_game_rating_id)).getText().toString());
+
                 }
                 catch(Exception e){
                     selectedHours = 0;
@@ -208,12 +254,86 @@ public class UserGameRating extends AppCompatActivity {
                 catch(Exception e){
                     selectedMin = 0;
                 }
-                if(dataChanged){
-                    //TODO save data from user
+                //Looking for any change from user already saved data
+                try{
+                    if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
+                        dataChanged = true;
+                    if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
+                        dataChanged = true;
+                    if(String.valueOf(selectedMin).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("min")) != 0)
+                        dataChanged = true;
+
+                    if(dataChanged){//save change
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("feedback");
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("feedback", feedback);
+
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("hours");
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("hours", String.valueOf(selectedHours));
+
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("min");
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("min", String.valueOf(selectedMin));
+
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("status");
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("status", returnStatus());
+
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("score");
+                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("score", returnRating());
+                        database.requestPost(1, null, database.getUsers());
+                    }
                 }
+                catch (Exception e){//user does not possess the game already, save change
+                    Rating rating = new Rating(gameID);
+                    rating.setStatus(returnStatus());
+                    rating.setScore(returnRating());
+                    rating.setMin(String.valueOf(selectedMin));
+                    rating.setHours(String.valueOf(selectedHours));
+                    rating.setFeedback(feedback);
+                    try{
+                        database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());
+                    }
+                    catch(Exception e4){ }
+                    database.requestPost(1, null, database.getUsers());
+                }
+
                 finish();
             }
         });
+    }
+
+    /**
+     * Return a string equivalent to selected status
+     * @return status in string
+     */
+    private String returnStatus(){
+        switch(selectedStatus){
+            case 0 : return "Abandoned";
+            case 1 : return "Finished";
+            case 2 : return "Planned";
+            case 3 : return "On-hold";
+            default: return "Playing";
+        }
+    }
+
+
+    /**
+     * Return a string quivalent to selected rating
+     * @return rating in string
+     */
+    private String returnRating(){
+        switch (selectedRating){
+            case -1:return "--";
+            case 10:return "10";
+            case 9 :return "9";
+            case 8 :return "8";
+            case 7 :return "7";
+            case 6 :return "6";
+            case 5 :return "5";
+            case 4 :return "4";
+            case 3 :return "3";
+            case 2 :return "2";
+            case 1 :return "1";
+            default:return "0";
+        }
     }
 
     /**

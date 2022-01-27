@@ -20,7 +20,7 @@ public class Database {
     private final String gamesDB = "https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b6529a389678";
     private StringBuffer content;
     private JSONObject games, users;
-    private JSONObject currentUser;
+    private int currentUser;
 
     /**
      * Empty private constructor for
@@ -157,30 +157,55 @@ public class Database {
         return database;
     }
 
+    /**
+     * Getter for the current user
+     * @return
+     */
     public JSONObject getCurrentUser() {
-        return currentUser;
+        try {
+            return users.getJSONArray("users").getJSONObject(currentUser);
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
-    public void setCurrentUser(JSONObject currentUser) {
-        this.currentUser = currentUser;
+    public void setSelectedUserID(int id){
+        this.currentUser = id;
+    }
+
+    /**
+     * Set the user by removing his old data
+     * @param user
+     */
+    public void setCurrentUser(JSONObject user) {
+        try {
+            users.getJSONArray("users").remove(currentUser);
+            users.getJSONArray("users").put(currentUser, user);
+        }
+        catch (Exception e){
+
+        }
     }
 }
 //example
 /*
         User user = new User("1", "toto", "axel");
         Rating r = user.addGame("10");
-        r.setFeedback("Like it");
-        r.setHours("15");
+        r.setFeedback("Like it soo much");
+        r.setHours("150");
         r.setMin("00");
         r.setScore("5");
         r.setStatus("Finished");
         try {
             int cpt = Integer.parseInt(String.valueOf(Database.getDatabase().getUsers().getString("nbUsers")));
             cpt++;
-            System.out.println(cpt);
-            Database.getDatabase().getUsers().getJSONArray("users").put(user.getJSONObject());
+            for(int i = 0; i < Database.getDatabase().getUsers().getJSONArray("users").length();i++)
+                Database.getDatabase().getUsers().getJSONArray("users").remove(i);
+
+            //Database.getDatabase().getUsers().getJSONArray("users").put(user.getJSONObject());
             Database.getDatabase().getUsers().remove("nbUsers");
-            Database.getDatabase().getUsers().put("nbUsers", String.valueOf(cpt));
+            Database.getDatabase().getUsers().put("nbUsers", String.valueOf(0));
             System.out.println( Database.getDatabase().getUsers());
             Database.getDatabase().requestPost(1, null, Database.getDatabase().getUsers());
         } catch (JSONException e) {

@@ -26,5 +26,6 @@ public class Home extends AppCompatActivity{
         //get users and games data since launch
         Database.getDatabase().requestGet(0);
         Database.getDatabase().requestGet(1);
+        Database.getDatabase().setSelectedUserID(0);
     }
 }
