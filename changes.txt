@@ -1,0 +1,16 @@
+url users table https://api.jsonstorage.net/v1/json/42be9027-73a8-4666-bb6e-c0902e8b074b
+url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b6529a389678
+
+- Save data after user change his rating on a game
+- If user never rate this game, save data
+- Datas from saved rating displayed
+
+
+home :
+display stats from user average playtime and news below
+
+game screen margin wrong, title not centered
+
+search
+	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
+	pub game card and add pub name
