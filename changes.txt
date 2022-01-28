@@ -14,3 +14,8 @@ game screen margin wrong, title not centered
 search
 	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
 	pub game card and add pub name
+	ordered game by released date desc
+
+All activities : make a single component for bottom navigation bar. Call in every activity
+
+Navigation, prevent activity to relaunch itself

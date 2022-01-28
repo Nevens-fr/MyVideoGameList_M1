@@ -28,8 +28,8 @@
     <string name="gameImage">Game image</string>
     <string name="edit_user_data">Edit my data</string>
     <string name="data_from">Games data comes from https://rawg.io/</string>
-    <string name="click_to_show_desc">Click on text to show more description</string>
-    <string name="click_to_less_desc">Click on text to show less description</string>
+    <string name="click_to_show_desc">Show more</string>
+    <string name="click_to_less_desc">Show less</string>
     <string name="error_on_fetching_data">Error on fetching data. Check your internet connection</string>
     
     <string name="genreAll">All</string>
