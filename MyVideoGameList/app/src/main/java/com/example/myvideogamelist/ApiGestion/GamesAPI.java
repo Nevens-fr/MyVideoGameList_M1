@@ -46,7 +46,7 @@ public class GamesAPI {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://api.rawg.io/api/games?key=" + apiKey + searchGameAPI.toString() + "&ordering=-released" +"&search_precise=true");
+                    URL url = new URL("https://api.rawg.io/api/games?key=" + apiKey + searchGameAPI.toString());
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
 

@@ -43,9 +43,10 @@
     <string name="searchDevs">Devs</string>
     <string name="searchDevsLong">Developers</string>
     <string name="searchPublisher">Publisher</string>
-    <string name="searchGenres">Genres</string>
+    <string name="searchGenres">Genres: </string>
     <string name="searchPlatforms">Platforms</string>
-    <string name="searchReleasedDate">Released date</string>
+    <string name="searchReleasedDate">Released: </string>
+    <string name="searchMetacritic">Metacritic: </string>
 
     <string name="searchNameEditText">Enter a game name</string>
     <string name="searchDevsEditText">Enter a developer name</string>

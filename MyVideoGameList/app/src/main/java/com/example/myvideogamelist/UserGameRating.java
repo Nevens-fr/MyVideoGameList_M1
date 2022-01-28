@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
+import com.example.myvideogamelist.ApiGestion.Game;
+import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.Rating;
 import com.example.myvideogamelist.ApiGestion.User;
 
@@ -30,12 +32,12 @@ public class UserGameRating extends AppCompatActivity {
     private int selectedMin = -1;
     private int userGameID =-1;
     private String gameID;
-
     private String feedback;
-
     private View selectedStatusButton, selectedRatingButton;
-
     private boolean isEmptyStatus, dataChanged = false;
+    private JSONObject gameData, gameDataFromSearch;
+    private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
+    private Game gameToSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,51 @@ public class UserGameRating extends AppCompatActivity {
 
         Intent intent = getIntent();
         gameID = intent.getStringExtra("gameID");
+        gameData = gamesAPI.parseResponse(intent.getStringExtra("gameData"));
+        gameDataFromSearch = gamesAPI.parseResponse(intent.getStringExtra("gameDataSearch"));
 
         look4GameInUserData();
+    }
+
+    /**
+     *
+     */
+    private void createGameData(){
+        int nbGenres =0, nbDev =0, nbImages =0, nbPublishers=0;
+        try{
+            nbGenres = gameDataFromSearch.getJSONArray("genres").length();
+            nbImages = gameDataFromSearch.getJSONArray("short_screenshots").length();
+            nbDev = gameData.getJSONArray("developers").length();
+            nbPublishers = gameData.getJSONArray("publishers").length();
+
+            gameToSave = new Game(nbGenres, nbDev, nbImages, nbPublishers);
+
+            gameToSave.setIdGame(gameData.getString("id"));
+            gameToSave.setDescription(gameData.getString("description"));
+            gameToSave.setMetacritic(gameData.getString("metacritic"));
+            gameToSave.setReleasedDate(gameData.getString("released"));
+            gameToSave.setPlaytime(gameData.getString("playtime"));
+            gameToSave.setName(gameData.getString("name"));
+
+            gameToSave.setGenres(buildArrayFromJSonArray("genres", nbGenres));
+            gameToSave.setImages(buildArrayFromJSonArray("short_screenshots", nbGenres));
+            gameToSave.setDevs(buildArrayFromJSonArray("developers", nbGenres));
+            gameToSave.setPublishers(buildArrayFromJSonArray("publishers", nbGenres));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     */
+    private String[] buildArrayFromJSonArray(String key, int size){
+
+        String[] array = new String[size];
+
+    //todo rentrer les array dev genre publisher et images pour save tout ça
+        return array;
     }
 
     /**
@@ -299,10 +344,14 @@ public class UserGameRating extends AppCompatActivity {
                     rating.setHours(String.valueOf(selectedHours));
                     rating.setFeedback(feedback);
                     try{
-                        database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());
+                        database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
+                        //database.getGames().getJSONArray("games").put(gameToSave);//adding game to our DB
+                        //todo décommenter quand données prêtes
                     }
                     catch(Exception e4){ }
                     database.requestPost(1, null, database.getUsers());
+                    //database.requestPost(0, null, database.getGames());
+                    //todo décommenter quand données prêtes
                 }
 
                 finish();

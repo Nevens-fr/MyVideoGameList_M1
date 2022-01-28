@@ -10,6 +10,7 @@
     <color name="toolbar_top">#333333</color>
     <color name="text_orange_color">#FA8002</color>
     <color name="grey">#656262</color>
+    <color name="greyWhite">#787676</color>
     <color name="blue">#1E8CE3</color>
     <color name="light_grey">#393737</color>
 </resources>

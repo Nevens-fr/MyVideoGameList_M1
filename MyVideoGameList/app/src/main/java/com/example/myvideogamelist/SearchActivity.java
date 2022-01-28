@@ -36,7 +36,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
     private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
     private Button selectedButton;
     private String searchType;
-    private int cardsInserted = 0, pageNumber = 1, maxCardByApiCAll = 40;
+    private int cardsInserted = 0, pageNumber = 1, maxCardByApiCAll = 40, maxElemFromArray = 4;
     private SearchGameAPI searchGameAPI;
 
     @Override
@@ -232,30 +232,17 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
 
         try {
             game = obj.getJSONArray("results").getJSONObject(actualElem);
-            for(int i = 0; i < game.getJSONArray("platforms").length(); i++){
-                if(Integer.parseInt(String.valueOf(game.getJSONArray("platforms").getJSONObject(i).getJSONObject("platform").getString("id"))) == 3 || Integer.parseInt(String.valueOf(game.getJSONArray("platforms").getJSONObject(i).getString("id"))) == 21)
-                    if(actualElem + 1 < maxElem)//to build next card, this one contain IOS or android, we don't build it
-                        createCard(obj, ++actualElem, maxElem);
-            }
 
             LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
 
             //Insert data in fields
             ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(game.getString("name"));
-            ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText("Released: "+game.getString("released"));
-            ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText("Metacritic: " +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")+" score"));
-            ((TextView)v.findViewById(R.id.playtime_search_id)).setText("Average playtime: " +game.getString("playtime") +" hours");
+            ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(" "+game.getString("released"));
+            ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText(" "+(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
+            ((TextView)v.findViewById(R.id.playtime_search_id)).setText(returnStringFromJSONArray("platforms", game));
 
-            //Adding genres
-            String elem ="Genres: ";
-            for(int i = 0; i < game.getJSONArray("genres").length(); i++){
-                elem += game.getJSONArray("genres").getJSONObject(i).getString("name");
-                if(i+1 < game.getJSONArray("genres").length())
-                    elem += ", ";
-            }
-
-            ((TextView)v.findViewById(R.id.genres_search_id)).setText(elem);
+            ((TextView)v.findViewById(R.id.genres_search_id)).setText(" " +returnStringFromJSONArray("genres", game));
 
             ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(v);
 
@@ -263,7 +250,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             ImageView imgV = new ImageView(this);
             Picasso.get().load(game.getJSONArray("short_screenshots").getJSONObject(0).getString("image")).resize(400,400).centerInside().into(imgV);
 
-            ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).addView(imgV,0 );
+            ((LinearLayout)v.findViewById(R.id.search_for_image_id)).addView(imgV,0 );
             ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setGravity(Gravity.CENTER_VERTICAL);
 
             final JSONObject gameData = game;
@@ -285,6 +272,51 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Return a string formed from a JSON Array
+     * @param key key to access the array
+     * @param game JSON object containing the json array
+     * @return json array content in string
+     */
+    private String returnStringFromJSONArray(String key, JSONObject game){
+        try {
+            String elem = "";
+            for (int i = 0; i < maxElemFromArray && i < game.getJSONArray(key).length(); i++) {
+                elem += getName(key, game, i).getString("name");
+                if (i + 1 < game.getJSONArray(key).length())
+                    elem += ", ";
+            }
+            if(maxElemFromArray < game.getJSONArray(key).length())
+                elem = elem.substring(0, elem.length() - 2) + "...";
+            return elem;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Return the json object containing the data inside the array
+     * @param key type of key, String
+     * @param game json object containing the array
+     * @param i indice in array of the desired object
+     * @return JSONOBJECT the desired object
+     */
+    private JSONObject getName(String key, JSONObject game, int i){
+        try{
+            switch (key){
+                case "genres" : return game.getJSONArray(key).getJSONObject(i);
+                case "platforms": return game.getJSONArray(key).getJSONObject(i).getJSONObject("platform");
+                default: return null;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

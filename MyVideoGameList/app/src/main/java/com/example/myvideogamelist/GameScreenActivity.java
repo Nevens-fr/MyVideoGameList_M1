@@ -189,6 +189,8 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
                 Intent intent = new Intent(getApplicationContext(), UserGameRating.class);
                 try {
                     intent.putExtra("gameID", game.getString("id"));
+                    intent.putExtra("gameData", game.toString());
+                    intent.putExtra("gameDataSearch", gameFromSearchData.toString());
                 }
                 catch (Exception e){System.out.println(e.getMessage());}
                 startActivity(intent);
