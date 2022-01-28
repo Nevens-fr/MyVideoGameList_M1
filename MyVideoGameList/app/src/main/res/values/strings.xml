@@ -31,7 +31,7 @@
     <string name="click_to_show_desc">Show more</string>
     <string name="click_to_less_desc">Show less</string>
     <string name="error_on_fetching_data">Error on fetching data. Check your internet connection</string>
-    
+
     <string name="genreAll">All</string>
     <string name="genreFinished">Finished</string>
     <string name="genrePlaying">Playing</string>

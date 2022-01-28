@@ -1,18 +1,18 @@
 package com.example.myvideogamelist;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.squareup.picasso.Picasso;
 
@@ -24,9 +24,10 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
-    private JSONObject game, gameFromSearchData;
+    private JSONObject game, gameFromSearchData, user;
     private boolean isHiddenDesc= true;
     private int predHeight;
+    private Database database = Database.getDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +38,50 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         Intent intent = getIntent();
         game = gamesAPI.parseResponse(intent.getStringExtra("gameData"));
         gameFromSearchData = game;
+        user = database.getCurrentUser();
 
-        try {//new request for all game datas
+        try {//new request for all game data
             gamesAPI.requestGameById(game.getString("id"), this);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        addNavigationBar();
         navigationBar.init(this);
         connectButtons();
+    }
+
+    /**
+     * Insert navigation bar into the activity
+     */
+    private void addNavigationBar(){
+        LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.game_screen_activity_id), true);
+    }
+
+    /**
+     * If user has data on this game, we use it, else default
+     */
+    private void look4GameInUserData(String gameID){
+        Boolean over = false;
+        try{
+            for(int i = 0; i < database.getCurrentUser().getJSONArray("games").length() && !over; i++){
+                if (gameID.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
+                    String time = "Your time: "+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours " +user.getJSONArray("games").getJSONObject(i).getString("min") +" minutes";
+                    ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(time);
+                    ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score: " +user.getJSONArray("games").getJSONObject(i).getString("score") + "/10");
+                    over = true;
+                }
+            }
+
+            if(!over){//user has no data for this game
+                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText("Your playtime: no record");
+                ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score: no record");
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -61,6 +97,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+game.getString("playtime")+" hours");
             ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic:\n" +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
             ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("", game.getJSONArray("genres"), "\t\t\t"));
+            look4GameInUserData(game.getString("id"));
             addScreen();
 
             //If game name is too large for title, reduce size
@@ -167,5 +204,16 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     public void getApiInfo(JSONObject obj) {
         game = obj;
         fillGameData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            look4GameInUserData(game.getString("id"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

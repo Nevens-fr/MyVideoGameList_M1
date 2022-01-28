@@ -302,64 +302,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@drawable/top_border"
-        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:id="@+id/user_game_rating_activity_id"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="0dp">
-
-        <Button
-            android:id="@+id/home_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:text="@string/home"
-            android:textSize="12sp"
-            android:paddingTop="9dp"
-            android:drawableTop="?attr/homeAsUpIndicator"
-            android:drawableTint="#9A9696"/>
-
-        <Button
-            android:id="@+id/search_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:drawableTint="#9A9696"
-            android:text="@string/search"
-            android:textSize="12sp"
-            android:paddingTop="9dp"
-            android:drawableTop="?android:attr/actionModeWebSearchDrawable"
-            app:iconTint="#B6B0B0" />
-
-        <Button
-            android:id="@+id/randomatic_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:text="@string/randomatic"
-            android:textSize="12sp"
-            android:drawableTop="@android:drawable/ic_menu_help" />
-
-        <Button
-            android:id="@+id/my_lists_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:drawableTop="@android:drawable/ic_menu_sort_by_size"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:text="@string/my_lists"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+        android:layout_marginBottom="0dp"/>
 
     <LinearLayout
         android:id="@+id/linearLayout3"

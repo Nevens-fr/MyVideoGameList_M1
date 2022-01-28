@@ -1,10 +1,15 @@
 url users table https://api.jsonstorage.net/v1/json/42be9027-73a8-4666-bb6e-c0902e8b074b
 url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b6529a389678
 
-- Save data after user change his rating on a game
-- If user never rate this game, save data
-- Datas from saved rating displayed
-
+- Adding login (not implemented)
+- Navigation bar generated programatically, no more copy paste over activities
+- Application performances enhanced with theading database connection
+- Prevent activity to relaunch itself from navigation bar
+- OnResume to update user rating on game screen after rating change
+- Game screen user data displayed time and score
+- Ordering search results by released date
+- Precise search
+- working on supress ios and android from search
 
 home :
 display stats from user average playtime and news below
@@ -16,6 +21,12 @@ search
 	pub game card and add pub name
 	ordered game by released date desc
 
-All activities : make a single component for bottom navigation bar. Call in every activity
+user rating add games info in game DB via intent
 
-Navigation, prevent activity to relaunch itself
+Minutes qui dépassent 60 :
+-> Empecher l'user de rentrer plus que 60, lempecher de save
+-> Ou diviser le nb de minutes / 60 puis % 60 pour convertir les minutes en heures/minutes
+
+id platforms a tej
+IOS 3
+android 21

@@ -133,73 +133,12 @@
             app:iconTint="@color/grey" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/top_border"
-        android:layout_marginBottom="0dp">
-
-        <Button
-            android:id="@+id/home_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:text="@string/home"
-            android:textSize="12sp"
-            android:paddingTop="9dp"
-            android:drawableTop="?attr/homeAsUpIndicator"
-            android:drawableTint="#9A9696"/>
-
-        <Button
-            android:id="@+id/search_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:drawableTop="?android:attr/actionModeWebSearchDrawable"
-            android:drawableTint="#9A9696"
-            android:paddingTop="9dp"
-            android:text="@string/search"
-            android:textSize="12sp"
-            app:iconTint="#B6B0B0"
-            tools:ignore="DuplicateSpeakableTextCheck" />
-
-        <Button
-            android:id="@+id/randomatic_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:text="@string/randomatic"
-            android:textSize="12sp"
-            android:drawableTop="@android:drawable/ic_menu_help" />
-
-        <Button
-            android:id="@+id/my_lists_button_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
-            android:drawableTop="@android:drawable/ic_menu_sort_by_size"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:text="@string/my_lists"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
     <ScrollView
         android:id="@+id/scrollView_search_id"
         android:layout_width="match_parent"
         android:layout_height="470dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintBottom_toTopOf="@+id/search_activity_id"
         app:layout_constraintTop_toBottomOf="@id/linearLayout4"
         tools:ignore="SpeakableTextPresentCheck">
 
@@ -237,5 +176,12 @@
                 app:drawableTopCompat="?android:attr/alertDialogIcon" />
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/search_activity_id"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

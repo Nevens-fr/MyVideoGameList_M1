@@ -45,6 +45,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
         setContentView(R.layout.activity_game_search);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        addNavigationBar();
         navigationBar.init(this);
         connectButtonSearch();
 
@@ -63,6 +64,14 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
                 }
             }
         });
+    }
+
+    /**
+     * Insert navigation bar into the activity
+     */
+    private void addNavigationBar(){
+        LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.search_activity_id), true);
     }
 
     /**
@@ -223,6 +232,11 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
 
         try {
             game = obj.getJSONArray("results").getJSONObject(actualElem);
+            for(int i = 0; i < game.getJSONArray("platforms").length(); i++){
+                if(Integer.parseInt(String.valueOf(game.getJSONArray("platforms").getJSONObject(i).getJSONObject("platform").getString("id"))) == 3 || Integer.parseInt(String.valueOf(game.getJSONArray("platforms").getJSONObject(i).getString("id"))) == 21)
+                    if(actualElem + 1 < maxElem)//to build next card, this one contain IOS or android, we don't build it
+                        createCard(obj, ++actualElem, maxElem);
+            }
 
             LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);

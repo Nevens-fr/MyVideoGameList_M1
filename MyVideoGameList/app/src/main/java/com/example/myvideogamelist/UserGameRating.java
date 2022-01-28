@@ -2,8 +2,10 @@ package com.example.myvideogamelist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,12 +42,21 @@ public class UserGameRating extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_game_rating);
 
+        addNavigationBar();
         navigationBar.init(this);
 
         Intent intent = getIntent();
         gameID = intent.getStringExtra("gameID");
 
         look4GameInUserData();
+    }
+
+    /**
+     * Insert navigation bar into the activity
+     */
+    private void addNavigationBar(){
+        LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.user_game_rating_activity_id), true);
     }
 
     /**
@@ -243,7 +254,6 @@ public class UserGameRating extends AppCompatActivity {
                 feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
                 try{
                     selectedHours = Integer.parseInt(((EditText)findViewById(R.id.edit_text_hours_game_rating_id)).getText().toString());
-
                 }
                 catch(Exception e){
                     selectedHours = 0;

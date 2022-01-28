@@ -19,7 +19,7 @@ public class NavigationBar {
     private NavigationBar(){    }
 
     /**
-     * Getting buttons from the current activity and applying comportment
+     * Getting buttons from the current activity and applying comportment, prevent activity to restart itself
      * @param currentActivity the activity displayed to the user
      */
     public static void init(Activity currentActivity){
@@ -28,34 +28,38 @@ public class NavigationBar {
         buttonRandomatic = currentActivity.findViewById(R.id.randomatic_button_id);
         buttonMyLists = currentActivity.findViewById(R.id.my_lists_button_id);
 
-        buttonHome.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, Home.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                currentActivity.startActivity(intent);
-            }
-        });
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, SearchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                currentActivity.startActivity(intent);
-            }
-        });
-        buttonRandomatic.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, RandomaticActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                currentActivity.startActivity(intent);
-            }
-        });
-        buttonMyLists.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, GamesListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                currentActivity.startActivity(intent);
-            }
-        });
+        if(currentActivity.getClass() != Home.class)
+            buttonHome.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(currentActivity, Home.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    currentActivity.startActivity(intent);
+                }
+            });
+        if(currentActivity.getClass() != SearchActivity.class)
+            buttonSearch.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(currentActivity, SearchActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    currentActivity.startActivity(intent);
+                }
+            });
+        if(currentActivity.getClass() != RandomaticActivity.class)
+            buttonRandomatic.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(currentActivity, RandomaticActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    currentActivity.startActivity(intent);
+                }
+            });
+        if(currentActivity.getClass() != GamesListActivity.class)
+            buttonMyLists.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(currentActivity, GamesListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    currentActivity.startActivity(intent);
+                }
+            });
     }
 
     /**
