@@ -23,3 +23,11 @@ search
 
 Minutes qui dépassent 60 :
 -> Empecher l'user de rentrer plus que 60, lempecher de save + toast de prévention
+
+faire passer depuis search ou list une var pour savoir d'ou on vient. 
+	Si depuis search lancer requete complémentaire (check si on a les data du jeu avant ?)
+	Si depuis list utiliser les datas passées par list. 
+Pareil pour game screen to user rating. 
+	Si depuis search, enclencher processus ajout jeu (méthode build Game)
+	Si depuis list, ne rien faire
+	
