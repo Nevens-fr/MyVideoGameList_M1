@@ -3,7 +3,6 @@ package com.example.myvideogamelist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,14 +20,14 @@ import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.SearchGameAPI;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Iterator;
 //todo implement search for other categories
-public class SearchActivity extends AppCompatActivity implements MyActivityImageDiplayable{
+public class SearchActivity extends AppCompatActivity implements MyActivityImageDiplayable {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
 

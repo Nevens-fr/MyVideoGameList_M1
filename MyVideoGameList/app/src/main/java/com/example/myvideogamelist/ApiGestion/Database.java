@@ -1,6 +1,6 @@
 package com.example.myvideogamelist.ApiGestion;
 
-import com.example.myvideogamelist.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
 
 import org.json.JSONObject;
 
@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Class allowing access to databases containing users or games datas

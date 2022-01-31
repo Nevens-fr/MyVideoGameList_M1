@@ -1,4 +1,4 @@
-package com.example.myvideogamelist;
+package com.example.myvideogamelist.InterfacesAppli;
 
 import org.json.JSONObject;
 

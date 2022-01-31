@@ -1,8 +1,6 @@
 package com.example.myvideogamelist.ApiGestion;
 
-import android.app.Activity;
-
-import com.example.myvideogamelist.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
 
 import org.json.JSONObject;
 

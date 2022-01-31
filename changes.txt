@@ -3,11 +3,10 @@ url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b652
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Abandoned precise search and ordonned search, too many bad results
-- cards on search visual change
-- new color
-- Game data passed from game screen to user rating screen
-- Prepared gameDB save on user rating screen
+- Doc
+- To test, if user write a wrong minutes time in user rating, toast display, no enreg done
+- Cleanup user rating code
+- Added exception package and interfaces package
 
 ******************************************************************************************************************
 TODO

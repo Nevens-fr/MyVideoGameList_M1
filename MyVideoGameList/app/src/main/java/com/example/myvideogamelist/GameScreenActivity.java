@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;

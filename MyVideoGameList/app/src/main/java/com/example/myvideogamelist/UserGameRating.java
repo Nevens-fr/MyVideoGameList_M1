@@ -7,36 +7,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.Game;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.Rating;
-import com.example.myvideogamelist.ApiGestion.User;
+import com.example.myvideogamelist.ExceptionAppli.MinutesExceptions;
 
 import org.json.JSONObject;
 
 public class UserGameRating extends AppCompatActivity {
 
-    private NavigationBar navigationBar = NavigationBar.getNavigationBar();
-    private Database database = Database.getDatabase();
-
-    private int tab[] = {10,9,8,7,6};
+    private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
+    private final Database database = Database.getDatabase();
 
     private int selectedRating = -1;
     private int selectedStatus = -1;
     private int selectedHours = -1;
     private int selectedMin = -1;
     private int userGameID =-1;
+    private final int duration = Toast.LENGTH_LONG;
     private String gameID;
     private String feedback;
     private View selectedStatusButton, selectedRatingButton;
     private boolean isEmptyStatus, dataChanged = false;
     private JSONObject gameData, gameDataFromSearch;
-    private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
+    private final GamesAPI gamesAPI = GamesAPI.getGamesAPI();
     private Game gameToSave;
 
     @Override
@@ -56,10 +55,10 @@ public class UserGameRating extends AppCompatActivity {
     }
 
     /**
-     *
+     * Prepare game data to be save to limit GameAPI usage for those the user already possess in his lists
      */
     private void createGameData(){
-        int nbGenres =0, nbDev =0, nbImages =0, nbPublishers=0;
+        int nbGenres, nbDev, nbImages, nbPublishers;
         try{
             nbGenres = gameDataFromSearch.getJSONArray("genres").length();
             nbImages = gameDataFromSearch.getJSONArray("short_screenshots").length();
@@ -86,13 +85,15 @@ public class UserGameRating extends AppCompatActivity {
     }
 
     /**
-     *
+     * Build a string array from a json array
+     * @param key the key in the json object for access to the array
+     * @param size array's size for building the string array
      */
     private String[] buildArrayFromJSonArray(String key, int size){
 
         String[] array = new String[size];
 
-    //todo rentrer les array dev genre publisher et images pour save tout ça
+    //todo rentrer les array dev genre publisher et images pour save
         return array;
     }
 
@@ -101,7 +102,7 @@ public class UserGameRating extends AppCompatActivity {
      */
     private void addNavigationBar(){
         LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.user_game_rating_activity_id), true);
+        vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.user_game_rating_activity_id), true);
     }
 
     /**
@@ -126,7 +127,7 @@ public class UserGameRating extends AppCompatActivity {
             e.printStackTrace();
         }
         finally {
-            if(over == false){
+            if(!over){
                 selectedRatingButton = findViewById(R.id.empty_rating_id);
                 selectedStatusButton = null;
                 isEmptyStatus = true;
@@ -296,6 +297,7 @@ public class UserGameRating extends AppCompatActivity {
         findViewById(R.id.button_game_rating_save_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean minutesError = false;
                 feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
                 try{
                     selectedHours = Integer.parseInt(((EditText)findViewById(R.id.edit_text_hours_game_rating_id)).getText().toString());
@@ -305,54 +307,65 @@ public class UserGameRating extends AppCompatActivity {
                 }
                 try{
                     selectedMin = Integer.parseInt(((EditText)findViewById(R.id.edit_text_minutes_game_rating_id)).getText().toString());
+                    if(selectedMin >= 60 || selectedMin < 0){//prevent user to write a number > to 59 in minutes field
+                        Toast toast = Toast.makeText(getApplicationContext(), "Invalid minutes number, you should enter a number in [0..59] range", duration);
+                        toast.show();
+                        throw new MinutesExceptions();
+                    }
                 }
-                catch(Exception e){
+                catch(NumberFormatException e){
                     selectedMin = 0;
                 }
-                //Looking for any change from user already saved data
-                try{
-                    if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
-                        dataChanged = true;
-                    if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
-                        dataChanged = true;
-                    if(String.valueOf(selectedMin).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("min")) != 0)
-                        dataChanged = true;
-
-                    if(dataChanged){//save change
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("feedback");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("feedback", feedback);
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("hours");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("hours", String.valueOf(selectedHours));
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("min");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("min", String.valueOf(selectedMin));
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("status");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("status", returnStatus());
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("score");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("score", returnRating());
-                        database.requestPost(1, null, database.getUsers());
-                    }
+                catch(MinutesExceptions me){
+                    minutesError = true;
                 }
-                catch (Exception e){//user does not possess the game already, save change
-                    Rating rating = new Rating(gameID);
-                    rating.setStatus(returnStatus());
-                    rating.setScore(returnRating());
-                    rating.setMin(String.valueOf(selectedMin));
-                    rating.setHours(String.valueOf(selectedHours));
-                    rating.setFeedback(feedback);
+
+                    if(!minutesError){
+                    //Looking for any change from user already saved dataException
                     try{
-                        database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
-                        //database.getGames().getJSONArray("games").put(gameToSave);//adding game to our DB
+                        if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
+                            dataChanged = true;
+                        if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
+                            dataChanged = true;
+                        if(String.valueOf(selectedMin).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("min")) != 0)
+                            dataChanged = true;
+
+                        if(dataChanged){//save change
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("feedback");
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("feedback", feedback);
+
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("hours");
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("hours", String.valueOf(selectedHours));
+
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("min");
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("min", String.valueOf(selectedMin));
+
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("status");
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("status", returnStatus());
+
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("score");
+                            database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("score", returnRating());
+                            database.requestPost(1, null, database.getUsers());
+                        }
+                    }
+                    catch (Exception e){//user does not possess the game already, save change
+                        Rating rating = new Rating(gameID);
+                        rating.setStatus(returnStatus());
+                        rating.setScore(returnRating());
+                        rating.setMin(String.valueOf(selectedMin));
+                        rating.setHours(String.valueOf(selectedHours));
+                        rating.setFeedback(feedback);
+                        try{
+                            database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
+                            //database.getGames().getJSONArray("games").put(gameToSave);//adding game to our DB
+                            //todo décommenter quand données prêtes
+                        }
+                        catch(Exception e4){ e4.printStackTrace(); }
+                        database.requestPost(1, null, database.getUsers());
+                        //database.requestPost(0, null, database.getGames());
                         //todo décommenter quand données prêtes
                     }
-                    catch(Exception e4){ }
-                    database.requestPost(1, null, database.getUsers());
-                    //database.requestPost(0, null, database.getGames());
-                    //todo décommenter quand données prêtes
-                }
+                    }
 
                 finish();
             }
@@ -524,7 +537,7 @@ public class UserGameRating extends AppCompatActivity {
      * @param currentView new selected status
      */
     private void setWhiteStrokeStatusButtons(View currentView){
-        if(isEmptyStatus != true){
+        if(!isEmptyStatus){
             selectedStatusButton.setBackgroundResource(R.drawable.button_border_white);
         }
         else
