@@ -29,6 +29,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     private boolean isHiddenDesc= true;
     private int predHeight;
     private Database database = Database.getDatabase();
+    private String comesFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,21 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
 
         //Get game data from previous activity
         Intent intent = getIntent();
+        comesFrom = intent.getStringExtra("comesFrom");
         game = gamesAPI.parseResponse(intent.getStringExtra("gameData"));
         gameFromSearchData = game;
         user = database.getCurrentUser();
 
-        try {//new request for all game data
-            gamesAPI.requestGameById(game.getString("id"), this);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(comesFrom.compareTo("search") == 0) {//need a request we might not have seen this game before
+            try {//new request for all game data
+                gamesAPI.requestGameById(game.getString("id"), this);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            //display game data, we already have everything
+            fillGameData();
         }
 
         addNavigationBar();
@@ -192,6 +200,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
                     intent.putExtra("gameID", game.getString("id"));
                     intent.putExtra("gameData", game.toString());
                     intent.putExtra("gameDataSearch", gameFromSearchData.toString());
+                    intent.putExtra("comesFrom", comesFrom);
                 }
                 catch (Exception e){System.out.println(e.getMessage());}
                 startActivity(intent);

@@ -19,7 +19,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_back_game_id"
-            android:layout_width="38dp"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/toolbar_top"
@@ -37,6 +37,11 @@
             android:text="@string/placeholder_game_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/white" />
+
+        <Space
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
@@ -152,6 +157,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:justificationMode="inter_word"
                 android:textColor="@color/white"
                 android:layout_weight="1"
                 android:text="description_game_screen_id" />
@@ -185,6 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:gravity="end"
                     android:layout_margin="10dp"
                     android:layout_weight="2"
                     android:text="user_score_game_screen_id" />

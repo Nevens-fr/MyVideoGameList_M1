@@ -3,8 +3,15 @@ url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b652
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Tested, if user write a wrong minutes time in user rating, toast display, no enreg done. Success.
-
+- rating user : keyboard hide top toolbar (places switch between feedback text area an score scroll)
+- rating user : display game name on top, adapt name size to avoid overflow
+- rating user : focus on selected score button (scroll bar)
+- Pass a data in intent to build game data in json if coming from search (not usefull when coming from lists)
+- Game screen : data are displayed from the right source (API is coming from search, else from our DB)
+- Game screen : centered title
+- Game screen : justified description
+- Game screen : margins corrected
+- Games lists : design started
 
 ******************************************************************************************************************
 TODO
@@ -12,21 +19,19 @@ TODO
 home :
 display stats from user average playtime and news below
 
-game screen margin wrong, title not centered
-
-rating user : keyboard hide top toolbar
-
 search
 	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
 	pub game card and add pub name
 
-faire passer depuis search ou list une var pour savoir d'ou on vient. 
-	Si depuis search lancer requete complémentaire (check si on a les data du jeu avant ?)
-	Si depuis list utiliser les datas passées par list. 
-Pareil pour game screen to user rating. 
-	Si depuis search, enclencher processus ajout jeu (méthode build Game)
-	Si depuis list, ne rien faire
-	
-Demandes Thomas:
+rating screen : 
+	finish save game data
+
+
+
+
+
+
+
+Later :
 - crayon sur fiche jeu pour rating pas parlant
 - recherche quand user s'arrête de taper dans recherche

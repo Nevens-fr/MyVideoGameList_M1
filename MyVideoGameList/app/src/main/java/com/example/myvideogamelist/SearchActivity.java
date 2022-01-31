@@ -259,6 +259,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), GameScreenActivity.class);
                     intent.putExtra("gameData", gameData.toString());
+                    intent.putExtra("comesFrom", "search");
                     startActivity(intent);
                 }
             });

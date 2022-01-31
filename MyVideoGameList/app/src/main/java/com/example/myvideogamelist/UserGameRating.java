@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.example.myvideogamelist.ApiGestion.Rating;
 import com.example.myvideogamelist.ExceptionAppli.MinutesExceptions;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class UserGameRating extends AppCompatActivity {
 
@@ -37,11 +41,13 @@ public class UserGameRating extends AppCompatActivity {
     private JSONObject gameData, gameDataFromSearch;
     private final GamesAPI gamesAPI = GamesAPI.getGamesAPI();
     private Game gameToSave;
+    private String comesFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_game_rating);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         addNavigationBar();
         navigationBar.init(this);
@@ -50,7 +56,10 @@ public class UserGameRating extends AppCompatActivity {
         gameID = intent.getStringExtra("gameID");
         gameData = gamesAPI.parseResponse(intent.getStringExtra("gameData"));
         gameDataFromSearch = gamesAPI.parseResponse(intent.getStringExtra("gameDataSearch"));
+        comesFrom = intent.getStringExtra("comesFrom");
 
+        if(comesFrom.compareTo("search") == 0)//coming from search activity, need to build game data json to save it
+            createGameData();
         look4GameInUserData();
     }
 
@@ -119,6 +128,12 @@ public class UserGameRating extends AppCompatActivity {
                     over = true;
                 }
             }
+            ((TextView)findViewById(R.id.text_game_rating_game_name)).setText(gameData.getString("name"));
+            //If game name is too large for title, reduce size
+            if(gameData.getString("name").length() > 15){
+                System.out.println(((TextView)findViewById(R.id.text_game_rating_game_name)).getTextSize());
+                ((TextView)findViewById(R.id.text_game_rating_game_name)).setTextSize(15);
+            }
         }
         catch (Exception e){
             selectedRatingButton = findViewById(R.id.empty_rating_id);
@@ -135,6 +150,7 @@ public class UserGameRating extends AppCompatActivity {
             connectRatingButtons();
             connectTopToolbarButtons();
             connectStatusButtons();
+            ((HorizontalScrollView)findViewById(R.id.scroll_user_rating_id)).requestChildFocus(selectedRatingButton, selectedRatingButton);
         }
     }
 
