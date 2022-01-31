@@ -3,10 +3,8 @@ url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b652
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Doc
-- To test, if user write a wrong minutes time in user rating, toast display, no enreg done
-- Cleanup user rating code
-- Added exception package and interfaces package
+- Tested, if user write a wrong minutes time in user rating, toast display, no enreg done. Success.
+
 
 ******************************************************************************************************************
 TODO
@@ -19,9 +17,6 @@ game screen margin wrong, title not centered
 search
 	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
 	pub game card and add pub name
-
-Minutes qui dépassent 60 :
--> Empecher l'user de rentrer plus que 60, lempecher de save + toast de prévention
 
 faire passer depuis search ou list une var pour savoir d'ou on vient. 
 	Si depuis search lancer requete complémentaire (check si on a les data du jeu avant ?)

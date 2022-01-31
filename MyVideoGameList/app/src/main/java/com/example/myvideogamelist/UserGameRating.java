@@ -320,7 +320,9 @@ public class UserGameRating extends AppCompatActivity {
                     minutesError = true;
                 }
 
-                    if(!minutesError){
+                //no error in fields
+                if(!minutesError){
+
                     //Looking for any change from user already saved dataException
                     try{
                         if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
@@ -365,9 +367,10 @@ public class UserGameRating extends AppCompatActivity {
                         //database.requestPost(0, null, database.getGames());
                         //todo décommenter quand données prêtes
                     }
-                    }
 
-                finish();
+                    finish();
+                }
+
             }
         });
     }
