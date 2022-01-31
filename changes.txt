@@ -14,6 +14,8 @@ display stats from user average playtime and news below
 
 game screen margin wrong, title not centered
 
+rating user : keyboard hide top toolbar
+
 search
 	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
 	pub game card and add pub name
@@ -25,3 +27,6 @@ Pareil pour game screen to user rating.
 	Si depuis search, enclencher processus ajout jeu (méthode build Game)
 	Si depuis list, ne rien faire
 	
+Demandes Thomas:
+- crayon sur fiche jeu pour rating pas parlant
+- recherche quand user s'arrête de taper dans recherche
