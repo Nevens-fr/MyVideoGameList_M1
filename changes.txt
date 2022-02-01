@@ -8,6 +8,8 @@ VERSION CHANGE
 - User rating : fetch clean data after user add a new game to his lists
 - Game Lists : games cards clickable brings to game data with all data displayed, can go to user rating with rating too
 - Game Lists : user rating modification are effective immediately (change game to another list works fine !)
+- Added new screens png for home and logging
+- Changed DB url
 ******************************************************************************************************************
 TODO
 
