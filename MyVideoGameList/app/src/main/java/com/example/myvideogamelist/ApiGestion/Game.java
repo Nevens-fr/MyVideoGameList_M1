@@ -20,15 +20,16 @@ public class Game {
             JSONObject obj = new JSONObject();
             JSONArray rating = new JSONArray();
             obj.put("id", idGame);
+            obj.put("name", name);
             obj.put("released", releasedDate);
             obj.put("description", description);
             obj.put("metacritic", metacritic);
             obj.put("playtime", playtime);
 
-            obj.put("genres", createArray(genres));
-            obj.put("short_screenshots", createArray(images));
-            obj.put("publishers", createArray(publishers));
-            obj.put("developers", createArray(devs));
+            obj.put("genres", createArray(genres, "name"));
+            obj.put("short_screenshots", createArray(images, "image"));
+            obj.put("publishers", createArray(publishers, "name"));
+            obj.put("developers", createArray(devs, "name"));
 
             return obj;
         }
@@ -37,12 +38,18 @@ public class Game {
         }
     }
 
-    private JSONArray createArray(String [] strings) throws  Exception{
+    /**
+     * Create an json array from string array
+     * @param strings string array
+     * @return json array containing data
+     * @throws Exception
+     */
+    private JSONArray createArray(String [] strings, String key) throws  Exception{
         JSONArray jsonArray = new JSONArray();
         for(String s : strings){
             JSONObject elem = new JSONObject();
-            elem.put("name", s);
-            jsonArray.put(name);
+            elem.put(key, s);
+            jsonArray.put(elem);
         }
         return jsonArray;
     }
@@ -115,7 +122,7 @@ public class Game {
     }
 
     public void setGenres(JSONArray genres) {
-        completeStringArrayFromJsonArray(genres, this.genres);
+        completeStringArrayFromJsonArray(genres, this.genres,"name");
     }
 
     public String[] getDevs() {
@@ -123,7 +130,7 @@ public class Game {
     }
 
     public void setDevs(JSONArray devs) {
-        completeStringArrayFromJsonArray(devs, this.devs);
+        completeStringArrayFromJsonArray(devs, this.devs,"name");
     }
 
     public String[] getImages() {
@@ -131,7 +138,7 @@ public class Game {
     }
 
     public void setImages(JSONArray images) {
-        completeStringArrayFromJsonArray(images, this.images);
+        completeStringArrayFromJsonArray(images, this.images, "image");
     }
 
     public String[] getPublishers() {
@@ -139,18 +146,19 @@ public class Game {
     }
 
     public void setPublishers(JSONArray publishers) {
-        completeStringArrayFromJsonArray(publishers, this.publishers);
+        completeStringArrayFromJsonArray(publishers, this.publishers, "name");
     }
 
     /**
      * Take a json array and parse it into a string array with only name field
      * @param data json array to turn into string array
      * @param strings string array results from json array
+     * @param key to access data
      */
-    private void completeStringArrayFromJsonArray(JSONArray data, String[] strings){
+    private void completeStringArrayFromJsonArray(JSONArray data, String[] strings, String key){
         for(int i = 0; i < data.length(); i++){
             try{
-                strings[i] = data.getJSONObject(i).getString("name");
+                strings[i] = data.getJSONObject(i).getString(key);
             }
             catch (Exception e){
                 e.printStackTrace();

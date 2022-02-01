@@ -84,10 +84,10 @@ public class UserGameRating extends AppCompatActivity {
             gameToSave.setPlaytime(gameData.getString("playtime"));
             gameToSave.setName(gameData.getString("name"));
 
-            gameToSave.setGenres(getRelevantJSONARRAY("genres"));
-            gameToSave.setImages(getRelevantJSONARRAY("short_screenshots"));
-            gameToSave.setDevs(getRelevantJSONARRAY("developers"));
-            gameToSave.setPublishers(getRelevantJSONARRAY("publishers"));
+            gameToSave.setGenres(getRelevantJSONARRAY("genres", 0));
+            gameToSave.setImages(getRelevantJSONARRAY("short_screenshots", 0));
+            gameToSave.setDevs(getRelevantJSONARRAY("developers", 1));
+            gameToSave.setPublishers(getRelevantJSONARRAY("publishers", 1));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -97,11 +97,12 @@ public class UserGameRating extends AppCompatActivity {
     /**
      * Return the json array corresponding to the given key
      * @param key the key in the json object for access to the array
+     * @param dbToUse define which jsonarray to use
      * @return a JSON array containing only relevant data
      */
-    private JSONArray getRelevantJSONARRAY(String key){
+    private JSONArray getRelevantJSONARRAY(String key, int dbToUse){
         try{
-            return gameDataFromSearch.getJSONArray(key);
+            return (dbToUse == 0) ? gameDataFromSearch.getJSONArray(key) : gameData.getJSONArray(key);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -379,7 +380,7 @@ public class UserGameRating extends AppCompatActivity {
                         try{
                             database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
                             if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
-                                database.getGames().getJSONArray("games").put(gameToSave);//adding game to our DB
+                                database.getGames().getJSONArray("games").put(gameToSave.getJSONObject());//adding game to our DB
                         }
                         catch(Exception e4){ e4.printStackTrace(); }
                         database.requestPost(1, null, database.getUsers());

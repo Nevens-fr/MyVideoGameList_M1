@@ -90,12 +90,11 @@ public class Database {
                     con.setRequestProperty("Accept", "application/json");
 
                     OutputStream output = con.getOutputStream();
-                        //output.write(newDatas);
                     byte[] input = newDatas.toString().getBytes("utf-8");
                     output.write(input, 0, input.length);
 
                     int status = con.getResponseCode();
-                    System.out.println(status);
+                    System.out.println("Post response : " +status);
                 } catch (Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());
                 }
@@ -125,21 +124,6 @@ public class Database {
                 games = null;
             else
                 users = null;
-        }
-    }
-
-    /**
-     * Parse the JSON response from a string
-     * @param response string json to parse
-     * @return parsed string
-     */
-    public JSONObject parseResponse(String response){
-        try {
-            return new JSONObject(response);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
         }
     }
 
@@ -209,8 +193,9 @@ public class Database {
         try{
             JSONArray gamesArray = games.getJSONArray("games");
             for(int i = 0; i < gamesArray.length(); i++){
-                if(gamesArray.getJSONObject(i).getString("status").compareTo(category) == 0){
-                    Game newGame = new Game(gamesArray.getJSONObject(i).getJSONArray("genres").length(), gamesArray.getJSONObject(i).getJSONArray("developers").length(),gamesArray.getJSONObject(i).getJSONArray("short_screenshots").length(),gamesArray.getJSONObject(i).getJSONArray("publishers").length());
+                if(getCurrentUser().getJSONArray("games").getJSONObject(i).getString("status").compareTo(category) == 0){
+                    String id = getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id");
+                    Game newGame = new Game(gamesArray.getJS.getJSONArray("genres").length(), gamesArray.getJSONObject(i).getJSONArray("developers").length(),gamesArray.getJSONObject(i).getJSONArray("short_screenshots").length(),gamesArray.getJSONObject(i).getJSONArray("publishers").length());
                     newGame.setIdGame(gamesArray.getJSONObject(i).getString("id"));
                     newGame.setDescription(gamesArray.getJSONObject(i).getString("description"));
                     newGame.setMetacritic(gamesArray.getJSONObject(i).getString("metacritic"));

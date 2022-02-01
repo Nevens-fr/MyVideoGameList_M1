@@ -31,6 +31,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     private Database database = Database.getDatabase();
     private String listCat = "";
     private ArrayList<Game> games;
+    private JSONObject user = database.getCurrentUser();
     private int maxElemFromArray = 4;
 
     @Override

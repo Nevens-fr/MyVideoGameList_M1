@@ -1,12 +1,12 @@
 url users table https://api.jsonstorage.net/v1/json/42be9027-73a8-4666-bb6e-c0902e8b074b
 url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b6529a389678
+URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Game data from our DB stored in user lists (playing, finished...)
-- Sent game data from user rating to our DBs to avoid unnecessary fetch data from GameAPI (only when coming from search
-- Games lists screen : added filters buttons interaction
+- Repair game db (ours) data saving
 - Games lists screen : creating game cars (WIP)
+- TO REWORK in db
 
 ******************************************************************************************************************
 TODO
