@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class Database {
     private static final Database database = new Database();
-    private final String usersDB = "https://api.jsonstorage.net/v1/json/42be9027-73a8-4666-bb6e-c0902e8b074b";
-    private final String gamesDB = "https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b6529a389678";
+    private final String usersDB = "https://api.jsonstorage.net/v1/json/f50bd8e5-dab1-43b6-b832-d6a1c783c546";
+    private final String gamesDB = "https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c";
     private StringBuffer content;
     private JSONObject games, users;
     private int currentUser;
@@ -176,11 +176,11 @@ public class Database {
      * Create arraylist of game by categories (finished, playing...)
      */
     public void createListsGames(){
-        putGameDataInList(finished,"Finished");
-        putGameDataInList(abandoned,"Abandoned");
-        putGameDataInList(planned,"Planned");
-        putGameDataInList(playing,"Playing");
-        putGameDataInList(on_hold,"On-hold");
+        finished = putGameDataInList(finished,"Finished");
+        abandoned = putGameDataInList(abandoned,"Abandoned");
+        planned = putGameDataInList(planned,"Planned");
+        playing = putGameDataInList(playing,"Playing");
+        on_hold = putGameDataInList(on_hold,"On-hold");
     }
 
     /**
@@ -188,30 +188,38 @@ public class Database {
      * @param cat array list of Game containing all games for a list
      * @param category category to look for
      */
-    private void putGameDataInList(ArrayList<Game> cat, String category){
+    private ArrayList<Game> putGameDataInList(ArrayList<Game> cat, String category){
         cat = new ArrayList<>();
         try{
             JSONArray gamesArray = games.getJSONArray("games");
-            for(int i = 0; i < gamesArray.length(); i++){
+
+            for(int i = 0; i < getCurrentUser().getJSONArray("games").length(); i++){
                 if(getCurrentUser().getJSONArray("games").getJSONObject(i).getString("status").compareTo(category) == 0){
                     String id = getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id");
-                    Game newGame = new Game(gamesArray.getJS.getJSONArray("genres").length(), gamesArray.getJSONObject(i).getJSONArray("developers").length(),gamesArray.getJSONObject(i).getJSONArray("short_screenshots").length(),gamesArray.getJSONObject(i).getJSONArray("publishers").length());
-                    newGame.setIdGame(gamesArray.getJSONObject(i).getString("id"));
-                    newGame.setDescription(gamesArray.getJSONObject(i).getString("description"));
-                    newGame.setMetacritic(gamesArray.getJSONObject(i).getString("metacritic"));
-                    newGame.setName(gamesArray.getJSONObject(i).getString("name"));
-                    newGame.setPlaytime(gamesArray.getJSONObject(i).getString("playtime"));
-                    newGame.setReleasedDate(gamesArray.getJSONObject(i).getString("released"));
-                    newGame.setDevs(games.getJSONArray("developers"));
-                    newGame.setGenres(games.getJSONArray("genres"));
-                    newGame.setImages(games.getJSONArray("short_screenshots"));
-                    newGame.setPublishers(games.getJSONArray("publishers"));
-                    cat.add(newGame);
+
+                    for(int j = 0; j < gamesArray.length(); j++){
+                        if(gamesArray.getJSONObject(j).getString("id").compareTo(id) == 0){
+                            Game newGame = new Game(gamesArray.getJSONObject(j).getJSONArray("genres").length(), gamesArray.getJSONObject(j).getJSONArray("developers").length(),gamesArray.getJSONObject(j).getJSONArray("short_screenshots").length(),gamesArray.getJSONObject(j).getJSONArray("publishers").length());
+                            newGame.setIdGame(gamesArray.getJSONObject(j).getString("id"));
+                            newGame.setDescription(gamesArray.getJSONObject(j).getString("description"));
+                            newGame.setMetacritic(gamesArray.getJSONObject(j).getString("metacritic"));
+                            newGame.setName(gamesArray.getJSONObject(j).getString("name"));
+                            newGame.setPlaytime(gamesArray.getJSONObject(j).getString("playtime"));
+                            newGame.setReleasedDate(gamesArray.getJSONObject(j).getString("released"));
+                            newGame.setDevs(gamesArray.getJSONObject(j).getJSONArray("developers"));
+                            newGame.setGenres(gamesArray.getJSONObject(j).getJSONArray("genres"));
+                            newGame.setImages(gamesArray.getJSONObject(j).getJSONArray("short_screenshots"));
+                            newGame.setPublishers(gamesArray.getJSONObject(j).getJSONArray("publishers"));
+                            cat.add(newGame);
+                        }
+                    }
                 }
             }
+            return cat;
         }
         catch(Exception e){
             e.printStackTrace();
+            return null;
         }
     }
 

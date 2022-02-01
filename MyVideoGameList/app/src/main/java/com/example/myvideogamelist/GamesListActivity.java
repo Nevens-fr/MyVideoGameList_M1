@@ -5,6 +5,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,6 +42,19 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
 
         addNavigationBar();
         navigationBar.init(this);
+        connectButton();
+    }
+
+    /**
+     * On resume, restart all lists to apply user changes
+     */
+    @Override
+    protected void onResume(){
+        super.onResume();
+        selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
+        selectedButton = findViewById(R.id.list_all_button_id);
+        selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+        connectButton();
     }
 
     /**
@@ -54,7 +68,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     /**
      * Create buttons interactions for user search options
      */
-    private void connectButtonSearch(){
+    private void connectButton(){
         selectedButton = findViewById(R.id.list_all_button_id);
         addOnClickListener(findViewById(R.id.list_all_button_id), "all");
         addOnClickListener(findViewById(R.id.list_planned_button_id), "planned");
@@ -63,6 +77,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         addOnClickListener(findViewById(R.id.list_abandoned_button_id), "abandoned");
         addOnClickListener(findViewById(R.id.list_finished_button_id), "finished");
 
+        listCat = "all";
         getGamesData();
         insertData();
     }
@@ -106,41 +121,62 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      * start a thread that get rid of precedents cards and create new ones
      */
     private void insertData(){
-        Activity current = this;
+        //remove actual cards
+        for(; ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).getChildCount() > 0; )//removing all cards from previous category
+            ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).removeView(findViewById(R.id.card_search_to_clone_id));
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //remove actual cards
-                for(; ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).getChildCount() > 0; )//removing all cards from previous category
-                    ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).removeView(findViewById(R.id.card_search_to_clone_id));
-
-                LayoutInflater vi = (LayoutInflater)current.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_list_id), false);
-
-                for(int i = 0; i < games.size(); i++){
-                    //Insert data in fields
-                    //todo change metacritic by user score, idem playtime by user playtime
-                    ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(games.get(i).getName());
-                    ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(" "+games.get(i).getReleasedDate());
-                    ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText(" "+games.get(i).getMetacritic());
-                    ((TextView)v.findViewById(R.id.playtime_search_id)).setText(returnStringFromStringArray(games.get(i).getDevs()));
-
-                    ((TextView)v.findViewById(R.id.genres_search_id)).setText(" " +returnStringFromStringArray(games.get(i).getGenres()));
-
-                    ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).addView(v);
-
-                    //insert image
-                    ImageView imgV = new ImageView(current);
-                    Picasso.get().load(games.get(i).getImages()[0]).resize(400,400).centerInside().into(imgV);
-
-                    ((LinearLayout)v.findViewById(R.id.search_for_image_id)).addView(imgV,0 );
-                    ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setGravity(Gravity.CENTER_VERTICAL);
-                    ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).addView(v);
-                }
+        try{
+            for(int i = 0; i < user.getJSONArray("games").length(); i++){
+                String id = user.getJSONArray("games").getJSONObject(i).getString("id");
+                createGameCard(id);
             }
-        });
-        t.start();
+        }
+        catch (Exception e){e.printStackTrace();}
+    }
+
+    /**
+     * Look for game with the same id then build game card
+     * @param id
+     */
+    private void createGameCard(String id){
+        boolean found = false;
+
+        for(int i = 0; i < games.size() && !found; i++){
+            if(id.compareTo(games.get(i).getIdGame()) == 0){
+                found = true;
+                LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_list_id), false);
+                //Insert data in fields
+                //todo change metacritic by user score, idem playtime by user playtime
+                ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(games.get(i).getName());
+                ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(" "+games.get(i).getReleasedDate());
+                ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText(" "+games.get(i).getMetacritic());
+                ((TextView)v.findViewById(R.id.playtime_search_id)).setText(returnStringFromStringArray(games.get(i).getDevs()));
+
+                ((TextView)v.findViewById(R.id.genres_search_id)).setText(" " +returnStringFromStringArray(games.get(i).getGenres()));
+
+                //insert image
+                ImageView imgV = new ImageView(this);
+                Picasso.get().load(games.get(i).getImages()[0]).resize(400,400).centerInside().into(imgV);
+
+                ((LinearLayout)v.findViewById(R.id.search_for_image_id)).addView(imgV,0 );
+                ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setGravity(Gravity.CENTER_VERTICAL);
+                ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).addView(v);
+
+                Game g = games.get(i);
+
+                //start game screen activity on click on game card
+                ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), GameScreenActivity.class);
+                        intent.putExtra("gameData", g.getJSONObject().toString());
+                        intent.putExtra("comesFrom", "gameList");
+                        startActivity(intent);
+                    }
+                });
+            }
+        }
     }
 
     /**

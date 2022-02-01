@@ -384,9 +384,21 @@ public class UserGameRating extends AppCompatActivity {
                         }
                         catch(Exception e4){ e4.printStackTrace(); }
                         database.requestPost(1, null, database.getUsers());
-                        if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
+                        if(comesFrom.compareTo("search") == 0){//coming from search activity, need to save game data
                             database.requestPost(0, null, database.getGames());
+                        }
                     }
+
+                    //get clean data from our DB
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Database.getDatabase().requestGet(0);
+                            Database.getDatabase().requestGet(1);
+                            Database.getDatabase().createListsGames();
+                        }
+                    });
+                    thread.start();
 
                     finish();
                 }

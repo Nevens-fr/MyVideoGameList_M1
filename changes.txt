@@ -1,13 +1,13 @@
-url users table https://api.jsonstorage.net/v1/json/42be9027-73a8-4666-bb6e-c0902e8b074b
-url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b6529a389678
+url users table https://api.jsonstorage.net/v1/json/f50bd8e5-dab1-43b6-b832-d6a1c783c546
+url games table https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c
 URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Repair game db (ours) data saving
-- Games lists screen : creating game cars (WIP)
-- TO REWORK in db
-
+- Game lists : games displayed for current user in correct list
+- User rating : fetch clean data after user add a new game to his lists
+- Game Lists : games cards clickable brings to game data with all data displayed, can go to user rating with rating too
+- Game Lists : user rating modification are effective immediately (change game to another list works fine !)
 ******************************************************************************************************************
 TODO
 
@@ -21,7 +21,6 @@ search
 rating screen : 
 	finish save game data
 
-FILL GAME DB (no data, logic it doesn't work on game list STUPID ME)
 add card onclick listener
 
 
