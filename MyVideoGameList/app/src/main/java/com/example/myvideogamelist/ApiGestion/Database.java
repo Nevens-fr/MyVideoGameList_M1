@@ -2,6 +2,7 @@ package com.example.myvideogamelist.ApiGestion;
 
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Class allowing access to databases containing users or games datas
@@ -20,6 +22,7 @@ public class Database {
     private StringBuffer content;
     private JSONObject games, users;
     private int currentUser;
+    private ArrayList<Game> finished, planned, abandoned, on_hold, playing;
 
     /**
      * Empty private constructor for
@@ -182,9 +185,93 @@ public class Database {
             users.getJSONArray("users").remove(currentUser);
             users.getJSONArray("users").put(currentUser, user);
         }
-        catch (Exception e){
+        catch (Exception e){  }
+    }
 
+    /**
+     * Create arraylist of game by categories (finished, playing...)
+     */
+    public void createListsGames(){
+        putGameDataInList(finished,"Finished");
+        putGameDataInList(abandoned,"Abandoned");
+        putGameDataInList(planned,"Planned");
+        putGameDataInList(playing,"Playing");
+        putGameDataInList(on_hold,"On-hold");
+    }
+
+    /**
+     * Fill category list with game from our DB
+     * @param cat array list of Game containing all games for a list
+     * @param category category to look for
+     */
+    private void putGameDataInList(ArrayList<Game> cat, String category){
+        cat = new ArrayList<>();
+        try{
+            JSONArray gamesArray = games.getJSONArray("games");
+            for(int i = 0; i < gamesArray.length(); i++){
+                if(gamesArray.getJSONObject(i).getString("status").compareTo(category) == 0){
+                    Game newGame = new Game(gamesArray.getJSONObject(i).getJSONArray("genres").length(), gamesArray.getJSONObject(i).getJSONArray("developers").length(),gamesArray.getJSONObject(i).getJSONArray("short_screenshots").length(),gamesArray.getJSONObject(i).getJSONArray("publishers").length());
+                    newGame.setIdGame(gamesArray.getJSONObject(i).getString("id"));
+                    newGame.setDescription(gamesArray.getJSONObject(i).getString("description"));
+                    newGame.setMetacritic(gamesArray.getJSONObject(i).getString("metacritic"));
+                    newGame.setName(gamesArray.getJSONObject(i).getString("name"));
+                    newGame.setPlaytime(gamesArray.getJSONObject(i).getString("playtime"));
+                    newGame.setReleasedDate(gamesArray.getJSONObject(i).getString("released"));
+                    newGame.setDevs(games.getJSONArray("developers"));
+                    newGame.setGenres(games.getJSONArray("genres"));
+                    newGame.setImages(games.getJSONArray("short_screenshots"));
+                    newGame.setPublishers(games.getJSONArray("publishers"));
+                    cat.add(newGame);
+                }
+            }
         }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get games from all categories
+     * @return array list from all user games
+     */
+    public ArrayList<Game> getAll(){
+        ArrayList<Game> allGames = new ArrayList<>();
+        getGamesFromList(allGames, playing);
+        getGamesFromList(allGames, planned);
+        getGamesFromList(allGames, on_hold);
+        getGamesFromList(allGames, finished);
+        getGamesFromList(allGames, abandoned);
+        return allGames;
+    }
+
+    /**
+     * Add games from a list to another
+     * @param newList list where to add games
+     * @param oldList list having games needed
+     */
+    private void getGamesFromList(ArrayList<Game> newList, ArrayList<Game> oldList){
+        for(Game g : oldList)
+            newList.add(g);
+    }
+
+    public ArrayList<Game> getFinished() {
+        return finished;
+    }
+
+    public ArrayList<Game> getPlanned() {
+        return planned;
+    }
+
+    public ArrayList<Game> getAbandoned() {
+        return abandoned;
+    }
+
+    public ArrayList<Game> getOn_hold() {
+        return on_hold;
+    }
+
+    public ArrayList<Game> getPlaying() {
+        return playing;
     }
 }
 //example

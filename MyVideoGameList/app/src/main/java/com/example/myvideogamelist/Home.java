@@ -49,6 +49,7 @@ public class Home extends AppCompatActivity{
                 Database.getDatabase().requestGet(0);
                 Database.getDatabase().requestGet(1);
                 Database.getDatabase().setSelectedUserID(0);
+                Database.getDatabase().createListsGames();
             }
         });
         thread.start();

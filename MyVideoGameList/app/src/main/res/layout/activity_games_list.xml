@@ -105,7 +105,14 @@
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/game_lists_activity_id"
         app:layout_constraintTop_toBottomOf="@id/linearLayout1"
-        tools:ignore="SpeakableTextPresentCheck"/>
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_to_insert_clones_list_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 
     <LinearLayout

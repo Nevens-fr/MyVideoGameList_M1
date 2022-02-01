@@ -3,15 +3,10 @@ url games table https://api.jsonstorage.net/v1/json/9f313232-8220-4c82-b107-b652
 
 ******************************************************************************************************************
 VERSION CHANGE
-- rating user : keyboard hide top toolbar (places switch between feedback text area an score scroll)
-- rating user : display game name on top, adapt name size to avoid overflow
-- rating user : focus on selected score button (scroll bar)
-- Pass a data in intent to build game data in json if coming from search (not usefull when coming from lists)
-- Game screen : data are displayed from the right source (API is coming from search, else from our DB)
-- Game screen : centered title
-- Game screen : justified description
-- Game screen : margins corrected
-- Games lists : design started
+- Game data from our DB stored in user lists (playing, finished...)
+- Sent game data from user rating to our DBs to avoid unnecessary fetch data from GameAPI (only when coming from search
+- Games lists screen : added filters buttons interaction
+- Games lists screen : creating game cars (WIP)
 
 ******************************************************************************************************************
 TODO
@@ -26,7 +21,8 @@ search
 rating screen : 
 	finish save game data
 
-
+FILL GAME DB (no data, logic it doesn't work on game list STUPID ME)
+add card onclick listener
 
 
 

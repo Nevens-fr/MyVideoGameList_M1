@@ -20,6 +20,7 @@ import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.Rating;
 import com.example.myvideogamelist.ExceptionAppli.MinutesExceptions;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -83,10 +84,10 @@ public class UserGameRating extends AppCompatActivity {
             gameToSave.setPlaytime(gameData.getString("playtime"));
             gameToSave.setName(gameData.getString("name"));
 
-            gameToSave.setGenres(buildArrayFromJSonArray("genres", nbGenres));
-            gameToSave.setImages(buildArrayFromJSonArray("short_screenshots", nbGenres));
-            gameToSave.setDevs(buildArrayFromJSonArray("developers", nbGenres));
-            gameToSave.setPublishers(buildArrayFromJSonArray("publishers", nbGenres));
+            gameToSave.setGenres(getRelevantJSONARRAY("genres"));
+            gameToSave.setImages(getRelevantJSONARRAY("short_screenshots"));
+            gameToSave.setDevs(getRelevantJSONARRAY("developers"));
+            gameToSave.setPublishers(getRelevantJSONARRAY("publishers"));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -94,16 +95,18 @@ public class UserGameRating extends AppCompatActivity {
     }
 
     /**
-     * Build a string array from a json array
+     * Return the json array corresponding to the given key
      * @param key the key in the json object for access to the array
-     * @param size array's size for building the string array
+     * @return a JSON array containing only relevant data
      */
-    private String[] buildArrayFromJSonArray(String key, int size){
-
-        String[] array = new String[size];
-
-    //todo rentrer les array dev genre publisher et images pour save
-        return array;
+    private JSONArray getRelevantJSONARRAY(String key){
+        try{
+            return gameDataFromSearch.getJSONArray(key);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -375,13 +378,13 @@ public class UserGameRating extends AppCompatActivity {
                         rating.setFeedback(feedback);
                         try{
                             database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
-                            //database.getGames().getJSONArray("games").put(gameToSave);//adding game to our DB
-                            //todo décommenter quand données prêtes
+                            if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
+                                database.getGames().getJSONArray("games").put(gameToSave);//adding game to our DB
                         }
                         catch(Exception e4){ e4.printStackTrace(); }
                         database.requestPost(1, null, database.getUsers());
-                        //database.requestPost(0, null, database.getGames());
-                        //todo décommenter quand données prêtes
+                        if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
+                            database.requestPost(0, null, database.getGames());
                     }
 
                     finish();
