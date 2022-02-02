@@ -21,6 +21,7 @@ rating screen :
 add card onclick listener
 
 game list - use onscrollchangelisterne, canscrollhorizontal sur le scroll deja existant
+		  - replacer le scroll sur le bouton correspondant
 		  - ajouter texte précisant que catégorie est vide
 
 

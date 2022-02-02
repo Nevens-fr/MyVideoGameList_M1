@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
@@ -76,6 +78,42 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         addOnClickListener(findViewById(R.id.list_on_hold_button_id), "on_hold");
         addOnClickListener(findViewById(R.id.list_abandoned_button_id), "abandoned");
         addOnClickListener(findViewById(R.id.list_finished_button_id), "finished");
+
+        ((ScrollView)findViewById(R.id.scrollView_list_id)).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int MIN_DISTANCE = 150;
+                float x1 = 0, x2 = 0;
+                switch(motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = motionEvent.getX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        x2 = motionEvent.getX();
+                        float deltaX = x2 - x1;
+                        if (Math.abs(deltaX) > MIN_DISTANCE)
+                        {
+                            if (x2 > x1)
+                            {
+                                System.out.println("left2right swipe");
+                            }
+
+                            // Right to left swipe action
+                            else
+                            {
+                                System.out.println("right2left swipe");
+                            }
+                        }
+                        else
+                        {
+                            // consider as something else - a screen tap for example
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
 
         listCat = "all";
         getGamesData();
