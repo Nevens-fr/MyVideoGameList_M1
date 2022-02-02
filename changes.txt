@@ -4,12 +4,7 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Game lists : games displayed for current user in correct list
-- User rating : fetch clean data after user add a new game to his lists
-- Game Lists : games cards clickable brings to game data with all data displayed, can go to user rating with rating too
-- Game Lists : user rating modification are effective immediately (change game to another list works fine !)
-- Added new screens png for home and logging
-- Changed DB url
+
 ******************************************************************************************************************
 TODO
 
@@ -24,6 +19,9 @@ rating screen :
 	finish save game data
 
 add card onclick listener
+
+game list - use onscrollchangelisterne, canscrollhorizontal sur le scroll deja existant
+		  - ajouter texte précisant que catégorie est vide
 
 
 
