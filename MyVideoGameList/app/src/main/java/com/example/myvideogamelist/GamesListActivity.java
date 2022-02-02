@@ -3,7 +3,7 @@ package com.example.myvideogamelist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -29,22 +29,34 @@ import java.util.ArrayList;
 
 public class GamesListActivity extends AppCompatActivity implements MyActivityImageDiplayable{
 
-    private NavigationBar navigationBar = NavigationBar.getNavigationBar();
+    private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private Button selectedButton;
-    private Database database = Database.getDatabase();
+    private final Database database = Database.getDatabase();
     private String listCat = "";
     private ArrayList<Game> games;
-    private JSONObject user = database.getCurrentUser();
-    private int maxElemFromArray = 4;
+    private JSONObject user;
+    private final int maxElemFromArray = 4;
+    private ArrayList<Button> arraybuttons;
+    private ArrayList<String> arrayString = new ArrayList<String>();
+    private int currentButtonInd = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games_list);
 
+        user = database.getCurrentUser();
+
         addNavigationBar();
         navigationBar.init(this);
         connectButton();
+
+        arrayString.add("all");
+        arrayString.add("playing");
+        arrayString.add("planned");
+        arrayString.add("on_hold");
+        arrayString.add("finished");
+        arrayString.add("abandoned");
     }
 
     /**
@@ -53,9 +65,12 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     @Override
     protected void onResume(){
         super.onResume();
+        user = database.getCurrentUser();
         selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
         selectedButton = findViewById(R.id.list_all_button_id);
         selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+        currentButtonInd = 0;
+        fillArrayButton();
         connectButton();
     }
 
@@ -64,12 +79,26 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      */
     private void addNavigationBar(){
         LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.game_lists_activity_id), true);
+        vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.game_lists_activity_id), true);
+    }
+
+    /**
+     * Create the button array for swipe between categories
+     */
+    private void fillArrayButton(){
+        arraybuttons = new ArrayList<Button>();
+        arraybuttons.add(findViewById(R.id.list_all_button_id));
+        arraybuttons.add(findViewById(R.id.list_playing_button_id));
+        arraybuttons.add(findViewById(R.id.list_planned_button_id));
+        arraybuttons.add(findViewById(R.id.list_on_hold_button_id));
+        arraybuttons.add(findViewById(R.id.list_finished_button_id));
+        arraybuttons.add(findViewById(R.id.list_abandoned_button_id));
     }
 
     /**
      * Create buttons interactions for user search options
      */
+    @SuppressLint("ClickableViewAccessibility")
     private void connectButton(){
         selectedButton = findViewById(R.id.list_all_button_id);
         addOnClickListener(findViewById(R.id.list_all_button_id), "all");
@@ -79,44 +108,54 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         addOnClickListener(findViewById(R.id.list_abandoned_button_id), "abandoned");
         addOnClickListener(findViewById(R.id.list_finished_button_id), "finished");
 
-        ((ScrollView)findViewById(R.id.scrollView_list_id)).setOnTouchListener(new View.OnTouchListener() {
+        fillArrayButton();
+
+        ((ScrollView)findViewById(R.id.scrollView_list_id)).setOnTouchListener(new View.OnTouchListener(){
+            private float x1 = 0, x2 = 0, y1, y2;
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View view, MotionEvent motionEvent){
                 int MIN_DISTANCE = 150;
-                float x1 = 0, x2 = 0;
-                switch(motionEvent.getAction())
-                {
+                switch(motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         x1 = motionEvent.getX();
-                        break;
+                        y1 = motionEvent.getY();
+                        return false;
                     case MotionEvent.ACTION_UP:
                         x2 = motionEvent.getX();
+                        y2 = motionEvent.getY();
                         float deltaX = x2 - x1;
-                        if (Math.abs(deltaX) > MIN_DISTANCE)
-                        {
-                            if (x2 > x1)
-                            {
+                        float deltaY = y2 - y1;
+                        if (Math.abs(deltaY) > MIN_DISTANCE){//swipe vertical
+                            return false;
+                        }
+                        else if (Math.abs(deltaX) > MIN_DISTANCE){
+                            if (x2 > x1){// Left to right swipe action
                                 System.out.println("left2right swipe");
+                                if(currentButtonInd > 0){
+                                    arraybuttons.get(currentButtonInd - 1).performClick();
+                                    ((HorizontalScrollView)findViewById(R.id.linearLayout1)).requestChildFocus( arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
+                                }
                             }
-
-                            // Right to left swipe action
-                            else
-                            {
+                            else{// Right to left swipe action
                                 System.out.println("right2left swipe");
+                                if(currentButtonInd < arraybuttons.size() - 1){
+                                    arraybuttons.get(currentButtonInd + 1).performClick();
+                                    ((HorizontalScrollView)findViewById(R.id.linearLayout1)).requestChildFocus( arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
+                                }
                             }
                         }
-                        else
-                        {
+                        else{
                             // consider as something else - a screen tap for example
                         }
                         break;
                 }
-                return false;
+                return true;
             }
         });
 
         listCat = "all";
-        getGamesData();
+        if(user != null)
+            getGamesData();
         insertData();
     }
 
@@ -136,6 +175,11 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                     listCat = cat;
                     getGamesData();
                     insertData();
+
+                    for(int i = 0; i < arraybuttons.size(); i++){
+                        if(arrayString.get(i).compareTo(listCat) == 0)
+                            currentButtonInd = i;
+                    }
                 }
             }
         });
@@ -160,23 +204,35 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      */
     private void insertData(){
         //remove actual cards
-        for(; ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).getChildCount() > 0; )//removing all cards from previous category
-            ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).removeView(findViewById(R.id.card_search_to_clone_id));
+       ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).removeAllViews();
 
-        try{
-            for(int i = 0; i < user.getJSONArray("games").length(); i++){
-                String id = user.getJSONArray("games").getJSONObject(i).getString("id");
-                createGameCard(id);
+       if(user == null){
+           LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+           View v = vi.inflate(R.layout.no_internet_error, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+       }
+       else{
+
+            try{
+                boolean found = false;
+                for(int i = 0; i < user.getJSONArray("games").length(); i++){
+                    String id = user.getJSONArray("games").getJSONObject(i).getString("id");
+                    if(createGameCard(id))
+                        found = true;
+                }
+                if(found == false){
+                    LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View v = vi.inflate(R.layout.no_element_found, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+                }
             }
-        }
-        catch (Exception e){e.printStackTrace();}
+            catch (Exception e){e.printStackTrace();}
+       }
     }
 
     /**
      * Look for game with the same id then build game card
-     * @param id
+     * @param id game id
      */
-    private void createGameCard(String id){
+    private boolean createGameCard(String id){
         boolean found = false;
 
         for(int i = 0; i < games.size() && !found; i++){
@@ -215,6 +271,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 });
             }
         }
+        return found;
     }
 
     /**

@@ -389,18 +389,33 @@ public class UserGameRating extends AppCompatActivity {
                         }
                     }
 
+                    boolean canLeave = true;
+
                     //get clean data from our DB
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             Database.getDatabase().requestGet(0);
                             Database.getDatabase().requestGet(1);
-                            Database.getDatabase().createListsGames();
+                            if(Database.getDatabase().getCurrentUser() != null || Database.getDatabase().getGames() != null)
+                                Database.getDatabase().createListsGames();
                         }
                     });
                     thread.start();
 
-                    finish();
+                    try {
+                        thread.join();
+                        if(Database.getDatabase().getCurrentUser() == null || Database.getDatabase().getGames() == null){
+                            Toast toast = Toast.makeText(getApplicationContext(), "No internet connection, your changes will not be saved, please check your Wifi or data are turned on", duration);
+                            toast.show();
+                            canLeave = false;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(canLeave)
+                        finish();
                 }
 
             }

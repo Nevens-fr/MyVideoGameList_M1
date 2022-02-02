@@ -20,7 +20,7 @@ public class Database {
     private final String usersDB = "https://api.jsonstorage.net/v1/json/f50bd8e5-dab1-43b6-b832-d6a1c783c546";
     private final String gamesDB = "https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c";
     private StringBuffer content;
-    private JSONObject games, users;
+    private JSONObject games = null, users = null;
     private int currentUser;
     private ArrayList<Game> finished, planned, abandoned, on_hold, playing;
 
@@ -60,6 +60,10 @@ public class Database {
                 } catch (
                         Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());
+                    if(type == 0)
+                        games = null;
+                    else
+                        users = null;
                 }
             }
         });

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,6 +59,13 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         addNavigationBar();
         navigationBar.init(this);
         connectButtons();
+    }
+
+    private void connectionError(){
+        ((ViewGroup)findViewById(R.id.scroll_view_game_screen_id)).removeAllViews();
+        LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.no_internet_error, findViewById(R.id.scroll_view_game_screen_id), true);
+        findViewById(R.id.button_to_user_rating_game_screen_id).setVisibility(View.GONE);
     }
 
     /**
@@ -215,7 +223,10 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     @Override
     public void getApiInfo(JSONObject obj) {
         game = obj;
-        fillGameData();
+        if(game == null)
+            connectionError();
+        else
+            fillGameData();
     }
 
     @Override
@@ -223,6 +234,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         super.onResume();
         try{
             look4GameInUserData(game.getString("id"));
+            findViewById(R.id.button_to_user_rating_game_screen_id).setVisibility(View.VISIBLE);
         }
         catch (Exception e){
             e.printStackTrace();
