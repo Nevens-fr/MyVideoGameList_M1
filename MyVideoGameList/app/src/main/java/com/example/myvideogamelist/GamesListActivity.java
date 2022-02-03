@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.Game;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout;
+import com.example.myvideogamelist.ModifiedAndroidElements.MyScrollView4Lists;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -39,6 +41,8 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     private ArrayList<Button> arraybuttons;
     private ArrayList<String> arrayString = new ArrayList<String>();
     private int currentButtonInd = 0;
+    private MyLinearLayout myLinearLayout;
+    private MyScrollView4Lists myScrollView4Lists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,10 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         arrayString.add("on_hold");
         arrayString.add("finished");
         arrayString.add("abandoned");
+/*
+        myScrollView4Lists = (MyScrollView4Lists)findViewById(R.id.scrollView_list_id);
+        myLinearLayout = (MyLinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id);
+        myLinearLayout.setActivity(this);*/
     }
 
     /**
@@ -109,7 +117,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         addOnClickListener(findViewById(R.id.list_finished_button_id), "finished");
 
         fillArrayButton();
-
+/*
         ((ScrollView)findViewById(R.id.scrollView_list_id)).setOnTouchListener(new View.OnTouchListener(){
             private float x1 = 0, x2 = 0, y1, y2;
             @Override
@@ -152,7 +160,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 return true;
             }
         });
-
+*/
         listCat = "all";
         if(user != null)
             getGamesData();
@@ -294,5 +302,17 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      */
     @Override
     public void getApiInfo(JSONObject obj) {
+    }
+
+    public ArrayList<Button> getArraybuttons() {
+        return arraybuttons;
+    }
+
+    public int getCurrentButtonInd() {
+        return currentButtonInd;
+    }
+
+    public HorizontalScrollView getHorizontalScrollView() {
+        return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
     }
 }

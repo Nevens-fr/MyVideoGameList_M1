@@ -4,11 +4,7 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Swipe on game list activity change category displayed (vertical swipe seems laggy) (changs are in txt file, reverted for push)
-- Games Lists : No game in list message displayed for empty lists
-- Games Lists : No internet connection message
-- User rating : display toast on connection to network error (long to resolve error)
-- Game screen : display error on connection lost WIP
+- Swipe on game list activity change category displayed removed for now
 ******************************************************************************************************************
 TODO
 
