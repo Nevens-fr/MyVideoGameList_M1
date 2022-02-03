@@ -4,7 +4,9 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Swipe on game list activity change category displayed removed for now
+- Swipe on game list activity change category displayed OKKKKK
+- Removed unused imports (all files)
+- Game List : display user rating and user playtime on cards
 ******************************************************************************************************************
 TODO
 
@@ -15,7 +17,7 @@ search
 	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
 	pub game card and add pub name
 
-Game Lsit : display user rating and user playtime on cards
+user rating : roulette pour heures
 
 
 Later :

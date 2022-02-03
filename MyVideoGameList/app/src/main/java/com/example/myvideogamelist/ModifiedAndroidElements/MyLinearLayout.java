@@ -20,6 +20,7 @@ public class MyLinearLayout extends LinearLayout {
     private boolean mShown;
     private MyActivityImageDiplayable activity;
     private float x1 = 0, x2 = 0;
+    static final int MIN_DISTANCE = 150;
 
     /**
      * Initialize data for calculs
@@ -38,14 +39,16 @@ public class MyLinearLayout extends LinearLayout {
     }
 
 
-
+    /**
+     * This method JUST determines whether we want to intercept the motion.
+     * If we return true, onTouchEvent will be called and we do the actual
+     * scrolling there.
+     * @param ev the user's motion
+     * @return boolean to let child's know that we handle or not the motion
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        /*
-         * This method JUST determines whether we want to intercept the motion.
-         * If we return true, onTouchEvent will be called and we do the actual
-         * scrolling there.
-         */
+
         final int action = MotionEventCompat.getActionMasked(ev);
 
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
@@ -70,8 +73,6 @@ public class MyLinearLayout extends LinearLayout {
                 }
                 break;
         }
-        // In general, we don't want to intercept touch events. They should be
-        // handled by the child view.
         return false;
     }
 
@@ -84,44 +85,48 @@ public class MyLinearLayout extends LinearLayout {
         return (int) (ev.getRawX() - mDownX);
     }
 
+    /**
+     * Actions to performs if actual motion is interesting for this
+     * @param motionEvent the user's motion
+     * @return boolean to let child's know that we handle or not the motion
+     */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        // Here we actually handle the touch event (e.g. if the action is ACTION_MOVE,
-        // scroll this container).
-        // This method will only be called if the touch event was intercepted in
-        // onInterceptTouchEvent
         System.out.println("Entered");
-        int MIN_DISTANCE = 150;
-        switch(motionEvent.getAction()){
+        switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x1 = motionEvent.getX();
-                return false;
+                System.out.println(x1+ "x1");
+                return true;
             case MotionEvent.ACTION_UP:
                 x2 = motionEvent.getX();
+                System.out.println(x2 + "x2");
                 float deltaX = x2 - x1;
-                System.out.println("ici");
-                if (Math.abs(deltaX) > MIN_DISTANCE){
-                    if (x2 > x1){// Left to right swipe action
-                        System.out.println("left2right swipe");
+                if (Math.abs(deltaX) > MIN_DISTANCE)
+                {
+                    if(x2 > x1) {
+                        //left2right swipe"
                         if(((GamesListActivity)activity).getCurrentButtonInd() > 0){
                             ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() - 1).performClick();
                             ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus(((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
                         }
                     }
-                    else{// Right to left swipe action
-                        System.out.println("right2left swipe");
+                    else {
+                        //right2left swipe
                         if(((GamesListActivity)activity).getCurrentButtonInd() < ((GamesListActivity)activity).getArraybuttons().size() - 1){
                             ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() + 1).performClick();
                             ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus( ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
                         }
                     }
+                    return true;
                 }
-                else{
+                else
+                {
                     // consider as something else - a screen tap for example
+                    return false;
                 }
-                break;
         }
-        return true;
+        return super.onTouchEvent(motionEvent);
     }
 
     //**********************************************************************************************

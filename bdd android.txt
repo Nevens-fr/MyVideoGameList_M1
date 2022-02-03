@@ -1,0 +1,27 @@
+table user :
+	nbusers
+	tableau user:
+		id user
+		mdp
+		nom ?
+		jeuxRate :
+			id jeu
+			feedback
+			hours
+			min
+			status
+			score
+
+table jeu :
+	nbJeux
+	tableau jeux:
+		id jeu
+		nom
+		genres : []
+		images : []
+		devs []
+		publishers: []
+		releasedDate
+		playtime
+		metacritic
+		description
