@@ -217,7 +217,6 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_list_id), false);
                 //Insert data in fields
-                //todo change metacritic by user score, idem playtime by user playtime
                 ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(games.get(i).getName());
                 ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(" "+games.get(i).getReleasedDate());
                 ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText(" "+score + "/10");

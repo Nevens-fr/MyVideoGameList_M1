@@ -18,7 +18,6 @@ import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.Game;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.Rating;
-import com.example.myvideogamelist.ExceptionAppli.MinutesExceptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -91,6 +90,10 @@ public class UserGameRating extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), 0);
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), 0);
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.dozens_rating_id)), 0);
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.units_rating_id)), 0);
     }
 
     /**
@@ -142,6 +145,10 @@ public class UserGameRating extends AppCompatActivity {
             selectedRatingButton = findViewById(R.id.empty_rating_id);
             selectedStatusButton = null;
             isEmptyStatus = true;
+            addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), 0);
+            addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), 0);
+            addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.dozens_rating_id)), 0);
+            addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.units_rating_id)), 0);
             e.printStackTrace();
         }
         finally {
@@ -170,6 +177,41 @@ public class UserGameRating extends AppCompatActivity {
     }
 
     /**
+     * Create all data for number picker from user's game data
+     * @param data json object containing user data
+     * @throws Exception
+     */
+    private void createNumberPickerWithData(JSONObject data)throws Exception{
+        String hours = data.getString("hours");
+
+        //from 1000 to 9999
+        int val, hoursInt = Integer.parseInt(hours);
+        val = hoursInt >= 1000 ? Integer.parseInt(hours.substring(0, 1)) : 0;
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), val);
+
+        //from 100 to 999
+        if(hoursInt >= 100 && hoursInt >= 1000 )
+            val = hoursInt >= 100?  Integer.parseInt(hours.substring(1,2)) : 0;
+        else
+            val = hoursInt >= 100?  Integer.parseInt(hours.substring(0,1)) : 0;
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), val);
+
+        //from 10 to 99
+        if(hoursInt >= 10 && hoursInt >= 1000 )
+            val = hoursInt >= 10?  Integer.parseInt(hours.substring(2,1))+1 : 0;
+        else if(hoursInt >= 10 && hoursInt >= 100 )
+            val = hoursInt >= 10?  Integer.parseInt(hours.substring(1,2)) : 0;
+        else
+            val = hoursInt >= 10?  Integer.parseInt(hours.substring(0,1)) : 0;
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.dozens_rating_id)), val);
+
+        //from 0 to 9
+        val = Integer.parseInt(hours.substring(hours.length() - 1));
+        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.units_rating_id)), val);
+
+    }
+
+    /**
      * Apply user data on game
      * @param data jsonobject with user data on this game
      * @throws Exception data not found
@@ -177,26 +219,7 @@ public class UserGameRating extends AppCompatActivity {
     private void useUserData(JSONObject data) throws Exception{
 
         ((TextView)findViewById(R.id.feedback_game_rating_id)).setText(data.getString("feedback"));
-        String hours = data.getString("hours");
-
-        int val, hoursInt = Integer.parseInt(hours);
-        val = hoursInt >= 1000 ? Integer.parseInt(hours.substring(0, 1))+1 : 0;
-        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), val);
-        if(hoursInt >= 100 && hoursInt >= 1000 )
-            val = hoursInt >= 100?  Integer.parseInt(hours.substring(1,2))+1 : 0;
-        else
-            val = hoursInt >= 100?  Integer.parseInt(hours.substring(0,1))+1 : 0;
-        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), val);
-        if(hoursInt >= 10 && hoursInt >= 1000 )
-            val = hoursInt >= 10?  Integer.parseInt(hours.substring(2,1))+1 : 0;
-        else if(hoursInt >= 10 && hoursInt >= 100 )
-            val = hoursInt >= 10?  Integer.parseInt(hours.substring(1,2))+1 : 0;
-        else
-            val = hoursInt >= 10?  Integer.parseInt(hours.substring(0,1))+1 : 0;
-        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.dozens_rating_id)), val);
-        val = Integer.parseInt(hours.substring(hours.length() - 1));
-        addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.units_rating_id)), val);
-
+        createNumberPickerWithData(data);
         //Applying user's status on game
         switch (data.getString("status")){
             case "Finished"  :  findViewById(R.id.finished_button_id).setBackgroundResource(R.drawable.button_border_orange);
@@ -265,58 +288,26 @@ public class UserGameRating extends AppCompatActivity {
      * Create buttons interactions for status buttons
      */
     private void connectStatusButtons(){
-        //on click on abandoned button
-        findViewById(R.id.abandonned_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setWhiteStrokeStatusButtons(findViewById(R.id.abandonned_button_id));
-                selectedStatus = 0;
-                dataChanged = true;
-                findViewById(R.id.abandonned_button_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
+        applyOnClickListenerStatusButton(findViewById(R.id.abandonned_button_id), 0);
+        applyOnClickListenerStatusButton(findViewById(R.id.finished_button_id), 1);
+        applyOnClickListenerStatusButton(findViewById(R.id.planned_button_id), 2);
+        applyOnClickListenerStatusButton(findViewById(R.id.on_hold_button_id), 3);
+        applyOnClickListenerStatusButton(findViewById(R.id.playing_button_id), 4);
+    }
 
-        //on click on finished button
-        findViewById(R.id.finished_button_id).setOnClickListener(new View.OnClickListener() {
+    /**
+     * Apply on cclick listener on status button
+     * @param v button itself
+     * @param value associated value
+     */
+    private void applyOnClickListenerStatusButton(View v, int value){
+        v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setWhiteStrokeStatusButtons(findViewById(R.id.finished_button_id));
-                selectedStatus = 1;
+                setWhiteStrokeStatusButtons(v);
+                selectedStatus = value;
                 dataChanged = true;
-                findViewById(R.id.finished_button_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-
-        //on click on planned button
-        findViewById(R.id.planned_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setWhiteStrokeStatusButtons(findViewById(R.id.planned_button_id));
-                selectedStatus = 2;
-                dataChanged = true;
-                findViewById(R.id.planned_button_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-
-        //on click on on-hold button
-        findViewById(R.id.on_hold_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setWhiteStrokeStatusButtons(findViewById(R.id.on_hold_button_id));
-                selectedStatus = 3;
-                dataChanged = true;
-                findViewById(R.id.on_hold_button_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-
-        //on click on playing button
-        findViewById(R.id.playing_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setWhiteStrokeStatusButtons(findViewById(R.id.playing_button_id));
-                selectedStatus = 4;
-                dataChanged = true;
-                findViewById(R.id.playing_button_id).setBackgroundResource(R.drawable.button_border_orange);
+                v.setBackgroundResource(R.drawable.button_border_orange);
             }
         });
     }
@@ -345,21 +336,24 @@ public class UserGameRating extends AppCompatActivity {
         findViewById(R.id.button_game_rating_save_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean minutesError = false;
                 feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
-                /*try{
-                    selectedHours = Integer.parseInt(((EditText)findViewById(R.id.edit_text_hours_game_rating_id)).getText().toString());
+                try{
+                    selectedHours = Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.thousands_rating_id)).getValue())) * 1000;
+                    selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.hundreds_rating_id)).getValue())) * 100;
+                    selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.dozens_rating_id)).getValue())) * 10;
+                    selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.units_rating_id)).getValue()));
                 }
                 catch(Exception e){
                     selectedHours = 0;
-                }*/
+                    e.printStackTrace();
+                }
 
                 //Looking for any change from user already saved dataException
                 try{
                     if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
                         dataChanged = true;
-                    /*if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
-                        dataChanged = true;*/
+                    if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
+                        dataChanged = true;
 
                     if(dataChanged){//save change
                         database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("feedback");
@@ -389,7 +383,7 @@ public class UserGameRating extends AppCompatActivity {
                     }
                     catch(Exception e4){ e4.printStackTrace(); }
                     database.requestPost(1, null, database.getUsers());
-                    if(comesFrom.compareTo("search") == 0){//coming from search activity, need to save game data
+                    if(comesFrom.compareTo("search") == 0){//coming from search activity, need to load newly saved game data
                         database.requestPost(0, null, database.getGames());
                     }
                 }
@@ -442,7 +436,7 @@ public class UserGameRating extends AppCompatActivity {
 
 
     /**
-     * Return a string quivalent to selected rating
+     * Return a string equivalent to selected rating
      * @return rating in string
      */
     private String returnRating(){
@@ -466,112 +460,33 @@ public class UserGameRating extends AppCompatActivity {
      * Create buttons interactions for user rating
      */
     private void connectRatingButtons(){
-        findViewById(R.id.empty_rating_id).setOnClickListener(new View.OnClickListener() {
+        applyOnClickListenerRatingButton(findViewById(R.id.empty_rating_id), -1);
+        applyOnClickListenerRatingButton(findViewById(R.id.ten_rating_id), 10);
+        applyOnClickListenerRatingButton(findViewById(R.id.nine_rating_id), 9);
+        applyOnClickListenerRatingButton(findViewById(R.id.height_rating_id), 8);
+        applyOnClickListenerRatingButton(findViewById(R.id.seven_rating_id), 7);
+        applyOnClickListenerRatingButton(findViewById(R.id.six_rating_id), 6);
+        applyOnClickListenerRatingButton(findViewById(R.id.five_rating_id), 5);
+        applyOnClickListenerRatingButton(findViewById(R.id.four_rating_id), 4);
+        applyOnClickListenerRatingButton(findViewById(R.id.three_rating_id), 3);
+        applyOnClickListenerRatingButton(findViewById(R.id.two_rating_id), 2);
+        applyOnClickListenerRatingButton(findViewById(R.id.one_rating_id), 1);
+        applyOnClickListenerRatingButton(findViewById(R.id.zero_rating_id), 0);
+    }
+
+    /**
+     * Apply button on click listener for rating button
+     * @param v button itself
+     * @param val value associated
+     */
+    private void applyOnClickListenerRatingButton(View v, int val){
+        v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.empty_rating_id));
-                selectedRating = -1;
+                removeRating_Border(v);
+                selectedRating = val;
                 dataChanged = true;
-                findViewById(R.id.empty_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.ten_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.ten_rating_id));
-                selectedRating = 10;
-                dataChanged = true;
-                findViewById(R.id.ten_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.nine_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.nine_rating_id));
-                selectedRating = 9;
-                dataChanged = true;
-                findViewById(R.id.nine_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.height_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.height_rating_id));
-                selectedRating = 8;
-                dataChanged = true;
-                findViewById(R.id.height_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.seven_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.seven_rating_id));
-                selectedRating = 7;
-                dataChanged = true;
-                findViewById(R.id.seven_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.six_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.six_rating_id));
-                selectedRating = 6;
-                dataChanged = true;
-                findViewById(R.id.six_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.five_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.five_rating_id));
-                selectedRating = 5;
-                dataChanged = true;
-                findViewById(R.id.five_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.four_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.four_rating_id));
-                selectedRating = 4;
-                dataChanged = true;
-                findViewById(R.id.four_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.three_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.three_rating_id));
-                selectedRating = 3;
-                dataChanged = true;
-                findViewById(R.id.three_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.two_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.two_rating_id));
-                selectedRating = 2;
-                dataChanged = true;
-                findViewById(R.id.two_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.one_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.one_rating_id));
-                selectedRating = 1;
-                dataChanged = true;
-                findViewById(R.id.one_rating_id).setBackgroundResource(R.drawable.button_border_orange);
-            }
-        });
-        findViewById(R.id.zero_rating_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeRating_Border(findViewById(R.id.zero_rating_id));
-                selectedRating = 0;
-                dataChanged = true;
-                findViewById(R.id.zero_rating_id).setBackgroundResource(R.drawable.button_border_orange);
+                v.setBackgroundResource(R.drawable.button_border_orange);
             }
         });
     }
