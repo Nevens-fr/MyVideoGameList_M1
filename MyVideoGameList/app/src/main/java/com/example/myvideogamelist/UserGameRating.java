@@ -183,21 +183,29 @@ public class UserGameRating extends AppCompatActivity {
      */
     private void createNumberPickerWithData(JSONObject data)throws Exception{
         String hours = data.getString("hours");
+        int val, hoursInt = Integer.parseInt(hours);
+
+        try{
+            Integer.parseInt(hours);
+        }
+        catch (Exception e){
+            hoursInt = 0;
+            e.printStackTrace();
+        }
 
         //from 1000 to 9999
-        int val, hoursInt = Integer.parseInt(hours);
         val = hoursInt >= 1000 ? Integer.parseInt(hours.substring(0, 1)) : 0;
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), val);
 
         //from 100 to 999
-        if(hoursInt >= 100 && hoursInt >= 1000 )
+        if(hoursInt >= 100 && hoursInt < 1000 )
             val = hoursInt >= 100?  Integer.parseInt(hours.substring(1,2)) : 0;
         else
             val = hoursInt >= 100?  Integer.parseInt(hours.substring(0,1)) : 0;
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), val);
 
         //from 10 to 99
-        if(hoursInt >= 10 && hoursInt >= 1000 )
+        if(hoursInt >= 10 && hoursInt < 1000 )
             val = hoursInt >= 10?  Integer.parseInt(hours.substring(2,1))+1 : 0;
         else if(hoursInt >= 10 && hoursInt >= 100 )
             val = hoursInt >= 10?  Integer.parseInt(hours.substring(1,2)) : 0;
