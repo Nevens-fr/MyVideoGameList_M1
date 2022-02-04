@@ -277,7 +277,6 @@ public class Database {
         Rating r = user.addGame("10");
         r.setFeedback("Like it soo much");
         r.setHours("150");
-        r.setMin("00");
         r.setScore("5");
         r.setStatus("Finished");
         try {

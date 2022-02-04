@@ -4,7 +4,11 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Fix error on parsing user score on game
+- Fix error on parsing user score on game (again)
+- User rating code clean up
+- Reduce margin in user rating (from 40 to 20)
+- Clean up DB
+- Better user DB handling modification on game rating data
 ******************************************************************************************************************
 TODO
 

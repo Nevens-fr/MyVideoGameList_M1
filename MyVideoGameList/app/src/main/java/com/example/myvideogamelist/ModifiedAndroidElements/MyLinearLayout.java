@@ -106,6 +106,7 @@ public class MyLinearLayout extends LinearLayout {
                 {
                     if(x2 > x1) {
                         //left2right swipe"
+                        System.out.println("left2right " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
                         if(((GamesListActivity)activity).getCurrentButtonInd() > 0){
                             ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() - 1).performClick();
                             ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus(((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
@@ -113,6 +114,7 @@ public class MyLinearLayout extends LinearLayout {
                     }
                     else {
                         //right2left swipe
+                        System.out.println("right2left " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
                         if(((GamesListActivity)activity).getCurrentButtonInd() < ((GamesListActivity)activity).getArraybuttons().size() - 1){
                             ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() + 1).performClick();
                             ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus( ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));

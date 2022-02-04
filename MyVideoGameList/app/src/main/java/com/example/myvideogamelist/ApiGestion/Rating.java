@@ -16,6 +16,22 @@ public class Rating {
     }
 
     /**
+     * Contructor with all fields
+     * @param id game id
+     * @param feedback user feedback on game
+     * @param hours number of hours user spend on the game
+     * @param status user status on game (finished, planned...=
+     * @param score rate on ten from the user
+     */
+    public Rating(String id, String feedback, String hours, String status, String score){
+        this.feedback = feedback;
+        this.hours = hours;
+        this.score = score;
+        this.status = status;
+        this.id = id;
+    }
+
+    /**
      * Create and return an json object
      * @return json object from the class
      */

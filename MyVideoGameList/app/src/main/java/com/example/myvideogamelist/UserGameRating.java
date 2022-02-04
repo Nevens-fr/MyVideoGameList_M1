@@ -30,7 +30,6 @@ public class UserGameRating extends AppCompatActivity {
     private int selectedRating = -1;
     private int selectedStatus = -1;
     private int selectedHours = -1;
-    private int selectedMin = -1;
     private int userGameID =-1;
     private final int duration = Toast.LENGTH_LONG;
     private String gameID;
@@ -185,38 +184,21 @@ public class UserGameRating extends AppCompatActivity {
         String hours = data.getString("hours");
         int val, hoursInt = Integer.parseInt(hours);
 
-        try{
-            Integer.parseInt(hours);
-        }
-        catch (Exception e){
-            hoursInt = 0;
-            e.printStackTrace();
-        }
-
         //from 1000 to 9999
-        val = hoursInt >= 1000 ? Integer.parseInt(hours.substring(0, 1)) : 0;
+        val = (hoursInt % 10000)/1000;
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), val);
 
         //from 100 to 999
-        if(hoursInt >= 100 && hoursInt < 1000 )
-            val = hoursInt >= 100?  Integer.parseInt(hours.substring(1,2)) : 0;
-        else
-            val = hoursInt >= 100?  Integer.parseInt(hours.substring(0,1)) : 0;
+        val = (hoursInt % 1000)/100;
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), val);
 
         //from 10 to 99
-        if(hoursInt >= 10 && hoursInt < 1000 )
-            val = hoursInt >= 10?  Integer.parseInt(hours.substring(2,1))+1 : 0;
-        else if(hoursInt >= 10 && hoursInt >= 100 )
-            val = hoursInt >= 10?  Integer.parseInt(hours.substring(1,2)) : 0;
-        else
-            val = hoursInt >= 10?  Integer.parseInt(hours.substring(0,1)) : 0;
+        val = (hoursInt % 100)/10;
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.dozens_rating_id)), val);
 
         //from 0 to 9
-        val = Integer.parseInt(hours.substring(hours.length() - 1));
+        val = hoursInt % 10;
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.units_rating_id)), val);
-
     }
 
     /**
@@ -364,26 +346,15 @@ public class UserGameRating extends AppCompatActivity {
                         dataChanged = true;
 
                     if(dataChanged){//save change
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("feedback");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("feedback", feedback);
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("hours");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("hours", String.valueOf(selectedHours));
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("status");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("status", returnStatus());
-
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).remove("score");
-                        database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).put("score", returnRating());
+                        Rating r = new Rating(gameID, feedback, String.valueOf(selectedHours), returnStatus(), returnRating());
+                        database.getCurrentUser().getJSONArray("games").remove(userGameID);
+                        database.getCurrentUser().getJSONArray("games").put(r.getJSONObject());
                         database.requestPost(1, null, database.getUsers());
                     }
                 }
                 catch (Exception e){//user does not possess the game already, save change
-                    Rating rating = new Rating(gameID);
-                    rating.setStatus(returnStatus());
-                    rating.setScore(returnRating());
-                    rating.setHours(String.valueOf(selectedHours));
-                    rating.setFeedback(feedback);
+                    Rating rating = new Rating(gameID, feedback,String.valueOf(selectedHours), returnStatus(), returnRating());
+
                     try{
                         database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
                         if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
