@@ -5,7 +5,11 @@ import org.json.JSONObject;
 
 public class Rating {
 
-    String id, feedback, hours, min, status, score;
+    String id;
+    String feedback;
+    String hours;
+    String status;
+    String score;
 
     public Rating(String id){
         this.id = id;
@@ -21,7 +25,6 @@ public class Rating {
             obj.put("id", id);
             obj.put("feedback", feedback);
             obj.put("hours", hours);
-            obj.put("min", min);
             obj.put("status", status);
             obj.put("score", score);
 
@@ -54,14 +57,6 @@ public class Rating {
 
     public void setHours(String hours) {
         this.hours = hours;
-    }
-
-    public String getMin() {
-        return min;
-    }
-
-    public void setMin(String min) {
-        this.min = min;
     }
 
     public String getStatus() {
