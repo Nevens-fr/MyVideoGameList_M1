@@ -4,11 +4,11 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Swipe on game list activity change category displayed (vertical swipe seems laggy) (changs are in txt file, reverted for push)
-- Games Lists : No game in list message displayed for empty lists
-- Games Lists : No internet connection message
-- User rating : display toast on connection to network error (long to resolve error)
-- Game screen : display error on connection lost WIP
+- Fix error on parsing user score on game (again)
+- User rating code clean up
+- Reduce margin in user rating (from 40 to 20)
+- Clean up DB
+- Better user DB handling modification on game rating data
 ******************************************************************************************************************
 TODO
 
@@ -18,8 +18,6 @@ display stats from user average playtime and news below
 search
 	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
 	pub game card and add pub name
-
-Game Lsit : display user rating and user playtime on cards
 
 
 Later :

@@ -84,7 +84,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         try{
             for(int i = 0; i < database.getCurrentUser().getJSONArray("games").length() && !over; i++){
                 if (gameID.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
-                    String time = "Your time: "+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours " +user.getJSONArray("games").getJSONObject(i).getString("min") +" minutes";
+                    String time = "Your time: "+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours";
                     ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(time);
                     ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score: " +user.getJSONArray("games").getJSONObject(i).getString("score") + "/10");
                     over = true;

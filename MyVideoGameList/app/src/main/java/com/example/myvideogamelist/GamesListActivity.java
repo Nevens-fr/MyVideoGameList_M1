@@ -1,6 +1,7 @@
 package com.example.myvideogamelist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
@@ -9,18 +10,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.Game;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -37,8 +37,9 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     private JSONObject user;
     private final int maxElemFromArray = 4;
     private ArrayList<Button> arraybuttons;
-    private ArrayList<String> arrayString = new ArrayList<String>();
+    private final ArrayList<String> arrayString = new ArrayList<String>();
     private int currentButtonInd = 0;
+    private MyLinearLayout myLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,9 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         arrayString.add("on_hold");
         arrayString.add("finished");
         arrayString.add("abandoned");
+
+        myLinearLayout = (MyLinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id);
+        myLinearLayout.setActivity(this);
     }
 
     /**
@@ -109,49 +113,6 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         addOnClickListener(findViewById(R.id.list_finished_button_id), "finished");
 
         fillArrayButton();
-
-        ((ScrollView)findViewById(R.id.scrollView_list_id)).setOnTouchListener(new View.OnTouchListener(){
-            private float x1 = 0, x2 = 0, y1, y2;
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent){
-                int MIN_DISTANCE = 150;
-                switch(motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        x1 = motionEvent.getX();
-                        y1 = motionEvent.getY();
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        x2 = motionEvent.getX();
-                        y2 = motionEvent.getY();
-                        float deltaX = x2 - x1;
-                        float deltaY = y2 - y1;
-                        if (Math.abs(deltaY) > MIN_DISTANCE){//swipe vertical
-                            return false;
-                        }
-                        else if (Math.abs(deltaX) > MIN_DISTANCE){
-                            if (x2 > x1){// Left to right swipe action
-                                System.out.println("left2right swipe");
-                                if(currentButtonInd > 0){
-                                    arraybuttons.get(currentButtonInd - 1).performClick();
-                                    ((HorizontalScrollView)findViewById(R.id.linearLayout1)).requestChildFocus( arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
-                                }
-                            }
-                            else{// Right to left swipe action
-                                System.out.println("right2left swipe");
-                                if(currentButtonInd < arraybuttons.size() - 1){
-                                    arraybuttons.get(currentButtonInd + 1).performClick();
-                                    ((HorizontalScrollView)findViewById(R.id.linearLayout1)).requestChildFocus( arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
-                                }
-                            }
-                        }
-                        else{
-                            // consider as something else - a screen tap for example
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
 
         listCat = "all";
         if(user != null)
@@ -208,20 +169,32 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
 
        if(user == null){
            LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-           View v = vi.inflate(R.layout.no_internet_error, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+           vi.inflate(R.layout.no_internet_error, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+           vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
        }
        else{
 
             try{
                 boolean found = false;
+                int nbAdd = 0;
+
                 for(int i = 0; i < user.getJSONArray("games").length(); i++){
                     String id = user.getJSONArray("games").getJSONObject(i).getString("id");
-                    if(createGameCard(id))
+                    String score = user.getJSONArray("games").getJSONObject(i).getString("score");
+                    String playtime = user.getJSONArray("games").getJSONObject(i).getString("hours");
+                    if(createGameCard(id, score, playtime, i)){
                         found = true;
+                        nbAdd++;
+                    }
                 }
-                if(found == false){
+                if(!found){
                     LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View v = vi.inflate(R.layout.no_element_found, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+                    vi.inflate(R.layout.no_element_found, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+                    vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+                }
+                else if(nbAdd < 2){//usefull for lateral scrolls
+                    LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
                 }
             }
             catch (Exception e){e.printStackTrace();}
@@ -231,8 +204,11 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     /**
      * Look for game with the same id then build game card
      * @param id game id
+     * @param score user score for the game
+     * @param playtime user playtime on the game
+     * @param userInd indice of game in user array
      */
-    private boolean createGameCard(String id){
+    private boolean createGameCard(String id, String score, String playtime, int userInd){
         boolean found = false;
 
         for(int i = 0; i < games.size() && !found; i++){
@@ -241,12 +217,13 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_list_id), false);
                 //Insert data in fields
-                //todo change metacritic by user score, idem playtime by user playtime
                 ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(games.get(i).getName());
                 ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(" "+games.get(i).getReleasedDate());
-                ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText(" "+games.get(i).getMetacritic());
-                ((TextView)v.findViewById(R.id.playtime_search_id)).setText(returnStringFromStringArray(games.get(i).getDevs()));
-
+                ((TextView)v.findViewById(R.id.rating_to_clone_id)).setText(" "+score + "/10");
+                ((TextView)v.findViewById(R.id.playtime_search_id)).setText(" "+playtime +" h");
+                ((TextView)v.findViewById(R.id.playtime_search_id)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                ((TextView)v.findViewById(R.id.metacritic_list_id)).setText("Your score:");
+                ((TextView)v.findViewById(R.id.playtime_list_id)).setVisibility(View.VISIBLE);
                 ((TextView)v.findViewById(R.id.genres_search_id)).setText(" " +returnStringFromStringArray(games.get(i).getGenres()));
 
                 //insert image
@@ -294,5 +271,17 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      */
     @Override
     public void getApiInfo(JSONObject obj) {
+    }
+
+    public ArrayList<Button> getArraybuttons() {
+        return arraybuttons;
+    }
+
+    public int getCurrentButtonInd() {
+        return currentButtonInd;
+    }
+
+    public HorizontalScrollView getHorizontalScrollView() {
+        return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
     }
 }

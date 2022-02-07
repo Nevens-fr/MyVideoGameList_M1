@@ -4,6 +4,7 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:textColorPrimary">@color/white</item>
 
     </style>
 </resources>
