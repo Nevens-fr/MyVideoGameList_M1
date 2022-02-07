@@ -69,4 +69,32 @@
     <string name="one">1</string>
     <string name="zero">0</string>
 
+    <string name="homeWelcome">Welcome back</string>
+    <string name="homeLogo">MyVGL</string>
+    <string name="homeSignOut">Sign out</string>
+    <string name="homeTotalGames">Total games</string>
+    <string name="homeFinishGames">Finished games</string>
+    <string name="homeTotalPlaytime">Total playtime</string>
+    <string name="homeTemplateNumber">14</string>
+    <string name="homeTemplateHours">145 hours</string>
+    <string name="homeNews">Latest News</string>
+
+    <string name="firstScreenTitle1">Welcome to</string>
+    <string name="firstScreenTitle2">My VideoGames List !</string>
+    <string name="firstScreenTitle3">Please log in or create an account in order to use the app</string>
+    <string name="firstScreenCreate">Sign in</string>
+    <string name="firstScreenLogin">Log in</string>
+
+    <string name="registerTitle">Create an account</string>
+    <string name="registerButton">Sign in</string>
+    <string name="registerEmailText">E-mail</string>
+    <string name="registerPasswordText">Password</string>
+    <string name="registerPasswordText2">Confirm password</string>
+    <string name="registerNameText">Name</string>
+    <string name="registerBack">Back</string>
+
+    <string name="loginTitre">Log in to MyVGL</string>
+    <string name="loginButton">Log in</string>
+    <string name="loginPassword">I have lost my password...</string>
+    <string name="loginBack">Back</string>
 </resources>
