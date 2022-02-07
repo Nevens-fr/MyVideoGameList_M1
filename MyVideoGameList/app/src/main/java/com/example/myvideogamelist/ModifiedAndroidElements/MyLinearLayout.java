@@ -19,7 +19,7 @@ public class MyLinearLayout extends LinearLayout {
     private float mDownX;
     private boolean mShown;
     private MyActivityImageDiplayable activity;
-    private float x1 = 0, x2 = 0;
+    private float x1 = 0, x2 = 0, y1 = 0, y2 = 0;
     static final int MIN_DISTANCE = 150;
 
     /**
@@ -93,42 +93,54 @@ public class MyLinearLayout extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         System.out.println("Entered");
+        getParent().requestDisallowInterceptTouchEvent(true);
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x1 = motionEvent.getX();
-                System.out.println(x1+ "x1");
+                y1 = motionEvent.getY();
+                System.out.println(x1+ " x1, y1 :" + y1);
                 return true;
             case MotionEvent.ACTION_UP:
                 x2 = motionEvent.getX();
-                System.out.println(x2 + "x2");
-                float deltaX = x2 - x1;
-                if (Math.abs(deltaX) > MIN_DISTANCE)
-                {
-                    if(x2 > x1) {
-                        //left2right swipe"
-                        System.out.println("left2right " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
-                        if(((GamesListActivity)activity).getCurrentButtonInd() > 0){
-                            ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() - 1).performClick();
-                            ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus(((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
-                        }
-                    }
-                    else {
-                        //right2left swipe
-                        System.out.println("right2left " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
-                        if(((GamesListActivity)activity).getCurrentButtonInd() < ((GamesListActivity)activity).getArraybuttons().size() - 1){
-                            ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() + 1).performClick();
-                            ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus( ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    // consider as something else - a screen tap for example
-                    return false;
-                }
+                y2 = motionEvent.getY();
+                System.out.println(x2 + " x2, y2 : " + y2 +" up");
+                return actionsScroll();
+            case MotionEvent.ACTION_MOVE: return true;
+            case MotionEvent.ACTION_CANCEL: System.out.println("canceled");
         }
         return super.onTouchEvent(motionEvent);
+    }
+
+    /**
+     * Lateral scroll if possible and motion correspond, else delegate to children
+     * @return boolean, true or false if we handle the event or not
+     */
+    private boolean actionsScroll(){
+        //if (Math.abs(deltaX) > MIN_DISTANCE){
+        //float deltaX = x2 - x1;
+        if((y1 - y2 < 100 || y2 - y1 < 100) && (x1 - x2 > MIN_DISTANCE || x2 - x1 > MIN_DISTANCE)){
+            if(x2 > x1){
+                //left2right swipe"
+                System.out.println("left2right " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
+                if(((GamesListActivity)activity).getCurrentButtonInd() > 0){
+                    ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() - 1).performClick();
+                    ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus(((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
+                }
+            }
+            else {
+                //right2left swipe
+                System.out.println("right2left " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
+                if(((GamesListActivity)activity).getCurrentButtonInd() < ((GamesListActivity)activity).getArraybuttons().size() - 1){
+                    ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() + 1).performClick();
+                    ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus( ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
+                }
+            }
+            return true;
+        }
+        else{
+            // consider as something else - a screen tap for example
+            return false;
+        }
     }
 
     //**********************************************************************************************

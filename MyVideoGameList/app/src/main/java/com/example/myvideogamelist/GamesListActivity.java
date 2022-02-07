@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -215,7 +216,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
             if(id.compareTo(games.get(i).getIdGame()) == 0){
                 found = true;
                 LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_list_id), false);
+                View v = vi.inflate(R.layout.to_clone_layout_my_linear_layout, findViewById(R.id.linearLayout_to_insert_clones_list_id), false);
                 //Insert data in fields
                 ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(games.get(i).getName());
                 ((TextView)v.findViewById(R.id.releasedDate_to_clone_id)).setText(" "+games.get(i).getReleasedDate());
@@ -235,6 +236,15 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id)).addView(v);
 
                 Game g = games.get(i);
+
+                ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
+
+                ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setActivity(this);
 
                 //start game screen activity on click on game card
                 ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnClickListener(new View.OnClickListener() {
