@@ -21,10 +21,13 @@ import android.widget.TextView;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.SearchGameAPI;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.MyExceptions.EmptySearchException;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.MalformedParametersException;
 
 //todo implement search for other categories
 public class SearchActivity extends AppCompatActivity implements MyActivityImageDiplayable {
@@ -48,9 +51,10 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
         connectButtonSearch();
 
         selectedButton = findViewById(R.id.search_name_button_id);
-        searchType = "search";
+        searchType = "games";
 
         MyActivityImageDiplayable currentActivity = this;
+
         //load more games if possible when reaching end of current scroll view
         ((ScrollView)findViewById(R.id.scrollView_search_id)).setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -58,7 +62,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
                 if (!((ScrollView)findViewById(R.id.scrollView_search_id)).canScrollVertically(1) && cardsInserted > 0) {
                     pageNumber++;
                     searchGameAPI.setPage(String.valueOf(pageNumber));
-                    gamesAPI.requestWithParam(searchGameAPI, currentActivity);
+                    gamesAPI.requestWithParam(searchGameAPI, currentActivity, searchType);
                 }
             }
         });
@@ -73,95 +77,40 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
     }
 
     /**
+     * Add a listener on a view
+     * @param v the view to add a listener on
+     * @param category view's category
+     * @param text text to insert as hint
+     */
+    private void addListener(View v, String category, String text){
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+                if(selectedButton != v){
+                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
+                    selectedButton = (Button)v;
+                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
+                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(text);
+                    ((EditText)findViewById(R.id.user_search_text_id)).setText("");
+                    searchType = category;
+                }
+            }
+        });
+    }
+
+    /**
      * Create buttons interactions for user search options
      */
     private void connectButtonSearch(){
         MyActivityImageDiplayable currentActivity = this;
 
-        //on click on name button on search bar
-        findViewById(R.id.search_name_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                if(selectedButton != findViewById(R.id.search_name_button_id)){
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
-                    selectedButton = findViewById(R.id.search_name_button_id);
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(getString(R.string.searchNameEditText));
-                    searchType = "search";
-                }
-            }
-        });
-
-        //on click on devs button on search bar
-        findViewById(R.id.search_devs_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(selectedButton != findViewById(R.id.search_devs_button_id)){
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
-                    selectedButton = findViewById(R.id.search_devs_button_id);
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(getString(R.string.searchDevsEditText));
-                    searchType = "developers";
-                }
-            }
-        });
-
-        //on click on publishers button on search bar
-        findViewById(R.id.search_publisher_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(selectedButton != findViewById(R.id.search_publisher_button_id)){
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
-                    selectedButton = findViewById(R.id.search_publisher_button_id);
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(getString(R.string.searchPublisherEditText));
-                    searchType = "publishers";
-                }
-            }
-        });
-
-        //on click on released date button on search bar
-        findViewById(R.id.search_releasedDate_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(selectedButton != findViewById(R.id.search_releasedDate_button_id)){
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
-                    selectedButton = findViewById(R.id.search_releasedDate_button_id);
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(getString(R.string.searchReleasedDateEditText));
-                    searchType = "dates";
-                }
-            }
-        });
-
-        //on click on platform button on search bar
-        findViewById(R.id.search_platforms_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(selectedButton != findViewById(R.id.search_platforms_button_id)){
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
-                    selectedButton = findViewById(R.id.search_platforms_button_id);
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(getString(R.string.searchPlatformsEditText));
-                    searchType = "platforms";
-                }
-            }
-        });
-
-        //on click on genre button on search bar
-        findViewById(R.id.search_genres_button_id).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(selectedButton != findViewById(R.id.search_genres_button_id)){
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
-                    selectedButton = findViewById(R.id.search_genres_button_id);
-                    selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    ((EditText)findViewById(R.id.user_search_text_id)).setHint(getString(R.string.searchGenresEditText));
-                    searchType = "genres";
-                }
-            }
-        });
+        addListener(findViewById(R.id.search_name_button_id), "games", getString(R.string.searchNameEditText));
+        addListener(findViewById(R.id.search_devs_button_id), "developers", getString(R.string.searchDevsEditText));
+        addListener(findViewById(R.id.search_publisher_button_id), "publishers", getString(R.string.searchPublisherEditText));
+        addListener(findViewById(R.id.search_releasedDate_button_id), "dates", getString(R.string.searchReleasedDateEditText));
+        addListener(findViewById(R.id.search_platforms_button_id), "platforms", getString(R.string.searchPlatformsEditText));
+        addListener(findViewById(R.id.search_genres_button_id), "genres", getString(R.string.searchGenresEditText));
 
         //on click on search button to launch an API call
         findViewById(R.id.launch_search_button_id).setOnClickListener(new View.OnClickListener() {
@@ -169,16 +118,23 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             public void onClick(View view) {
                 searchGameAPI = new SearchGameAPI();
                 switch (searchType){
-                    case "genres" : searchGameAPI.setGenres( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
-                    case "platforms" : searchGameAPI.setPlatforms( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
+                    case "genres" : searchGameAPI.setGenres( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString()); break;
+                    case "platforms" : searchGameAPI.setPlatforms( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString()); break;
                     case "dates" : searchGameAPI.setDates( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
-                    //case "publishers" : searchGameAPI.setPublishers( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
-                    //case "developers" : searchGameAPI.setDevelopers( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
-                    case "search" : searchGameAPI.setSearch( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
+                                   searchType = "games";
+                                   searchGameAPI.setOrdering("released");
+                                   break;
+                    //same effects for all 3 followings
+                    case "publishers" :
+                    case "games" :
+                    case "developers" :
+                        searchGameAPI.setSearch( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString()); break;
                 }
+
                 //remove actual cards
                 for(; ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).getChildCount() > 2; )//removing all cards from previous search
                     ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).removeView(findViewById(R.id.card_search_to_clone_id));
+                ((LinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id)).removeView(findViewById(R.id.emptys_search_to_clone_id));
                 cardsInserted = 0;
 
                 //display loading screen
@@ -191,11 +147,10 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
 
                 //prepare request
                 searchGameAPI.setPage_size("40");
-                searchGameAPI.setPage("1");
                 pageNumber = 1;
                 searchGameAPI.setPage(String.valueOf(pageNumber));
                 ((ScrollView)findViewById(R.id.scrollView_search_id)).fullScroll(ScrollView.FOCUS_UP);//go to top of scroll view
-                gamesAPI.requestWithParam(searchGameAPI, currentActivity);
+                gamesAPI.requestWithParam(searchGameAPI, currentActivity, searchType);
             }
         });
     }
@@ -206,14 +161,39 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
      */
     @Override
     public void getApiInfo(JSONObject obj){
-        findViewById(R.id.loading_search_text_id).setVisibility(View.GONE);
 
         if(obj == null){
+            findViewById(R.id.loading_search_text_id).setVisibility(View.GONE);
             findViewById(R.id.error_fetch_data_text_search_id).setVisibility(View.VISIBLE);
         }
         else{
-            System.out.println(obj);
-            createCard(obj, 0, maxCardByApiCAll);
+            if(searchType.compareTo("games") == 0 || searchType.compareTo("dates") == 0){
+                findViewById(R.id.loading_search_text_id).setVisibility(View.GONE);
+                createCard(obj, 0, maxCardByApiCAll);
+            }
+            else{
+                searchGameAPI = new SearchGameAPI();
+                searchGameAPI.setPage_size("40");
+                pageNumber = 1;
+                searchGameAPI.setPage(String.valueOf(pageNumber));
+
+                try{//get result from previous request to make a new one
+                    if(searchType.compareTo("developers") == 0)
+                        searchGameAPI.setDevelopers(obj.getJSONArray("results").getJSONObject(0).getString("id"));
+                    if(searchType.compareTo("publishers") == 0)
+                        searchGameAPI.setPublishers(obj.getJSONArray("results").getJSONObject(0).getString("id"));
+                    if(searchType.compareTo("platforms") == 0)
+                        searchGameAPI.setPlatforms(obj.getJSONArray("results").getJSONObject(0).getString("id"));
+                    if(searchType.compareTo("genres") == 0)
+                        searchGameAPI.setGenres(obj.getJSONArray("results").getJSONObject(0).getString("id"));
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                searchType = "games";
+                gamesAPI.requestWithParam(searchGameAPI, this, searchType);
+            }
         }
     }
 
@@ -229,9 +209,14 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
         JSONObject game =null;
 
         try {
+            LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if(obj.getJSONArray("results").length() == 0){
+                vi.inflate(R.layout.empty_search, findViewById(R.id.linearLayout_to_insert_clones_search_id), true);
+                throw new EmptySearchException();
+            }
             game = obj.getJSONArray("results").getJSONObject(actualElem);
 
-            LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
 
             //Insert data in fields
@@ -269,7 +254,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             if(actualElem + 1 < maxElem)//to build next card
                 createCard(obj, ++actualElem, maxElem);
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

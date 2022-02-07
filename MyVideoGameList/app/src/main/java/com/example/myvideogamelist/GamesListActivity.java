@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.Game;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.Scrollable_horizontally;
 import com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GamesListActivity extends AppCompatActivity implements MyActivityImageDiplayable{
+public class GamesListActivity extends AppCompatActivity implements MyActivityImageDiplayable, Scrollable_horizontally {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private Button selectedButton;
@@ -193,9 +194,11 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                     vi.inflate(R.layout.no_element_found, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
                     vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
                 }
-                else if(nbAdd < 2){//usefull for lateral scrolls
+                else if(nbAdd < 3){//usefull for lateral scrolls
                     LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
+                    if(nbAdd < 3)
+                        findViewById(R.id.empty_space_for_scroll).getLayoutParams().height = 200;
                 }
             }
             catch (Exception e){e.printStackTrace();}
@@ -209,6 +212,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      * @param playtime user playtime on the game
      * @param userInd indice of game in user array
      */
+    @SuppressLint("ClickableViewAccessibility")
     private boolean createGameCard(String id, String score, String playtime, int userInd){
         boolean found = false;
 
@@ -238,6 +242,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 Game g = games.get(i);
 
                 ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnTouchListener(new View.OnTouchListener() {
+                    @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public boolean onTouch(View view, MotionEvent motionEvent) {
                         return false;
@@ -245,6 +250,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                 });
 
                 ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setActivity(this);
+                ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setCard(true);
 
                 //start game screen activity on click on game card
                 ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnClickListener(new View.OnClickListener() {
@@ -276,7 +282,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     }
 
     /**
-     * Useless here
+     * Useless here, used to turn this class in a convenient interface
      * @param obj none used param
      */
     @Override
@@ -293,5 +299,27 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
 
     public HorizontalScrollView getHorizontalScrollView() {
         return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
+    }
+
+    /**
+     * An horizontal scroll is received to switch category
+     * @param direction 1 to right to left and 0 for left to right swipe
+     */
+    @Override
+    public void scrollReceived(int direction) {
+        if(direction == 0){
+            //left2right swipe"
+            if(currentButtonInd > 0){
+                arraybuttons.get(currentButtonInd - 1).performClick();
+                getHorizontalScrollView().requestChildFocus(arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
+            }
+        }
+        else{
+        //right2left swipe
+            if(currentButtonInd < arraybuttons.size() - 1){
+                arraybuttons.get(currentButtonInd + 1).performClick();
+                getHorizontalScrollView().requestChildFocus(arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
+            }
+        }
     }
 }

@@ -4,20 +4,20 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Fix error on parsing user score on game (again)
-- User rating code clean up
-- Reduce margin in user rating (from 40 to 20)
-- Clean up DB
-- Better user DB handling modification on game rating data
+- Horizontal swipe finally done on game lists
+- Added blanck space under lists of 2 cards or less, to allow user to swipe horizontally
+- New interface for handling more horizontal scroll in differents activities
+- Added screen for empty search (no relevant result)
+- Search for dev, publishers, dates, genres and platforms working
+- refactor search code base
+- fix typo on game cards
 ******************************************************************************************************************
 TODO
 
 home :
 display stats from user average playtime and news below
 
-search
-	dev game card and add dev name -> search on dev with name first, then get all id from array, use it for game search
-	pub game card and add pub name
+make a round icon
 
 
 Later :

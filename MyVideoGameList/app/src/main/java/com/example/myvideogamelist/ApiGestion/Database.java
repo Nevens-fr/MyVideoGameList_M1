@@ -56,7 +56,6 @@ public class Database {
                     in.close();
 
                     parseResponse(type);
-                    System.out.println(content);
                 } catch (
                         Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());

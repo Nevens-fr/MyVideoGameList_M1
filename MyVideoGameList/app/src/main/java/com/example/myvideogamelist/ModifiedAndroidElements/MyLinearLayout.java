@@ -11,6 +11,7 @@ import androidx.core.view.MotionEventCompat;
 
 import com.example.myvideogamelist.GamesListActivity;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.Scrollable_horizontally;
 
 public class MyLinearLayout extends LinearLayout {
 
@@ -18,7 +19,9 @@ public class MyLinearLayout extends LinearLayout {
     private boolean mIsScrolling;
     private float mDownX;
     private boolean mShown;
-    private MyActivityImageDiplayable activity;
+
+    private boolean isCard;
+    private Scrollable_horizontally activity;
     private float x1 = 0, x2 = 0, y1 = 0, y2 = 0;
     static final int MIN_DISTANCE = 150;
 
@@ -34,8 +37,17 @@ public class MyLinearLayout extends LinearLayout {
      * Set the activity running
      * @param activity running activity
      */
-    public void setActivity(MyActivityImageDiplayable activity){
+    public void setActivity(Scrollable_horizontally activity){
         this.activity = activity;
+    }
+
+
+    /**
+     * Setter for boolean is a card
+     * @param card true is the linearLayout is a card
+     */
+    public void setCard(boolean card) {
+        isCard = card;
     }
 
 
@@ -93,7 +105,8 @@ public class MyLinearLayout extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
         System.out.println("Entered");
-        getParent().requestDisallowInterceptTouchEvent(true);
+        if(! isCard)
+            getParent().requestDisallowInterceptTouchEvent(true);
         switch(motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 x1 = motionEvent.getX();
@@ -116,29 +129,23 @@ public class MyLinearLayout extends LinearLayout {
      * @return boolean, true or false if we handle the event or not
      */
     private boolean actionsScroll(){
-        //if (Math.abs(deltaX) > MIN_DISTANCE){
-        //float deltaX = x2 - x1;
         if((y1 - y2 < 100 || y2 - y1 < 100) && (x1 - x2 > MIN_DISTANCE || x2 - x1 > MIN_DISTANCE)){
             if(x2 > x1){
                 //left2right swipe"
-                System.out.println("left2right " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
-                if(((GamesListActivity)activity).getCurrentButtonInd() > 0){
-                    ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() - 1).performClick();
-                    ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus(((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
-                }
+                activity.scrollReceived(0);
             }
             else {
                 //right2left swipe
-                System.out.println("right2left " + String.valueOf(((GamesListActivity)activity).getCurrentButtonInd()));
-                if(((GamesListActivity)activity).getCurrentButtonInd() < ((GamesListActivity)activity).getArraybuttons().size() - 1){
-                    ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd() + 1).performClick();
-                    ((GamesListActivity)activity).getHorizontalScrollView().requestChildFocus( ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()),  ((GamesListActivity)activity).getArraybuttons().get(((GamesListActivity)activity).getCurrentButtonInd()));
-                }
+                activity.scrollReceived(1);
             }
             return true;
         }
         else{
             // consider as something else - a screen tap for example
+            if(isCard){
+                this.performClick();
+                return true;
+            }
             return false;
         }
     }

@@ -27,11 +27,13 @@
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_search.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_user_game_rating.xml" value="0.32342007434944237" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/bottom_bar_navigation.xml" value="0.3625" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/empty_search.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/empty_space_for_horizontalscroll_to_perform.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/image_for_card.xml" value="0.1" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/no_element_found.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/no_internet_error.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/to_clone_layout.xml" value="0.3625" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/to_clone_layout_my_linear_layout.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/mipmap-anydpi-v26/Logo.xml" value="0.221" />
         <entry key="app/src/main/res/layout/activity_game_screen.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_game_search.xml" value="0.1" />

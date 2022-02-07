@@ -53,7 +53,7 @@
                     android:id="@+id/metacritic_list_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/searchMetacritic"
+                    android:text="@string/cardMetacritic"
                     android:gravity="center"
                     android:textColor="@color/greyWhite" />
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/searchReleasedDate"
+                    android:text="@string/cardReleasedDate"
                     android:textColor="@color/greyWhite" />
 
                 <TextView
@@ -110,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/searchGenres"
+                    android:text="@string/cardGenres"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/greyWhite" />
                 <TextView

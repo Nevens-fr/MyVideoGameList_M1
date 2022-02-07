@@ -38,13 +38,14 @@ public class GamesAPI {
      * Make a Http reqyest withs params
      * @param searchGameAPI a class containing all params for the request
      * @param currentActivity activity running
+     * @param category category the user is searching in
      */
-    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDiplayable currentActivity) {
+    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDiplayable currentActivity, String category) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://api.rawg.io/api/games?key=" + apiKey + searchGameAPI.toString());
+                    URL url = new URL("https://api.rawg.io/api/"+category+"?key=" + apiKey + searchGameAPI.toString());
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
 

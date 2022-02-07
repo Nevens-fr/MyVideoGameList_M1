@@ -41,21 +41,27 @@
     <string name="genrePlanned">Planned</string>
     <string name="genreAbandonned">Abandoned</string>
 
+    <string name="emptySearch">We have\'nt found anything relevant to your search :(</string>
+
     <string name="searchName">Name</string>
     <string name="searchDevs">Devs</string>
-    <string name="searchDevsLong">Developers</string>
+    <string name="searchDevsLong">Developer</string>
     <string name="searchPublisher">Publisher</string>
-    <string name="searchGenres">Genres: </string>
-    <string name="searchPlatforms">Platforms</string>
-    <string name="searchReleasedDate">Released: </string>
-    <string name="searchMetacritic">Metacritic: </string>
+    <string name="searchGenres">Genre</string>
+    <string name="searchPlatforms">Platform</string>
+    <string name="searchReleasedDate">Released</string>
+    <string name="searchMetacritic">Metacritic</string>
+
+    <string name="cardReleasedDate">Released:</string>
+    <string name="cardMetacritic">Metacritic:</string>
+    <string name="cardGenres">Genres:</string>
 
     <string name="searchNameEditText">Enter a game name</string>
     <string name="searchDevsEditText">Enter a developer name</string>
     <string name="searchPublisherEditText">Enter a publisher name</string>
-    <string name="searchGenresEditText">Genres;Genres</string>
+    <string name="searchGenresEditText">Enter a Genre</string>
     <string name="searchPlatformsEditText">Enter a platform name</string>
-    <string name="searchReleasedDateEditText">Enter a released date</string>
+    <string name="searchReleasedDateEditText">Date (format: 2010-01-01)</string>
 
     <string name="ten">10</string>
     <string name="nine">9</string>
