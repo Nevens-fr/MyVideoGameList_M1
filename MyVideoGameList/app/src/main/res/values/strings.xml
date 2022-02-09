@@ -103,4 +103,12 @@
     <string name="loginButton">Log in</string>
     <string name="loginPassword">I have lost my password...</string>
     <string name="loginBack">Back</string>
+
+    <string name="randomaticTitle1">Feeling bored ? Don\'t know what to play ?</string>
+    <string name="randomaticTitle2">Let us choose for you !</string>
+    <string name="randomaticResult">Here you go !</string>
+    <string name="randomaticButton1">Game I have finished</string>
+    <string name="randomaticButton2">Game I have to do</string>
+    <string name="randomaticButton3">Game I don\'t own</string>
+
 </resources>
