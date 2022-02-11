@@ -40,8 +40,10 @@
         <entry key="app/src/main/res/layout/activity_game_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_games_list.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.16893115942028986" />
+        <entry key="app/src/main/res/layout/activity_news.xml" value="0.1634963768115942" />
         <entry key="app/src/main/res/layout/activity_randomatic.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_game_rating.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/card_news_to_clone.xml" value="0.33" />
         <entry key="app/src/main/res/layout/to_clone_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/to_clone_layout_my_linear_layout.xml" value="0.1634963768115942" />
       </map>

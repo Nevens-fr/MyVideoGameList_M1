@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MyVideoGameList"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".News_activity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
