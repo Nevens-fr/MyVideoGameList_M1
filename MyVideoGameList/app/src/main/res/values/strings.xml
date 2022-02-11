@@ -35,6 +35,8 @@
     <string name="empty_list">Wow such empty !</string>
     <string name="your_playtime">Your playtime:</string>
 
+    <string name="loading_screen">Loading...</string>
+
     <string name="news_title">News title</string>
     <string name="news_date">News date</string>
     <string name="news_desc">Short description</string>
@@ -43,6 +45,8 @@
     <string name="news_score">Score:</string>
     <string name="news_good_points">Good points:</string>
     <string name="news_bad_points">Bad points:</string>
+
+    <string name="news_type">news Type</string>
 
     <string name="news_goods_points_bla">Good points that are so good that we can not even speak about:</string>
     <string name="news_bad_points_bla">Bad points that are so bad that we can not even speak about:</string>

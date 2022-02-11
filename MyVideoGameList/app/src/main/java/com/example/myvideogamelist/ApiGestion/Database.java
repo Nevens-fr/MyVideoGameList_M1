@@ -1,6 +1,6 @@
 package com.example.myvideogamelist.ApiGestion;
 
-import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -80,7 +80,7 @@ public class Database {
      * @param currentActivity the activity asking for data
      * @param newDatas le nouveau json à sauvegarder
      */
-    public void requestPost(int type, MyActivityImageDiplayable currentActivity, JSONObject newDatas) {
+    public void requestPost(int type, MyActivityImageDisplayable currentActivity, JSONObject newDatas) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

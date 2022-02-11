@@ -9,8 +9,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.core.view.MotionEventCompat;
 
-import com.example.myvideogamelist.GamesListActivity;
-import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
 import com.example.myvideogamelist.InterfacesAppli.Scrollable_horizontally;
 
 public class MyLinearLayout extends LinearLayout {

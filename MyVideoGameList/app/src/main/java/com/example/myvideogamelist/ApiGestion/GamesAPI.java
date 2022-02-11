@@ -1,6 +1,6 @@
 package com.example.myvideogamelist.ApiGestion;
 
-import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 
 import org.json.JSONObject;
 
@@ -40,7 +40,7 @@ public class GamesAPI {
      * @param currentActivity activity running
      * @param category category the user is searching in
      */
-    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDiplayable currentActivity, String category) {
+    public void requestWithParam(SearchGameAPI searchGameAPI, MyActivityImageDisplayable currentActivity, String category) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +83,7 @@ public class GamesAPI {
      * Request game data from a game id
      * @param id the game id
      */
-    public void requestGameById(String id, MyActivityImageDiplayable currentActivity) {
+    public void requestGameById(String id, MyActivityImageDisplayable currentActivity) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

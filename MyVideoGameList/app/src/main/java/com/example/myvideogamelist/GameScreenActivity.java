@@ -15,14 +15,14 @@ import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
-import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GameScreenActivity extends AppCompatActivity implements MyActivityImageDiplayable {
+public class GameScreenActivity extends AppCompatActivity implements MyActivityImageDisplayable {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private GamesAPI gamesAPI = GamesAPI.getGamesAPI();

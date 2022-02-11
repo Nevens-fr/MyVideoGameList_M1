@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.Game;
-import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 import com.example.myvideogamelist.InterfacesAppli.Scrollable_horizontally;
 import com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout;
 import com.squareup.picasso.Picasso;
@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class GamesListActivity extends AppCompatActivity implements MyActivityImageDiplayable, Scrollable_horizontally {
+public class GamesListActivity extends AppCompatActivity implements MyActivityImageDisplayable, Scrollable_horizontally {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private Button selectedButton;

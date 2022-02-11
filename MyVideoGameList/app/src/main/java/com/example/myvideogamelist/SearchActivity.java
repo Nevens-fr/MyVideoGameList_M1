@@ -20,17 +20,13 @@ import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.SearchGameAPI;
-import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDiplayable;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 import com.example.myvideogamelist.MyExceptions.EmptySearchException;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.MalformedParametersException;
-
-//todo implement search for other categories
-public class SearchActivity extends AppCompatActivity implements MyActivityImageDiplayable {
+public class SearchActivity extends AppCompatActivity implements MyActivityImageDisplayable {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
 
@@ -53,7 +49,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
         selectedButton = findViewById(R.id.search_name_button_id);
         searchType = "games";
 
-        MyActivityImageDiplayable currentActivity = this;
+        MyActivityImageDisplayable currentActivity = this;
 
         //load more games if possible when reaching end of current scroll view
         ((ScrollView)findViewById(R.id.scrollView_search_id)).setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -103,7 +99,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
      * Create buttons interactions for user search options
      */
     private void connectButtonSearch(){
-        MyActivityImageDiplayable currentActivity = this;
+        MyActivityImageDisplayable currentActivity = this;
 
         addListener(findViewById(R.id.search_name_button_id), "games", getString(R.string.searchNameEditText));
         addListener(findViewById(R.id.search_devs_button_id), "developers", getString(R.string.searchDevsEditText));
