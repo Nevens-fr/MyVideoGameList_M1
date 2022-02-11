@@ -39,6 +39,13 @@
     <string name="news_date">News date</string>
     <string name="news_desc">Short description</string>
     <string name="news_publish_date">Publication date:</string>
+    <string name="news_authors">Authors:</string>
+    <string name="news_score">Score:</string>
+    <string name="news_good_points">Good points:</string>
+    <string name="news_bad_points">Bad points:</string>
+
+    <string name="news_goods_points_bla">Good points that are so good that we can not even speak about:</string>
+    <string name="news_bad_points_bla">Bad points that are so bad that we can not even speak about:</string>
 
     <string name="genreAll">All</string>
     <string name="genreFinished">Finished</string>

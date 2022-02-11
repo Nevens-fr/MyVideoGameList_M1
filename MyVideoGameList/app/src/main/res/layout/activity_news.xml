@@ -57,102 +57,76 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <HorizontalScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:ignore="SpeakableTextPresentCheck">
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_inside_scroll_view_game_screen_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/image_top_game_screen_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:srcCompat="@tools:sample/avatars"
-                        android:contentDescription="@string/gameImage" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/released_date_game_screen_id"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/news_image_id"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:text="released_date_game_screen_id" />
-
-                <TextView
-                    android:id="@+id/metacritic_game_screen_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="metacritic_game_screen_id"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/average_time_game_screen_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="average_time_game_screen_id"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/publisher_game_screen_id"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:text="publisher_game_screen_id" />
-
-                <TextView
-                    android:id="@+id/dev_game_screen_id"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:text="dev_game_screen_id"
-                    android:textColor="@color/white" />
-
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:contentDescription="@string/gameImage" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/genres_game_screen_id"
+                android:id="@+id/publish_date_news_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"
+                android:gravity="start"
+                android:layout_weight="1"
+                android:text="@string/news_publish_date" />
+
+            <TextView
+                android:id="@+id/authors_news_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="@string/news_authors" />
+
+            <TextView
+                android:id="@+id/score_news_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="@string/news_score" />
+
+
+            <TextView
+                android:id="@+id/categories_id"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:text="genres_game_screen_id"
+                android:text="categories_id"
                 android:textColor="@color/blue" />
 
             <TextView
-                android:id="@+id/description_game_screen_id"
+                android:id="@+id/lede_news_id"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:justificationMode="inter_word"
+                android:textColor="@color/greyWhite"
+                android:layout_weight="1"
+                android:text="lede_news_id" />
+
+            <TextView
+                android:id="@+id/description_news_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
@@ -161,39 +135,55 @@
                 android:layout_weight="1"
                 android:text="description_game_screen_id" />
 
-            <TextView
-                android:id="@+id/description_show_game_screen_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/grey"
-                android:layout_weight="1"
-                android:text="@string/click_to_show_desc" />
+            <!-- Insert here good and bad points-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 android:layout_margin="10dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/user_time_game_screen_id"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:text="user_time_game_screen_id" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/user_score_game_screen_id"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/news_good_points"
+                        android:textColor="@color/greyWhite"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/news_bad_points"
+                        android:textColor="@color/greyWhite"
+                        android:gravity="center"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:gravity="end"
-                    android:layout_margin="10dp"
-                    android:layout_weight="2"
-                    android:text="user_score_game_screen_id" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/news_goods_points_bla"
+                        android:textColor="@color/green"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/news_bad_points_bla"
+                        android:textColor="@color/red"
+                        android:layout_weight="1"/>
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
