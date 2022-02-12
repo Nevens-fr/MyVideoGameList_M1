@@ -14,7 +14,7 @@ public class NewsAPI {
     private final static NewsAPI newsAPI = new NewsAPI();
     private String apiKey ="1248c3af4075abbcda5f4e975962c97bf5fb78e9";
     private StringBuffer content;
-    private JSONObject obj;
+    private JSONObject articles, reviews;
 
     /**
      * Private constructor for singleton
@@ -56,7 +56,7 @@ public class NewsAPI {
                     }
                     in.close();
 
-                    parseResponse();
+                    parseResponse(category);
                 } catch (
                         Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());
@@ -74,21 +74,27 @@ public class NewsAPI {
     /**
      * Parse the JSON response from the API
      */
-    private void parseResponse(){
+    private void parseResponse(String category){
         try {
-            obj = new JSONObject(content.toString());
+            if(category.compareTo("articles") == 0)
+                articles = new JSONObject(content.toString());
+            else
+                reviews = new JSONObject(content.toString());
         }
         catch (Exception e){
             System.out.println(e.getMessage());
-            obj = null;
+            if(category.compareTo("articles") == 0)
+                articles = null;
+            else
+                reviews = null;
         }
     }
 
-    /**
-     * Getter for the parsed response from API
-     * @return json parsed response
-     */
-    public JSONObject getObj() {
-        return obj;
+    public JSONObject getArticles() {
+        return articles;
+    }
+
+    public JSONObject getReviews() {
+        return reviews;
     }
 }

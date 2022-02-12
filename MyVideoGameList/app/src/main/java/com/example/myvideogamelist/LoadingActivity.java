@@ -49,6 +49,9 @@ public class LoadingActivity extends AppCompatActivity {
         thread2.start();
     }
 
+    /**
+     * Launch the app when all data are retrieved from APIs
+     */
     private void launchApp(){
         //Allow app to wait for all data before launching
         synchronized (o){

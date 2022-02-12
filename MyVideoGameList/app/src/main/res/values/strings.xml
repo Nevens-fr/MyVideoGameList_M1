@@ -40,7 +40,7 @@
     <string name="news_title">News title</string>
     <string name="news_date">News date</string>
     <string name="news_desc">Short description</string>
-    <string name="news_publish_date">Publication date:</string>
+    <string name="news_publish_date">Publish date:</string>
     <string name="news_authors">Authors:</string>
     <string name="news_score">Score:</string>
     <string name="news_good_points">Good points:</string>
