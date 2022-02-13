@@ -22,7 +22,8 @@ import org.json.JSONObject;
 public class Home extends AppCompatActivity implements MyActivityImageDisplayable {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
-    private int articleInd = 0, reviewInd = 0, limitToLoad = 20;
+    private int articleInd = 0, reviewInd = 0;
+    private final int limitToLoad = 20;
     private final int limitPerRequest = 100;
     private int nextArticle = 101, nextReviews = 101, nbDisplayed = 0;
     private JSONObject articles, reviews;
@@ -43,7 +44,10 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
         articles = newsAPI.getArticles();
         reviews = newsAPI.getReviews();
 
-        launchCreation();
+        if(articles != null && reviews != null)
+            launchCreation();
+        else
+            ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.no_internet_error, findViewById(R.id.home_to_clone_id), true);
     }
 
     /**
@@ -58,7 +62,12 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             @Override
             public void onScrollChange(View view, int i, int i1, int i2, int i3) {
                 if (!((ScrollView)findViewById(R.id.news_scroll_id)).canScrollVertically(1)) {
-                    launchCreation();
+                    if((articles != null && reviews != null) || (newsAPI.getReviews() == null && newsAPI.getArticles() == null))
+                        launchCreation();
+                    else{
+                        newsAPI.requestWithParam("articles", "");
+                        newsAPI.requestWithParam("reviews", "");
+                    }
                 }
                 if(articleInd + limitToLoad >= limitPerRequest){
                     if(!articleRequest && articlesNew == null){
@@ -241,11 +250,12 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
     public void getApiInfo(JSONObject obj) {
         if(articleRequest){
             articleRequest = false;
-            articlesNew = obj;
+            articlesNew = newsAPI.getArticles();
         }
         else if (reviewRequest){
             reviewRequest = false;
-            reviewsNew = obj;
+            reviewsNew = newsAPI.getReviews();
         }
+        ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
     }
 }
