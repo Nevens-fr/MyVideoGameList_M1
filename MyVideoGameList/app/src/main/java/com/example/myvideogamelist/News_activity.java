@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,14 +61,16 @@ public class News_activity extends AppCompatActivity {
      */
     private void buildActivityData(){
         try {
+            //specific fields for articles
             if (category.compareTo("articles") == 0){
                 ((TextView)findViewById(R.id.categories_id)).setText(computeDatasFromArray("", news.getJSONArray("categories"), "\t\t\t"));
                 findViewById(R.id.categories_id).setVisibility(View.VISIBLE);
             }
-            else{
+            else{//specific fields for reviews
                 ((TextView)findViewById(R.id.score_news_id)).setText("Score: "+ news.getString("score")+"/10");
                 findViewById(R.id.score_news_id).setVisibility(View.VISIBLE);
                 buildBadAndGoodPoints(news.getString("good"), news.getString("bad"));
+                findViewById(R.id.good_and_bad_points_news_id).setVisibility(View.VISIBLE);
             }
 
             ((TextView)findViewById(R.id.news_title_id)).setTextSize(15);
@@ -77,6 +80,7 @@ public class News_activity extends AppCompatActivity {
             ((TextView)findViewById(R.id.authors_news_id)).setText("Authors: " + news.getString("authors"));
             ((TextView)findViewById(R.id.lede_news_id)).setText(news.getString("lede"));
             ((TextView)findViewById(R.id.description_news_id)).setText(Html.fromHtml(news.getString("body")));
+            ((TextView)findViewById(R.id.description_news_id)).setMovementMethod(LinkMovementMethod.getInstance());
 
             //insert image
             ImageView imgV = findViewById(R.id.news_image_id);
@@ -87,8 +91,30 @@ public class News_activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Insert good and bad points inside text view
+     * @param gpts string of good points
+     * @param bpts string of bad points
+     */
     private void buildBadAndGoodPoints(String gpts, String bpts){
-        //todo a faire
+        ((TextView)findViewById(R.id.good_pts_news_id)).setText(Html.fromHtml(buildPoints(gpts)));
+        ((TextView)findViewById(R.id.bad_pts_news_id)).setText(Html.fromHtml(buildPoints(bpts)));
+    }
+
+    /**
+     * Build a list of good or bad points from a string
+     * @param pts source string
+     * @return formatted list in html
+     */
+    private String buildPoints(String pts){
+        String res = "<ul>";
+
+        while(pts.indexOf(('|')) != -1){
+            res += "<li> " + pts.substring(0,pts.indexOf('|')) + "</li>";
+            pts = pts.substring(pts.indexOf('|') + 1);
+        }
+        res += "<li>" + pts.substring(0) + "</li></ul>";
+        return res;
     }
 
     /**

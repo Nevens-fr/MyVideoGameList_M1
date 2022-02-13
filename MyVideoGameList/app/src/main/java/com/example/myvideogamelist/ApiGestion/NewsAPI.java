@@ -15,6 +15,7 @@ public class NewsAPI {
     private String apiKey ="1248c3af4075abbcda5f4e975962c97bf5fb78e9";
     private StringBuffer content;
     private JSONObject articles, reviews;
+    private MyActivityImageDisplayable currentActivity = null;
 
     /**
      * Private constructor for singleton
@@ -57,6 +58,8 @@ public class NewsAPI {
                     in.close();
 
                     parseResponse(category);
+                    if(currentActivity != null)
+                        currentActivity.getApiInfo(category.compareTo("articles") == 0? articles : reviews);
                 } catch (
                         Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());
@@ -64,10 +67,12 @@ public class NewsAPI {
             }
         });
         thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(currentActivity == null){
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -96,5 +101,9 @@ public class NewsAPI {
 
     public JSONObject getReviews() {
         return reviews;
+    }
+
+    public void setCurrentActivity(MyActivityImageDisplayable currentActivity) {
+        this.currentActivity = currentActivity;
     }
 }

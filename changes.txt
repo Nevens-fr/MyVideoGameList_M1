@@ -4,10 +4,9 @@ URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- news card design over
-- Refactor type on interface name
-- Implementing new API for news 
-- Implementing loading screen to wait all API data
+- Clickable link in description news
+- good and bad points added
+- getting more news
 ******************************************************************************************************************
 TODO
 
@@ -15,8 +14,6 @@ home :
 display stats from user average playtime and news below
 
 make a round icon
-
-Add requests to get more articles and news when all are read
 
 opti save games and rating data user rating
 

@@ -14,19 +14,21 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.myvideogamelist.ApiGestion.NewsAPI;
+import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+public class Home extends AppCompatActivity implements MyActivityImageDisplayable {
 
-public class Home extends AppCompatActivity{
-
-    private NavigationBar navigationBar = NavigationBar.getNavigationBar();
-    private int articleInd = 0, reviewInd = 0, limitToLoad = 20, limitPerRequest = 100;
+    private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
+    private int articleInd = 0, reviewInd = 0, limitToLoad = 20;
+    private final int limitPerRequest = 100;
+    private int nextArticle = 101, nextReviews = 101, nbDisplayed = 0;
     private JSONObject articles, reviews;
-    private NewsAPI newsAPI = NewsAPI.getNewsAPI();
+    private JSONObject articlesNew = null, reviewsNew = null;
+    private final NewsAPI newsAPI = NewsAPI.getNewsAPI();
+    private boolean articleRequest = false, reviewRequest =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class Home extends AppCompatActivity{
 
         addNavigationBar();
         navigationBar.init(this);
+
+        newsAPI.setCurrentActivity(this);
 
         articles = newsAPI.getArticles();
         reviews = newsAPI.getReviews();
@@ -54,10 +58,20 @@ public class Home extends AppCompatActivity{
             @Override
             public void onScrollChange(View view, int i, int i1, int i2, int i3) {
                 if (!((ScrollView)findViewById(R.id.news_scroll_id)).canScrollVertically(1)) {
-                    if(articleInd + reviewInd < limitPerRequest * 2)
-                        launchCreation();
-                    else{
-                        //todo get more news
+                    launchCreation();
+                }
+                if(articleInd + limitToLoad >= limitPerRequest){
+                    if(!articleRequest && articlesNew == null){
+                        newsAPI.requestWithParam("articles", "&offset="+nextArticle);
+                        nextArticle+= limitPerRequest;
+                        articleRequest = true;
+                    }
+                }
+                else if(reviewInd + limitToLoad >= limitPerRequest){
+                    if(!reviewRequest && reviewsNew == null){
+                        newsAPI.requestWithParam("reviews", "&offset="+nextReviews);
+                        nextReviews+= limitPerRequest;
+                        reviewRequest = true;
                     }
                 }
             }
@@ -68,15 +82,33 @@ public class Home extends AppCompatActivity{
      * Start creating cards
      */
     private void launchCreation(){
-        while(articleInd + reviewInd < limitToLoad){
+        while(nbDisplayed < limitToLoad){
             try{
                 if(articleInd == limitPerRequest){
-                    makeCard(reviews.getJSONArray("results").getJSONObject(reviewInd), "reviews");
-                    reviewInd++;
+                    if(articlesNew !=  null){//previous request all displayed, getting the new one
+                        articles = articlesNew;
+                        articlesNew = null;
+                        articleInd = 0;
+                        launchCreation();
+                    }
+                    else {
+                        makeCard(reviews.getJSONArray("results").getJSONObject(reviewInd), "reviews");
+                        reviewInd++;
+                        nbDisplayed++;
+                    }
                 }
                 else if(reviewInd == limitPerRequest){
-                    makeCard(articles.getJSONArray("results").getJSONObject(articleInd), "articles");
-                    articleInd++;
+                    if(reviewsNew !=  null){
+                        reviews = reviewsNew;
+                        reviewsNew = null;
+                        reviewInd = 0;
+                        launchCreation();
+                    }
+                    else {
+                        makeCard(articles.getJSONArray("results").getJSONObject(articleInd), "articles");
+                        articleInd++;
+                        nbDisplayed++;
+                    }
                 }
                 else{
                     String d1 = articles.getJSONArray("results").getJSONObject(articleInd).getString("publish_date");
@@ -84,6 +116,7 @@ public class Home extends AppCompatActivity{
                     String d2 = reviews.getJSONArray("results").getJSONObject(reviewInd).getString("publish_date");
                     d2 = d2.substring(0, d2.indexOf(' '));
                     compareArticleAndReview(d1, d2);
+                    nbDisplayed++;
                 }
             }
             catch (Exception e){
@@ -91,7 +124,7 @@ public class Home extends AppCompatActivity{
                 System.exit(0);
             }
         }
-        limitToLoad += 20;
+        nbDisplayed = 0;
     }
 
     /**
@@ -100,9 +133,6 @@ public class Home extends AppCompatActivity{
      * @param reviewDate review publish date
      */
     private void compareArticleAndReview(String articleDate, String reviewDate){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date d1 = null, d2 = null;
-
         try {
             int result = compareDate(articleDate, reviewDate);
 
@@ -117,6 +147,7 @@ public class Home extends AppCompatActivity{
                 articleInd++;
             }
             else{
+                //same date
                 makeCard(reviews.getJSONArray("results").getJSONObject(reviewInd), "reviews");
                 reviewInd++;
             }
@@ -162,7 +193,6 @@ public class Home extends AppCompatActivity{
                     startActivity(intent);
                 }
             });
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -174,7 +204,7 @@ public class Home extends AppCompatActivity{
      * @param d1 article's publish date
      * @param d2 review's publish date
      * @return 1 if d2 is much recent, -1 if d1 is more recent, 0 if equals
-     * @throws Exception
+     * @throws Exception from parse integer
      */
     private int compareDate(String d1, String d2) throws Exception{
         int y1 = Integer.parseInt(d1.substring(0, d1.indexOf('-')));
@@ -201,5 +231,21 @@ public class Home extends AppCompatActivity{
             }
         }
         return 0;
+    }
+
+    /**
+     * Get data from api
+     * @param obj json object response from api
+     */
+    @Override
+    public void getApiInfo(JSONObject obj) {
+        if(articleRequest){
+            articleRequest = false;
+            articlesNew = obj;
+        }
+        else if (reviewRequest){
+            reviewRequest = false;
+            reviewsNew = obj;
+        }
     }
 }
