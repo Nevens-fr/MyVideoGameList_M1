@@ -48,6 +48,7 @@
         android:id="@+id/scroll_view_game_screen_id"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/news_activity_id"
         app:layout_constraintTop_toBottomOf="@id/linearLayout"
         tools:ignore="SpeakableTextPresentCheck">
@@ -130,17 +131,17 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
+                android:autoLink="web"
+                android:linksClickable="true"
                 android:justificationMode="inter_word"
                 android:textColor="@color/white"
                 android:layout_weight="1"
                 android:text="description_game_screen_id" />
 
-            <!-- Insert here good and bad points-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 

@@ -119,7 +119,6 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
 
             //If game name is too large for title, reduce size
             if(game.getString("name").length() > 20){
-                System.out.println(((TextView)findViewById(R.id.text_game_name_game_screen_id)).getTextSize());
                 ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setTextSize(15);
             }
 

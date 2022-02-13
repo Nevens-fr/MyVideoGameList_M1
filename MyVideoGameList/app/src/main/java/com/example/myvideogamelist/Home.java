@@ -158,7 +158,7 @@ public class Home extends AppCompatActivity{
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), News_activity.class);
                     intent.putExtra("category", category);
-                    intent.putExtra("index", category.compareTo("articles") == 0 ? articleInd - 1 : reviewInd - 1);
+                    intent.putExtra("news", news.toString());
                     startActivity(intent);
                 }
             });
@@ -183,7 +183,6 @@ public class Home extends AppCompatActivity{
         int m2 = Integer.parseInt(d2.substring(d1.indexOf('-') + 1, d1.indexOf('-') + 3));
         int da1 = Integer.parseInt(d1.substring(d1.length() - 2));
         int da2 = Integer.parseInt(d2.substring(d2.length() - 2));
-        System.out.println(d1.substring(d1.indexOf('-') + 1, d1.indexOf('-') + 3));
 
         if(y1 > y2)
             return -1;
@@ -201,7 +200,6 @@ public class Home extends AppCompatActivity{
                     return 1;
             }
         }
-
         return 0;
     }
 }

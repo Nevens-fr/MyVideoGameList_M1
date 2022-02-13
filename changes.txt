@@ -16,7 +16,11 @@ display stats from user average playtime and news below
 
 make a round icon
 
-articles and reviews	
+Add requests to get more articles and news when all are read
+
+opti save games and rating data user rating
+
+when loading, if all game data get, go to home. while waiting news data, display card (waiting data) then use interface to create card just as for search
 
 
 Later :
