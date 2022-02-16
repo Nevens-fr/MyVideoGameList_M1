@@ -31,6 +31,12 @@
             android:name=".GameScreenActivity"
             android:exported="false" />
         <activity
+            android:name=".FirstScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserGameRating"
             android:exported="false" />
         <activity

@@ -8,17 +8,53 @@ import android.os.Bundle;
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.NewsAPI;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class LoadingActivity extends AppCompatActivity {
 
     private int call = 0;
     private Object o = new Object();
+    private String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        readConfig();
         getDatabases();
+    }
+
+    private void readConfig(){
+        try {
+            InputStream inputStream = getApplicationContext().openFileInput("config.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append("\n").append(receiveString);
+                }
+
+                inputStream.close();
+                user = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            user = null;
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            user = null;
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -59,10 +95,18 @@ public class LoadingActivity extends AppCompatActivity {
                 call++;
             }
             else{
-                Intent intent = new Intent(this, Home.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                this.startActivity(intent);
-                this.finish();
+                if(user == null){
+                    Intent intent = new Intent(this, FirstScreenActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    this.startActivity(intent);
+                    this.finish();
+                }
+                else{
+                    Intent intent = new Intent(this, Home.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    this.startActivity(intent);
+                    this.finish();
+                }
             }
         }
     }

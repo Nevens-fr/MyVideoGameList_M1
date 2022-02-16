@@ -67,13 +67,6 @@ public class NewsAPI {
             }
         });
         thread.start();
-        if(currentActivity == null){
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
