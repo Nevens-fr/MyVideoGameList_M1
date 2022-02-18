@@ -29,6 +29,9 @@ public class LoadingActivity extends AppCompatActivity {
         getDatabases();
     }
 
+    /**
+     * Read user config to get his index in database
+     */
     private void readConfig(){
         try {
             InputStream inputStream = getApplicationContext().openFileInput("config.txt");
@@ -67,6 +70,8 @@ public class LoadingActivity extends AppCompatActivity {
                 //get users and games data since launch
                 Database.getDatabase().requestGet(0);
                 Database.getDatabase().requestGet(1);
+
+                //if user doesn't exist, necessity to call again these methods after login or register
                 Database.getDatabase().setSelectedUserID(0);
                 Database.getDatabase().createListsGames();
                 launchApp();

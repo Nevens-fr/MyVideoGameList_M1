@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.File;
+
 public class Home extends AppCompatActivity implements MyActivityImageDisplayable {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -83,6 +85,18 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
                         reviewRequest = true;
                     }
                 }
+            }
+        });
+
+        Home tmp = this;
+
+        findViewById(R.id.button_sign_out).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteFile("config.txt");//disable auto connect
+                Intent intent = new Intent(tmp,FirstScreenActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                tmp.startActivity(intent);
             }
         });
     }

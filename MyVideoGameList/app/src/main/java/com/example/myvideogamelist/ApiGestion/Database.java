@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Database {
     private static final Database database = new Database();
-    private final String usersDB = "https://api.jsonstorage.net/v1/json/f50bd8e5-dab1-43b6-b832-d6a1c783c546";
+    private final String usersDB = "https://api.jsonstorage.net/v1/json/0f53ca6a-1b4b-4084-b617-8505c681784f";
     private final String gamesDB = "https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c";
     private StringBuffer content;
     private JSONObject games = null, users = null;
@@ -270,26 +270,3 @@ public class Database {
         return playing;
     }
 }
-//example
-/*
-        User user = new User("1", "toto", "axel");
-        Rating r = user.addGame("10");
-        r.setFeedback("Like it soo much");
-        r.setHours("150");
-        r.setScore("5");
-        r.setStatus("Finished");
-        try {
-            int cpt = Integer.parseInt(String.valueOf(Database.getDatabase().getUsers().getString("nbUsers")));
-            cpt++;
-            for(int i = 0; i < Database.getDatabase().getUsers().getJSONArray("users").length();i++)
-                Database.getDatabase().getUsers().getJSONArray("users").remove(i);
-
-            //Database.getDatabase().getUsers().getJSONArray("users").put(user.getJSONObject());
-            Database.getDatabase().getUsers().remove("nbUsers");
-            Database.getDatabase().getUsers().put("nbUsers", String.valueOf(0));
-            System.out.println( Database.getDatabase().getUsers());
-            Database.getDatabase().requestPost(1, null, Database.getDatabase().getUsers());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        */

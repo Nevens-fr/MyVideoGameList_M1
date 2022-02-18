@@ -1,12 +1,17 @@
-url users table https://api.jsonstorage.net/v1/json/f50bd8e5-dab1-43b6-b832-d6a1c783c546
+url users table changée
 url games table https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c
 URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Clickable link in description news
-- good and bad points added
-- getting more news
+- Fields check in register
+- New user register done
+- Added field mail to user data
+- Fields check in login
+- Login ok
+- Home sign out ok
+- Sign out disable auto connection
+- Auto connection if already connected
 ******************************************************************************************************************
 TODO
 
@@ -16,6 +21,8 @@ display stats from user average playtime and news below
 make a round icon
 
 opti save games and rating data user rating
+
+fresh clean db games
 
 when loading, if all game data get, go to home. while waiting news data, display card (waiting data) then use interface to create card just as for search
 

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class User {
-    String id, pwd, name;
+    String id, pwd, name, mail;
     ArrayList<Rating> games = new ArrayList<>();
 
     /**
@@ -14,11 +14,13 @@ public class User {
      * @param id user id
      * @param pwd user password
      * @param name user name
+     * @param mail user mail
      */
-    public User(String id, String pwd, String name){
+    public User(String id, String pwd, String name, String mail){
         this.id = id;
         this.pwd = pwd;
         this.name = name;
+        this.mail = mail;
     }
 
     /**
@@ -32,6 +34,7 @@ public class User {
             obj.put("id", id);
             obj.put("name", name);
             obj.put("pwd", pwd);
+            obj.put("mail", mail);
 
             for(Rating r : games)
                 rating.put(r.getJSONObject());
@@ -52,6 +55,14 @@ public class User {
     public Rating addGame(String id){
         games.add(new Rating(id));
         return games.get(games.size() - 1);
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getId() {

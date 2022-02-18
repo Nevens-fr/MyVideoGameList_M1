@@ -116,7 +116,7 @@
                     android:background="@drawable/edittext_bottom_border"
                     android:layout_weight="1"
                     android:hint="@string/registerPasswordText2"
-                    android:inputType="numberPassword"
+                    android:inputType="textPassword"
                     android:text=""
                     android:textColor="@color/white"
                     android:textColorHint="@color/light_grey"
