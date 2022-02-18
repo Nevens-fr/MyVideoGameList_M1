@@ -1,30 +1,25 @@
-url users table changée
-url games table https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c
+url users table https://api.jsonstorage.net/v1/json/75fd6908-33cd-475e-b6aa-41594688e7e0
+url games table https://api.jsonstorage.net/v1/json/98d6f1f9-10dc-47f4-94d8-328461c1da74
 URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Fields check in register
-- New user register done
-- Added field mail to user data
-- Fields check in login
-- Login ok
-- Home sign out ok
-- Sign out disable auto connection
-- Auto connection if already connected
+- Login and register mail to lower case
+- User Game Rating if game already exists in db, no insert, else insert
+- Clean db
 ******************************************************************************************************************
 TODO
 
 home :
-display stats from user average playtime and news below
+display stats from user average playtime
+
+randomatic
 
 make a round icon
 
 opti save games and rating data user rating
 
-fresh clean db games
-
-when loading, if all game data get, go to home. while waiting news data, display card (waiting data) then use interface to create card just as for search
+opti news loading : when loading, if all game data get, go to home. while waiting news data, display card (waiting data) then use interface to create card just as for search
 
 
 Later :

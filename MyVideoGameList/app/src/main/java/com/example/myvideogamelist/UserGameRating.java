@@ -327,6 +327,7 @@ public class UserGameRating extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
+                boolean gameAdded = false;
                 try{
                     selectedHours = Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.thousands_rating_id)).getValue())) * 1000;
                     selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.hundreds_rating_id)).getValue())) * 100;
@@ -357,24 +358,28 @@ public class UserGameRating extends AppCompatActivity {
 
                     try{
                         database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
+
                         if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
-                            database.getGames().getJSONArray("games").put(gameToSave.getJSONObject());//adding game to our DB
+                            if(!insertGameDataInDb(gameToSave)) {
+                                database.requestPost(0, null, database.getGames());
+                                gameAdded = true;
+                            }
                     }
                     catch(Exception e4){ e4.printStackTrace(); }
+
                     database.requestPost(1, null, database.getUsers());
-                    if(comesFrom.compareTo("search") == 0){//coming from search activity, need to load newly saved game data
-                        database.requestPost(0, null, database.getGames());
-                    }
                 }
 
                 boolean canLeave = true;
+                final boolean gameAdded2 = gameAdded;
 
                 //get clean data from our DB
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Database.getDatabase().requestGet(0);
-                        Database.getDatabase().requestGet(1);
+                        if(gameAdded2)//no database get if no insert
+                            Database.getDatabase().requestGet(1);
                         if(Database.getDatabase().getCurrentUser() != null || Database.getDatabase().getGames() != null)
                             Database.getDatabase().createListsGames();
                     }
@@ -397,6 +402,28 @@ public class UserGameRating extends AppCompatActivity {
 
             }
         });
+    }
+
+    /**
+     * Insert game in database if not exist
+     * @param gameToSave game to save in database
+     * @return true if exists in database, false if created
+     */
+    private boolean insertGameDataInDb(Game gameToSave){
+        try{
+            JSONArray games =  database.getGames().getJSONArray("games");
+
+            for(int i = 0; i < games.length(); i++){
+                if(games.getJSONObject(i).getString("id").compareTo(gameToSave.getIdGame()) == 0){
+                    return true;
+                }
+            }
+            database.getGames().getJSONArray("games").put(gameToSave.getJSONObject());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**

@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class Database {
     private static final Database database = new Database();
-    private final String usersDB = "https://api.jsonstorage.net/v1/json/0f53ca6a-1b4b-4084-b617-8505c681784f";
-    private final String gamesDB = "https://api.jsonstorage.net/v1/json/d84fae29-d8a2-49b1-aecf-d74f0b2c283c";
+    private final String usersDB = "https://api.jsonstorage.net/v1/json/75fd6908-33cd-475e-b6aa-41594688e7e0";
+    private final String gamesDB = "https://api.jsonstorage.net/v1/json/98d6f1f9-10dc-47f4-94d8-328461c1da74";
     private StringBuffer content;
     private JSONObject games = null, users = null;
     private int currentUser;

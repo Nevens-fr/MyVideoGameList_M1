@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = ((TextView)findViewById(R.id.user_search_text_id2)).getText().toString();
         String passwordCheck = ((TextView)findViewById(R.id.user_search_text_id3)).getText().toString();
         userName = ((TextView)findViewById(R.id.user_search_text_id4)).getText().toString();
-        mail = ((TextView)findViewById(R.id.user_search_text_id)).getText().toString();
+        mail = ((TextView)findViewById(R.id.user_search_text_id)).getText().toString().toLowerCase();
 
         if(passwordCheck.length() == 0 || password.length() == 0 || mail.length() == 0 || userName.length() == 0){
             reasonFail = "Field(s) missing";

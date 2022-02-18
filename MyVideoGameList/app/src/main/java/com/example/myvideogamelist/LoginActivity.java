@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean checkConnection(){
 
         String password = ((TextView)findViewById(R.id.user_search_text_id4)).getText().toString();
-        String mail = ((TextView)findViewById(R.id.user_search_text_id)).getText().toString();
+        String mail = ((TextView)findViewById(R.id.user_search_text_id)).getText().toString().toLowerCase();
 
         if(password.length() == 0 ||mail.length() == 0){
             reasonFail = "Missing(s) field";
