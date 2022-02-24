@@ -1,19 +1,17 @@
-url users table https://api.jsonstorage.net/v1/json/75fd6908-33cd-475e-b6aa-41594688e7e0
-url games table https://api.jsonstorage.net/v1/json/98d6f1f9-10dc-47f4-94d8-328461c1da74
-URL request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
+url users table https://api.jsonstorage.net/v1/json/ace6b1ed-31d8-412f-a913-f7daea4e91ed
+url games table https://api.jsonstorage.net/v1/json/711efbe0-1ed7-4ae8-811b-77e998db7085
+url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Login and register mail to lower case
-- User Game Rating if game already exists in db, no insert, else insert
-- Clean db
+- Randomatic over
+- Delete a game from lists
+- Opti save games en cours (if internet good looks ok, no internet looks not bad)
 ******************************************************************************************************************
 TODO
 
 home :
 display stats from user average playtime
-
-randomatic
 
 make a round icon
 

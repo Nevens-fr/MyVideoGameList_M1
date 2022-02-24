@@ -1,6 +1,8 @@
 package com.example.myvideogamelist.ApiGestion;
 
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
+import com.example.myvideogamelist.InterfacesAppli.ObservableAppli;
+import com.example.myvideogamelist.InterfacesAppli.ObservatorAppli;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,14 +17,15 @@ import java.util.ArrayList;
 /**
  * Class allowing access to databases containing users or games datas
  */
-public class Database {
+public class Database implements ObservableAppli {
     private static final Database database = new Database();
-    private final String usersDB = "https://api.jsonstorage.net/v1/json/75fd6908-33cd-475e-b6aa-41594688e7e0";
-    private final String gamesDB = "https://api.jsonstorage.net/v1/json/98d6f1f9-10dc-47f4-94d8-328461c1da74";
+    private final String usersDB = "https://api.jsonstorage.net/v1/json/ace6b1ed-31d8-412f-a913-f7daea4e91ed";
+    private final String gamesDB = "https://api.jsonstorage.net/v1/json/711efbe0-1ed7-4ae8-811b-77e998db7085";
     private StringBuffer content;
     private JSONObject games = null, users = null;
     private int currentUser;
     private ArrayList<Game> finished, planned, abandoned, on_hold, playing;
+    private ArrayList<ObservatorAppli> observators = new ArrayList<>();
 
     /**
      * Empty private constructor for
@@ -98,6 +101,7 @@ public class Database {
 
                     int status = con.getResponseCode();
                     System.out.println("Post response : " +status);
+                    notifyObs(status);
                 } catch (Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());
                 }
@@ -268,5 +272,30 @@ public class Database {
 
     public ArrayList<Game> getPlaying() {
         return playing;
+    }
+
+    /**
+     * Add a new observator
+     * @param obs the new observator
+     */
+    @Override
+    public void subscribe(ObservatorAppli obs) {
+        observators.add(obs);
+    }
+
+    /**
+     * Notify observators that datas are available
+     */
+    @Override
+    public void notifyObs(int status) {
+        for(ObservatorAppli obs : observators){
+            if(obs != null)
+                obs.notified(status);
+        }
+    }
+
+    @Override
+    public void unsubscribe(ObservatorAppli obs) {
+        observators.remove(obs);
     }
 }

@@ -318,7 +318,19 @@ public class UserGameRating extends AppCompatActivity {
         findViewById(R.id.button_game_rating_cancel_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if(userGameID == -1)
+                    finish();
+                else{
+                    try {
+                        database.getCurrentUser().getJSONArray("games").remove(userGameID);
+                        database.requestPost(1, null, database.getUsers());
+                        database.createListsGames();
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    finish();
+                }
             }
         });
 
@@ -327,7 +339,6 @@ public class UserGameRating extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
-                boolean gameAdded = false;
                 try{
                     selectedHours = Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.thousands_rating_id)).getValue())) * 1000;
                     selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.hundreds_rating_id)).getValue())) * 100;
@@ -338,68 +349,50 @@ public class UserGameRating extends AppCompatActivity {
                     selectedHours = 0;
                     e.printStackTrace();
                 }
-
-                //Looking for any change from user already saved dataException
-                try{
-                    if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
-                        dataChanged = true;
-                    if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
-                        dataChanged = true;
-
-                    if(dataChanged){//save change
-                        Rating r = new Rating(gameID, feedback, String.valueOf(selectedHours), returnStatus(), returnRating());
-                        database.getCurrentUser().getJSONArray("games").remove(userGameID);
-                        database.getCurrentUser().getJSONArray("games").put(r.getJSONObject());
-                        database.requestPost(1, null, database.getUsers());
-                    }
-                }
-                catch (Exception e){//user does not possess the game already, save change
-                    Rating rating = new Rating(gameID, feedback,String.valueOf(selectedHours), returnStatus(), returnRating());
-
-                    try{
-                        database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
-
-                        if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
-                            if(!insertGameDataInDb(gameToSave)) {
-                                database.requestPost(0, null, database.getGames());
-                                gameAdded = true;
-                            }
-                    }
-                    catch(Exception e4){ e4.printStackTrace(); }
-
-                    database.requestPost(1, null, database.getUsers());
-                }
-
-                boolean canLeave = true;
-                final boolean gameAdded2 = gameAdded;
-
-                //get clean data from our DB
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        boolean gameAdded = false;
+                        //Looking for any change from user already saved dataException
+                        try{
+                            if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
+                                dataChanged = true;
+                            if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
+                                dataChanged = true;
+
+                            if(dataChanged){//save change
+                                Rating r = new Rating(gameID, feedback, String.valueOf(selectedHours), returnStatus(), returnRating());
+                                database.getCurrentUser().getJSONArray("games").remove(userGameID);
+                                database.getCurrentUser().getJSONArray("games").put(r.getJSONObject());
+                                database.requestPost(1, null, database.getUsers());
+                            }
+                        }
+                        catch (Exception e){//user does not possess the game already, save change
+                            Rating rating = new Rating(gameID, feedback,String.valueOf(selectedHours), returnStatus(), returnRating());
+
+                            try{
+                                database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
+
+                                if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
+                                    if(!insertGameDataInDb(gameToSave)) {
+                                        database.requestPost(0, null, database.getGames());
+                                        gameAdded = true;
+                                    }
+                            }
+                            catch(Exception e4){ e4.printStackTrace(); }
+
+                            database.requestPost(1, null, database.getUsers());
+                        }
+                        //get clean data from our DB
                         Database.getDatabase().requestGet(0);
-                        if(gameAdded2)//no database get if no insert
+                        if(gameAdded)//no database get if no insert
                             Database.getDatabase().requestGet(1);
                         if(Database.getDatabase().getCurrentUser() != null || Database.getDatabase().getGames() != null)
                             Database.getDatabase().createListsGames();
                     }
                 });
                 thread.start();
-
-                try {
-                    thread.join();
-                    if(Database.getDatabase().getCurrentUser() == null || Database.getDatabase().getGames() == null){
-                        Toast toast = Toast.makeText(getApplicationContext(), "No internet connection, your changes will not be saved, please check your Wifi or data are turned on", duration);
-                        toast.show();
-                        canLeave = false;
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if(canLeave)
-                    finish();
-
+                finish();
             }
         });
     }

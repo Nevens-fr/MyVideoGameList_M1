@@ -12,17 +12,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
+import com.example.myvideogamelist.InterfacesAppli.ObservatorAppli;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GameScreenActivity extends AppCompatActivity implements MyActivityImageDisplayable {
+public class GameScreenActivity extends AppCompatActivity implements MyActivityImageDisplayable, ObservatorAppli {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
@@ -36,6 +38,8 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
+
+        database.subscribe(this);
 
         //Get game data from previous activity
         Intent intent = getIntent();
@@ -190,10 +194,12 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
      * Add action on buttons
      */
     private void connectButtons(){
+        GameScreenActivity gsa = this;
         //on click on cross button
         findViewById(R.id.button_back_game_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                database.unsubscribe(gsa);
                 finish();
             }
         });
@@ -238,5 +244,14 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Received a notification from observed database
+     */
+    @Override
+    public void notified(int status) {
+        if(status != 200)
+            Toast.makeText(getApplicationContext(), "Internet error, data could not be saved", Toast.LENGTH_LONG).show();
     }
 }
