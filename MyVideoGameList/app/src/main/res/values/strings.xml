@@ -60,6 +60,10 @@
     <string name="genrePlanned">Planned</string>
     <string name="genreAbandonned">Abandoned</string>
 
+    <string name="no_game_in_list">No game in this list</string>
+
+    <string name="no_internet_access">Turn on network and relaunch application</string>
+
     <string name="emptySearch">We have\'nt found anything relevant to your search :(</string>
 
     <string name="searchName">Name</string>

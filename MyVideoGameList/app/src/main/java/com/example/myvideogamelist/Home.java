@@ -13,13 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.myvideogamelist.ApiGestion.Database;
 import com.example.myvideogamelist.ApiGestion.NewsAPI;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
-
-import java.io.File;
 
 public class Home extends AppCompatActivity implements MyActivityImageDisplayable {
 
@@ -41,6 +40,8 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
         addNavigationBar();
         navigationBar.init(this);
 
+        fillStatsUser();
+
         newsAPI.setCurrentActivity(this);
 
         articles = newsAPI.getArticles();
@@ -50,6 +51,33 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             launchCreation();
         else
             ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.no_internet_error, findViewById(R.id.home_to_clone_id), true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillStatsUser();
+    }
+
+    /**
+     * Fill user stats from database
+     */
+    private void fillStatsUser(){
+        ((TextView)findViewById(R.id.textView10)).setText(String.valueOf(Database.getDatabase().allGamesNumber()));
+        ((TextView)findViewById(R.id.textView11)).setText(String.valueOf(Database.getDatabase().finishedGamesNumber()));
+        Home tmp = this;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String time = Database.getDatabase().totalPlayTime();
+                tmp.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TextView)findViewById(R.id.textView13)).setText(time);
+                    }
+                });
+            }
+        }).start();
     }
 
     /**

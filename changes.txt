@@ -4,16 +4,15 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Opti save games done
+- home : display stats from user average playtime
+- Warn user if no network connexion at launch and block application start
+- Check any string in code and put it in strings.xml
 ******************************************************************************************************************
 TODO
 
-home :
-display stats from user average playtime
-
 make a round icon
 
-Check any string in code and put it in strings.xml
+utiliser méthode de check internet pour user rating
 
 opti news loading : when loading, if all game data get, go to home. while waiting news data, display card (waiting data) then use interface to create card just as for search
 

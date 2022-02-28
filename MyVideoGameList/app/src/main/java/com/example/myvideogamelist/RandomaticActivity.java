@@ -83,7 +83,7 @@ public class RandomaticActivity extends AppCompatActivity implements ObservatorA
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(randomaticActivity.getApplicationContext(), "No game in this list", Toast.LENGTH_LONG).show();
+                    Toast.makeText(randomaticActivity.getApplicationContext(), getString(R.string.no_game_in_list), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -149,6 +149,6 @@ public class RandomaticActivity extends AppCompatActivity implements ObservatorA
     @Override
     public void notified(int status) {
         if(status != 200)
-            Toast.makeText(getApplicationContext(), "Internet error, data could not be saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.internet_error), Toast.LENGTH_LONG).show();
     }
 }

@@ -45,6 +45,7 @@
         <entry key="app/src/main/res/layout/activity_game_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_games_list.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.16893115942028986" />
+        <entry key="app/src/main/res/layout/activity_loading.xml" value="0.15416666666666667" />
         <entry key="app/src/main/res/layout/activity_news.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_randomatic.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_game_rating.xml" value="0.25" />

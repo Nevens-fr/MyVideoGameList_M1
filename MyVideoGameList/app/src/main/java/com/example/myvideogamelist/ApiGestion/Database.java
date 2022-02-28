@@ -248,6 +248,65 @@ public class Database implements ObservableAppli {
     }
 
     /**
+     * Return the time a user spent on a game
+     * @param id game id to look for in user ratings
+     * @return string hours spent
+     */
+    private String getUserHoursOnGameId(String id){
+        try {
+            JSONArray userGames = getCurrentUser().getJSONArray("games");
+            for(int i = 0; i < userGames.length(); i++){
+                if(userGames.getJSONObject(i).getString("id").compareTo(id) == 0){
+                    return userGames.getJSONObject(i).getString("hours");
+                }
+            }
+            return null;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Return the total time the user spent on his games
+     * @return total play time in string
+     */
+    public String totalPlayTime(){
+        String playtime = " hours";
+        int time = 0;
+        try{
+            for(Game g : getAll()){
+                String id = g.getIdGame();
+                if(getUserHoursOnGameId(id) != null)
+                    time += Integer.parseInt(getUserHoursOnGameId(id));
+                else
+                    time += Integer.parseInt("0");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return String.valueOf(time) + playtime;
+    }
+
+    /**
+     * Return the number of games the user has finished
+     * @return number of finished games
+     */
+    public int finishedGamesNumber(){
+        return finished.size();
+    }
+
+    /**
+     * Return the number of games the users has in his lists
+     * @return number of games in lists
+     */
+    public int allGamesNumber(){
+        return getAll().size();
+    }
+
+    /**
      * Add games from a list to another
      * @param newList list where to add games
      * @param oldList list having games needed
