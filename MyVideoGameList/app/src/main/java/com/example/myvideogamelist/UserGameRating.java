@@ -384,11 +384,11 @@ public class UserGameRating extends AppCompatActivity {
                             database.requestPost(1, null, database.getUsers());
                         }
                         //get clean data from our DB
-                        Database.getDatabase().requestGet(0);
-                        if(gameAdded)//no database get if no insert
-                            Database.getDatabase().requestGet(1);
-                        if(Database.getDatabase().getCurrentUser() != null || Database.getDatabase().getGames() != null)
-                            Database.getDatabase().createListsGames();
+                        database.requestGet(0);
+                        if(gameAdded)
+                            database.requestGet(1);
+                        if(database.getCurrentUser() != null && database.getGames() != null)
+                            database.createListsGames();
                     }
                 });
                 thread.start();

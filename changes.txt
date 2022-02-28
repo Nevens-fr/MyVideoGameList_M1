@@ -4,9 +4,7 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- Randomatic over
-- Delete a game from lists
-- Opti save games en cours (if internet good looks ok, no internet looks not bad)
+- Opti save games done
 ******************************************************************************************************************
 TODO
 
@@ -15,7 +13,7 @@ display stats from user average playtime
 
 make a round icon
 
-opti save games and rating data user rating
+Check any string in code and put it in strings.xml
 
 opti news loading : when loading, if all game data get, go to home. while waiting news data, display card (waiting data) then use interface to create card just as for search
 

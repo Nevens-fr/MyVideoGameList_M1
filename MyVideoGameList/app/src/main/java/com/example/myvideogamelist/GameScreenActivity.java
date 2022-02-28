@@ -33,12 +33,14 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     private int predHeight;
     private Database database = Database.getDatabase();
     private String comesFrom;
+    private GameScreenActivity gameScreenActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
 
+        gameScreenActivity = this;
         database.subscribe(this);
 
         //Get game data from previous activity
@@ -65,6 +67,9 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         connectButtons();
     }
 
+    /**
+     * Internet connexion impossible, displaying placeholders
+     */
     private void connectionError(){
         ((ViewGroup)findViewById(R.id.scroll_view_game_screen_id)).removeAllViews();
         LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -251,7 +256,14 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
      */
     @Override
     public void notified(int status) {
-        if(status != 200)
-            Toast.makeText(getApplicationContext(), "Internet error, data could not be saved", Toast.LENGTH_LONG).show();
+        if(status != 200) {
+            gameScreenActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String txt = gameScreenActivity.getResources().getString(R.string.internet_error);
+                    Toast.makeText(gameScreenActivity.getApplicationContext(), txt, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 }

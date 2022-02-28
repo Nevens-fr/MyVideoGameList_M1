@@ -51,6 +51,8 @@
     <string name="news_goods_points_bla">Good points that are so good that we can not even speak about:</string>
     <string name="news_bad_points_bla">Bad points that are so bad that we can not even speak about:</string>
 
+    <string name="internet_error">Internet error, data could not be saved</string>
+
     <string name="genreAll">All</string>
     <string name="genreFinished">Finished</string>
     <string name="genrePlaying">Playing</string>

@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 public class Database implements ObservableAppli {
     private static final Database database = new Database();
+    private int status;
     private final String usersDB = "https://api.jsonstorage.net/v1/json/ace6b1ed-31d8-412f-a913-f7daea4e91ed";
     private final String gamesDB = "https://api.jsonstorage.net/v1/json/711efbe0-1ed7-4ae8-811b-77e998db7085";
     private StringBuffer content;
@@ -47,7 +48,7 @@ public class Database implements ObservableAppli {
 
                     con.setRequestProperty("Content-Type", "application/json; utf-8");
 
-                    int status = con.getResponseCode();
+                    status = con.getResponseCode();
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(con.getInputStream()));
                     String inputLine;
@@ -99,11 +100,11 @@ public class Database implements ObservableAppli {
                     byte[] input = newDatas.toString().getBytes("utf-8");
                     output.write(input, 0, input.length);
 
-                    int status = con.getResponseCode();
-                    System.out.println("Post response : " +status);
+                    status = con.getResponseCode();
                     notifyObs(status);
                 } catch (Exception e) {
                     System.out.println(e.getMessage() + e.getCause() + e.getClass());
+                    notifyObs(400);
                 }
             }
         });
@@ -236,6 +237,8 @@ public class Database implements ObservableAppli {
      */
     public ArrayList<Game> getAll(){
         ArrayList<Game> allGames = new ArrayList<>();
+        if(playing == null)//internet error cause array to become null
+            return new ArrayList<>();
         getGamesFromList(allGames, playing);
         getGamesFromList(allGames, planned);
         getGamesFromList(allGames, on_hold);
