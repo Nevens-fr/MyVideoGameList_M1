@@ -21,3 +21,4 @@ opti news loading : when loading, if all game data get, go to home. while waitin
 Later :
 - crayon sur fiche jeu pour rating pas parlant
 - recherche quand user s'arrête de taper dans recherche
+- gamescreen activiy: display average play time and rating instead of personnal ones
