@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,8 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
     private JSONObject articles, reviews;
     private JSONObject articlesNew = null, reviewsNew = null;
     private final NewsAPI newsAPI = NewsAPI.getNewsAPI();
-    private boolean articleRequest = false, reviewRequest =false;
+    private boolean articleRequest = true, reviewRequest =true, launch = true;
+    private Handler mainHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,14 +292,34 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
      */
     @Override
     public void getApiInfo(JSONObject obj) {
-        if(articleRequest){
-            articleRequest = false;
-            articlesNew = newsAPI.getArticles();
+        if(launch == true){
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(articleRequest){
+                        articleRequest = false;
+                        articles = newsAPI.getArticles();
+                    }
+                    else if (reviewRequest){
+                        reviewRequest = false;
+                        reviews = newsAPI.getReviews();
+                        launch = false;
+                        launchCreation();
+                    }
+                    ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
+                }
+            });
         }
-        else if (reviewRequest){
-            reviewRequest = false;
-            reviewsNew = newsAPI.getReviews();
+        else{
+            if(articleRequest){
+                articleRequest = false;
+                articlesNew = newsAPI.getArticles();
+            }
+            else if (reviewRequest){
+                reviewRequest = false;
+                reviewsNew = newsAPI.getReviews();
+            }
+            ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
         }
-        ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
     }
 }
