@@ -52,7 +52,7 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
         if(articles != null && reviews != null)
             launchCreation();
         else
-            ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.no_internet_error, findViewById(R.id.home_to_clone_id), true);
+            ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.loading_news, findViewById(R.id.home_to_clone_id), true);
     }
 
     @Override
@@ -304,9 +304,9 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
                         reviewRequest = false;
                         reviews = newsAPI.getReviews();
                         launch = false;
+                        ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
                         launchCreation();
                     }
-                    ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
                 }
             });
         }

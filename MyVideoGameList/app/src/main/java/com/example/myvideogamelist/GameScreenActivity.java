@@ -111,6 +111,40 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     }
 
     /**
+     * Return the average number from users rating
+     * @param field field we are building a mean for
+     * @param textAfter text to display after users mean
+     * @return string mean of users rating field
+     */
+    private String getReviewForGame(String field, String textAfter){
+        int found = 0;
+        int nb = 0;
+
+        try{
+            JSONArray users = database.getUsers().getJSONArray("users");
+            if(users.length() == 0)
+                throw new Exception();
+            else{
+                for(int i = 0; i < users.length(); i++){
+                    JSONArray games = users.getJSONObject(i).getJSONArray("games");
+                    for(int j = 0; j < games.length(); j++){
+                        if(games.getJSONObject(j).getString("id").compareTo(game.getString("id")) == 0){
+                            found += Integer.parseInt(games.getJSONObject(j).getString(field));
+                            nb++;
+                        }
+                    }
+                }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        if(nb == 0)
+            return "no data";
+        return String.valueOf(found / nb) + textAfter;
+    }
+
+    /**
      * Set all fields with game datas
      */
     private void fillGameData(){
@@ -118,9 +152,10 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setText(game.getString("name"));
             ((TextView)findViewById(R.id.released_date_game_screen_id)).setText("Released:\n"+ game.getString("released"));
             ((TextView)findViewById(R.id.description_game_screen_id)).setText(Html.fromHtml(game.getString("description")));
-            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Devs:\n", game.getJSONArray("developers"),""));
+            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Developers:\n", game.getJSONArray("developers"),""));
             ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(computeDatasFromArray("Publishers:\n", game.getJSONArray("publishers"),""));
-            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+game.getString("playtime")+" hours");
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+getReviewForGame("hours", " hours"));
+            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score:\n"+getReviewForGame("score", "/10"));
             ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic:\n" +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
             ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("", game.getJSONArray("genres"), "\t\t\t"));
             look4GameInUserData(game.getString("id"));
@@ -239,11 +274,16 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             fillGameData();
     }
 
+    /**
+     * When user come back to this activity, we need refresh data
+     */
     @Override
     protected void onResume() {
         super.onResume();
         try{
             look4GameInUserData(game.getString("id"));
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+getReviewForGame("hours", " hours"));
+            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score:\n"+getReviewForGame("score", "/10"));
             findViewById(R.id.button_to_user_rating_game_screen_id).setVisibility(View.VISIBLE);
         }
         catch (Exception e){

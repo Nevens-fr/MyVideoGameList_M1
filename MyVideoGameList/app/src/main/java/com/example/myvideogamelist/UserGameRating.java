@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +42,7 @@ public class UserGameRating extends AppCompatActivity {
     private final GamesAPI gamesAPI = GamesAPI.getGamesAPI();
     private Game gameToSave;
     private String comesFrom;
+    private Handler mainHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,15 +324,25 @@ public class UserGameRating extends AppCompatActivity {
                 if(userGameID == -1)
                     finish();
                 else{
-                    try {
-                        database.getCurrentUser().getJSONArray("games").remove(userGameID);
-                        database.requestPost(1, null, database.getUsers());
-                        database.createListsGames();
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    finish();
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if(isNetworkConnected()){
+                                    database.getCurrentUser().getJSONArray("games").remove(userGameID);
+                                    database.requestPost(1, null, database.getUsers());
+                                    database.createListsGames();
+                                    throw new Exception();
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), getString(R.string.no_internet_access_to_save_data), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            catch (Exception e){
+                                finish();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -338,63 +351,88 @@ public class UserGameRating extends AppCompatActivity {
         findViewById(R.id.button_game_rating_save_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
-                try{
-                    selectedHours = Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.thousands_rating_id)).getValue())) * 1000;
-                    selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.hundreds_rating_id)).getValue())) * 100;
-                    selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.dozens_rating_id)).getValue())) * 10;
-                    selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.units_rating_id)).getValue()));
-                }
-                catch(Exception e){
-                    selectedHours = 0;
-                    e.printStackTrace();
-                }
-                Thread thread = new Thread(new Runnable() {
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        boolean gameAdded = false;
-                        //Looking for any change from user already saved dataException
-                        try{
-                            if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
-                                dataChanged = true;
-                            if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
-                                dataChanged = true;
-
-                            if(dataChanged){//save change
-                                Rating r = new Rating(gameID, feedback, String.valueOf(selectedHours), returnStatus(), returnRating());
-                                database.getCurrentUser().getJSONArray("games").remove(userGameID);
-                                database.getCurrentUser().getJSONArray("games").put(r.getJSONObject());
-                                database.requestPost(1, null, database.getUsers());
-                            }
+                        if(isNetworkConnected()){
+                            saveData();
                         }
-                        catch (Exception e){//user does not possess the game already, save change
-                            Rating rating = new Rating(gameID, feedback,String.valueOf(selectedHours), returnStatus(), returnRating());
-
-                            try{
-                                database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
-
-                                if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
-                                    if(!insertGameDataInDb(gameToSave)) {
-                                        database.requestPost(0, null, database.getGames());
-                                        gameAdded = true;
-                                    }
-                            }
-                            catch(Exception e4){ e4.printStackTrace(); }
-
-                            database.requestPost(1, null, database.getUsers());
+                        else{
+                            Toast.makeText(getApplicationContext(), getString(R.string.no_internet_access_to_save_data), Toast.LENGTH_LONG).show();
                         }
-                        //get clean data from our DB
-                        database.requestGet(0);
-                        if(gameAdded)
-                            database.requestGet(1);
-                        if(database.getCurrentUser() != null && database.getGames() != null)
-                            database.createListsGames();
                     }
                 });
-                thread.start();
-                finish();
             }
         });
+    }
+
+    /**
+     * Get data in view, entered by user
+     */
+    private void getDataInView(){
+        feedback = ((EditText)findViewById(R.id.feedback_game_rating_id)).getText().toString();
+        try{
+            selectedHours = Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.thousands_rating_id)).getValue())) * 1000;
+            selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.hundreds_rating_id)).getValue())) * 100;
+            selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.dozens_rating_id)).getValue())) * 10;
+            selectedHours += Integer.parseInt(String.valueOf(((NumberPicker)findViewById(R.id.units_rating_id)).getValue()));
+        }
+        catch(Exception e){
+            selectedHours = 0;
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Save data to database
+     */
+    private void saveData(){
+        getDataInView();
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean gameAdded = false;
+                //Looking for any change from user already saved dataException
+                try{
+                    if(feedback.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("feedback")) != 0)
+                        dataChanged = true;
+                    if(String.valueOf(selectedHours).compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(userGameID).getString("hours")) != 0)
+                        dataChanged = true;
+
+                    if(dataChanged){//save change
+                        Rating r = new Rating(gameID, feedback, String.valueOf(selectedHours), returnStatus(), returnRating());
+                        database.getCurrentUser().getJSONArray("games").remove(userGameID);
+                        database.getCurrentUser().getJSONArray("games").put(r.getJSONObject());
+                        database.requestPost(1, null, database.getUsers());
+                    }
+                }
+                catch (Exception e){//user does not possess the game already, save change
+                    Rating rating = new Rating(gameID, feedback,String.valueOf(selectedHours), returnStatus(), returnRating());
+
+                    try{
+                        database.getCurrentUser().getJSONArray("games").put(rating.getJSONObject());//add game feedback to user data
+
+                        if(comesFrom.compareTo("search") == 0)//coming from search activity, need to save game data
+                            if(!insertGameDataInDb(gameToSave)) {
+                                database.requestPost(0, null, database.getGames());
+                                gameAdded = true;
+                            }
+                    }
+                    catch(Exception e4){ e4.printStackTrace(); }
+
+                    database.requestPost(1, null, database.getUsers());
+                }
+                //get clean data from our DB
+                database.requestGet(0);
+                if(gameAdded)
+                    database.requestGet(1);
+                if(database.getCurrentUser() != null && database.getGames() != null)
+                    database.createListsGames();
+            }
+        });
+        thread.start();
+        finish();
     }
 
     /**
@@ -511,5 +549,15 @@ public class UserGameRating extends AppCompatActivity {
         else
             isEmptyStatus = false;
         selectedStatusButton = currentView;
+    }
+
+    /**
+     * Check network connexion
+     * @return true if connected
+     */
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

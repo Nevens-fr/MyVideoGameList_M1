@@ -62,7 +62,10 @@
 
     <string name="no_game_in_list">No game in this list</string>
 
+    <string name="loading_news">Loading the latest news for you, please wait...</string>
+
     <string name="no_internet_access">Turn on network and relaunch application</string>
+    <string name="no_internet_access_to_save_data">Turn on network to apply changes</string>
 
     <string name="emptySearch">We have\'nt found anything relevant to your search :(</string>
 

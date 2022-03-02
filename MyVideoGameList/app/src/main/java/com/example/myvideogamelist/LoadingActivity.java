@@ -101,6 +101,11 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 NewsAPI.getNewsAPI().requestWithParam("articles", "");
+                try{
+                    //to wait and get articles first
+                    Thread.sleep(150);
+                }
+                catch (Exception e){}
                 NewsAPI.getNewsAPI().requestWithParam("reviews", "");
                 launchApp();
             }

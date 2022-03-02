@@ -4,16 +4,17 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- opti news loading 
+- warn user if no network connexion in user rating (delete and save data)
+- delayed call to review API to get aticle first and avoid crash
+- new text for waiting news data
+- gamescreen activiy: display average play time and score
 ******************************************************************************************************************
 TODO
 
 make a round icon
 
-utiliser méthode de check internet pour user rating
-
+lateral swipe in search
 
 Later :
 - crayon sur fiche jeu pour rating pas parlant
 - recherche quand user s'arrête de taper dans recherche
-- gamescreen activiy: display average play time and rating instead of personnal ones
