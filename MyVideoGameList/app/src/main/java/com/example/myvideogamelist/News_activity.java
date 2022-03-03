@@ -67,8 +67,8 @@ public class News_activity extends AppCompatActivity {
                 findViewById(R.id.categories_id).setVisibility(View.VISIBLE);
             }
             else{//specific fields for reviews
-                ((TextView)findViewById(R.id.score_news_id)).setText("Score: "+ news.getString("score")+"/10");
-                findViewById(R.id.score_news_id).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.score_news_id)).setText(news.getString("score"));
+                findViewById(R.id.score_linear_id).setVisibility(View.VISIBLE);
                 buildBadAndGoodPoints(news.getString("good"), news.getString("bad"));
                 findViewById(R.id.good_and_bad_points_news_id).setVisibility(View.VISIBLE);
             }

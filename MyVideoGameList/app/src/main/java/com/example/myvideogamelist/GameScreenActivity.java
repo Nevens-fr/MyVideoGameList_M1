@@ -93,16 +93,16 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         try{
             for(int i = 0; i < database.getCurrentUser().getJSONArray("games").length() && !over; i++){
                 if (gameID.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
-                    String time = "Your time: "+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours";
+                    String time = "Your time "+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours";
                     ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(time);
-                    ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score: " +user.getJSONArray("games").getJSONObject(i).getString("score") + "/10");
+                    ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score " +user.getJSONArray("games").getJSONObject(i).getString("score") + "/10");
                     over = true;
                 }
             }
 
             if(!over){//user has no data for this game
-                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText("Your playtime: no record");
-                ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score: no record");
+                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText("Your playtime no record");
+                ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score no record");
             }
         }
         catch (Exception e){
@@ -150,19 +150,19 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
     private void fillGameData(){
         try {
             ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setText(game.getString("name"));
-            ((TextView)findViewById(R.id.released_date_game_screen_id)).setText("Released:\n"+ game.getString("released"));
+            ((TextView)findViewById(R.id.released_date_game_screen_id)).setText(Html.fromHtml("<span>Released\n</span><span style=\"color:#FA8002;\">"+ game.getString("released")+"</span>"));
             ((TextView)findViewById(R.id.description_game_screen_id)).setText(Html.fromHtml(game.getString("description")));
-            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Developers:\n", game.getJSONArray("developers"),""));
-            ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(computeDatasFromArray("Publishers:\n", game.getJSONArray("publishers"),""));
-            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+getReviewForGame("hours", " hours"));
-            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score:\n"+getReviewForGame("score", "/10"));
-            ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic:\n" +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
+            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Developers\n", game.getJSONArray("developers"),""));
+            ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(computeDatasFromArray("Publishers\n", game.getJSONArray("publishers"),""));
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime\n"+getReviewForGame("hours", " hours"));
+            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score\n"+getReviewForGame("score", "/10"));
+            ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic\n" +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
             ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("", game.getJSONArray("genres"), "\t\t\t"));
             look4GameInUserData(game.getString("id"));
             addScreen();
 
             //If game name is too large for title, reduce size
-            if(game.getString("name").length() > 20){
+            if(game.getString("name").length() > 18){
                 ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setTextSize(15);
             }
 
@@ -282,8 +282,8 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         super.onResume();
         try{
             look4GameInUserData(game.getString("id"));
-            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime:\n"+getReviewForGame("hours", " hours"));
-            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score:\n"+getReviewForGame("score", "/10"));
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime\n"+getReviewForGame("hours", " hours"));
+            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score\n"+getReviewForGame("score", "/10"));
             findViewById(R.id.button_to_user_rating_game_screen_id).setVisibility(View.VISIBLE);
         }
         catch (Exception e){
