@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myvideogamelist.ApiGestion.NewsAPI;
+
 /**
  * Class that allow user to navigate in the app
  */
@@ -31,6 +33,7 @@ public class NavigationBar {
         if(currentActivity.getClass() != Home.class)
             buttonHome.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    NewsAPI.getNewsAPI().setCurrentActivity(null);
                     Intent intent = new Intent(currentActivity, Home.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     currentActivity.startActivity(intent);
@@ -39,6 +42,7 @@ public class NavigationBar {
         if(currentActivity.getClass() != SearchActivity.class)
             buttonSearch.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    NewsAPI.getNewsAPI().setCurrentActivity(null);
                     Intent intent = new Intent(currentActivity, SearchActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     currentActivity.startActivity(intent);
@@ -47,6 +51,7 @@ public class NavigationBar {
         if(currentActivity.getClass() != RandomaticActivity.class)
             buttonRandomatic.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    NewsAPI.getNewsAPI().setCurrentActivity(null);
                     Intent intent = new Intent(currentActivity, RandomaticActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     currentActivity.startActivity(intent);
@@ -55,6 +60,7 @@ public class NavigationBar {
         if(currentActivity.getClass() != GamesListActivity.class)
             buttonMyLists.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    NewsAPI.getNewsAPI().setCurrentActivity(null);
                     Intent intent = new Intent(currentActivity, GamesListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     currentActivity.startActivity(intent);

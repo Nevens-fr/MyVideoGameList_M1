@@ -81,6 +81,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -90,7 +91,7 @@
                     android:textColor="@color/white"
                     android:layout_margin="10dp"
                     android:gravity="center"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:text="released_date_game_screen_id" />
 
                 <TextView
@@ -108,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:gravity="center"
                     android:text="average_time_game_screen_id"
                     android:textColor="@color/white" />
@@ -149,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.35"
                     android:gravity="center"
                     android:text="metacritic_game_screen_id"
                     android:textColor="@color/white" />
@@ -199,7 +200,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:layout_weight="1"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:text="user_time_game_screen_id" />
 
                 <TextView
@@ -207,9 +209,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:gravity="end"
-                    android:layout_margin="10dp"
-                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:text="user_score_game_screen_id" />
             </LinearLayout>
 

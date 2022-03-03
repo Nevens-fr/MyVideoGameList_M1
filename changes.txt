@@ -4,18 +4,11 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- change icon to edit rating on game
-- round icon
-- review : news : score in big on side
+- navigation bar, addded null to news api activity to call when leaving home
+- gamescreen : orange on value + center text
 ******************************************************************************************************************
 TODO
 
 notification
 
 lateral swipe in search
-
-gamescreen centré average score
-
-review : note en gros sur le côté
-
-game screen : deux lignes released published : mettres les valeurs en orange (pas titre) et retirer les deux points

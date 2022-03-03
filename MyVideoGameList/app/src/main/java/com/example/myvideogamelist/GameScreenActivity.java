@@ -93,16 +93,16 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         try{
             for(int i = 0; i < database.getCurrentUser().getJSONArray("games").length() && !over; i++){
                 if (gameID.compareTo(database.getCurrentUser().getJSONArray("games").getJSONObject(i).getString("id")) == 0){
-                    String time = "Your time "+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours";
-                    ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(time);
-                    ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score " +user.getJSONArray("games").getJSONObject(i).getString("score") + "/10");
+                    String time = "<span>Your time<br/></span><span style=\"color:#FA8002;\">"+ user.getJSONArray("games").getJSONObject(i).getString("hours") + " hours</span>";
+                    ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(Html.fromHtml(time));
+                    ((TextView)findViewById(R.id.user_score_game_screen_id)).setText(Html.fromHtml("<span>Your score<br/></span><span style=\"color:#FA8002;\">" +user.getJSONArray("games").getJSONObject(i).getString("score") + "/10</span>"));
                     over = true;
                 }
             }
 
             if(!over){//user has no data for this game
-                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText("Your playtime no record");
-                ((TextView)findViewById(R.id.user_score_game_screen_id)).setText("Your score no record");
+                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(Html.fromHtml("<span>Your score<br/></span><span style=\"color:#FA8002;\">no record</span>"));
+                ((TextView)findViewById(R.id.user_score_game_screen_id)).setText(Html.fromHtml("<span>Your score<br/></span><span style=\"color:#FA8002;\">no record</span>"));
             }
         }
         catch (Exception e){
@@ -152,12 +152,12 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             ((TextView)findViewById(R.id.text_game_name_game_screen_id)).setText(game.getString("name"));
             ((TextView)findViewById(R.id.released_date_game_screen_id)).setText(Html.fromHtml("<span>Released\n</span><span style=\"color:#FA8002;\">"+ game.getString("released")+"</span>"));
             ((TextView)findViewById(R.id.description_game_screen_id)).setText(Html.fromHtml(game.getString("description")));
-            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(computeDatasFromArray("Developers\n", game.getJSONArray("developers"),""));
-            ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(computeDatasFromArray("Publishers\n", game.getJSONArray("publishers"),""));
-            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime\n"+getReviewForGame("hours", " hours"));
-            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score\n"+getReviewForGame("score", "/10"));
-            ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText("Metacritic\n" +(game.getString("metacritic") == "null" ? "no record":game.getString("metacritic")));
-            ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("", game.getJSONArray("genres"), "\t\t\t"));
+            ((TextView)findViewById(R.id.dev_game_screen_id)).setText(Html.fromHtml(computeDatasFromArray("Developers\n", game.getJSONArray("developers"),"", true)));
+            ((TextView)findViewById(R.id.publisher_game_screen_id)).setText(Html.fromHtml(computeDatasFromArray("Publishers\n", game.getJSONArray("publishers"),"", true)));
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText(Html.fromHtml("<span>Average playtime\n</span><span style=\"color:#FA8002;\">"+getReviewForGame("hours", " hours")+"</span>"));
+            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText(Html.fromHtml("<span>Average score\n</span><span style=\"color:#FA8002;\">"+getReviewForGame("score", "/10")+"</span>"));
+            ((TextView)findViewById(R.id.metacritic_game_screen_id)).setText(Html.fromHtml("<span>Metacritic<br/></span><span style=\"color:#FA8002;\">" +(game.getString("metacritic").compareTo("null") ==0 ? "no record":game.getString("metacritic"))+"</span>"));
+            ((TextView)findViewById(R.id.genres_game_screen_id)).setText(computeDatasFromArray("", game.getJSONArray("genres"), "\t\t\t", false));
             look4GameInUserData(game.getString("id"));
             addScreen();
 
@@ -211,11 +211,17 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
      * Return a string containing all data from a json array
      * @param category category name
      * @param array json array
+     * @param addHtml boolean, true if html is needed
+     * @param elemToAdd separator
      * @return string containing data
      */
-    private String computeDatasFromArray(String category, JSONArray array, String elemToAdd){
+    private String computeDatasFromArray(String category, JSONArray array, String elemToAdd, boolean addHtml){
         try{
-            String elem =category;
+            String elem;
+            if(addHtml)
+                elem ="<span>"+category+"<br/></span></span><span style=\"color:#FA8002;\">";
+            else
+                elem = category;
             for(int i = 0; i < array.length(); i++){
                 elem += array.getJSONObject(i).getString("name") + elemToAdd;
                 if(i+1 < array.length() && elemToAdd.isEmpty())
@@ -223,7 +229,10 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
                 else if(i+1 < array.length())
                     elem += "-"+elemToAdd;
             }
-            return elem;
+            if(addHtml)
+                return elem+"</span>";
+            else
+                return elem;
         }
         catch (Exception e){
             return null;
@@ -282,8 +291,8 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         super.onResume();
         try{
             look4GameInUserData(game.getString("id"));
-            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText("Average playtime\n"+getReviewForGame("hours", " hours"));
-            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText("Average score\n"+getReviewForGame("score", "/10"));
+            ((TextView)findViewById(R.id.average_time_game_screen_id)).setText(Html.fromHtml("<span>Average playtime\n<br/></span><span style=\"color:#FA8002;\">"+getReviewForGame("hours", " hours")+"</span>"));
+            ((TextView)findViewById(R.id.average_rating_game_screen_id)).setText(Html.fromHtml("<span>Average score\n<br/></span><span style=\"color:#FA8002;\">"+getReviewForGame("score", "/10")+"</span>"));
             findViewById(R.id.button_to_user_rating_game_screen_id).setVisibility(View.VISIBLE);
         }
         catch (Exception e){
