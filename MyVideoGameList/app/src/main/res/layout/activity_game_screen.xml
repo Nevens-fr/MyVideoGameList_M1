@@ -231,9 +231,11 @@
         android:id="@+id/button_to_user_rating_game_screen_id"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@android:drawable/ic_menu_edit"
         android:background="@drawable/button_orange_border"
         android:backgroundTint="@null"
+        android:src="@drawable/ic_edit_game"
+        android:tint="#B6B0B0"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/scroll_view_game_screen_id"
         app:layout_constraintEnd_toEndOf="parent" />
 

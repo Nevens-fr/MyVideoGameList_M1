@@ -50,6 +50,7 @@
         <entry key="app/src/main/res/layout/activity_randomatic.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.11770833333333333" />
         <entry key="app/src/main/res/layout/activity_user_game_rating.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bottom_bar_navigation.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/card_news_to_clone.xml" value="0.33" />
         <entry key="app/src/main/res/layout/loading_news.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/no_internet_error.xml" value="0.25" />

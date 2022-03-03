@@ -58,6 +58,7 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
     @Override
     protected void onResume() {
         super.onResume();
+        newsAPI.setCurrentActivity(this);
         fillStatsUser();
     }
 
@@ -124,6 +125,7 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             @Override
             public void onClick(View view) {
                 deleteFile("config.txt");//disable auto connect
+                newsAPI.setCurrentActivity(null);
                 Intent intent = new Intent(tmp,LoadingActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 tmp.startActivity(intent);
@@ -237,10 +239,11 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             ((LinearLayout)v.findViewById(R.id.news_for_image_id)).addView(imgV,0 );
             ((LinearLayout)v.findViewById(R.id.card_news_to_clone_id)).setGravity(Gravity.CENTER_VERTICAL);
 
-            //start game screen activity on click on game card
+            //start news activity on click on game card
             ((LinearLayout)v.findViewById(R.id.card_news_to_clone_id)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    newsAPI.setCurrentActivity(null);
                     Intent intent = new Intent(getApplicationContext(), News_activity.class);
                     intent.putExtra("category", category);
                     intent.putExtra("news", news.toString());

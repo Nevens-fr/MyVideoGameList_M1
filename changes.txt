@@ -4,9 +4,7 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- up delay to news api call for reviews
-- fix problem with loging. (if sign out can go back to home without loging, 
-	if just login can go back to loging without logout)
+- change icon to edit rating on game
 ******************************************************************************************************************
 TODO
 
@@ -15,5 +13,4 @@ notification
 lateral swipe in search
 
 Later :
-- crayon sur fiche jeu pour rating pas parlant
 - recherche quand user s'arrête de taper dans recherche
