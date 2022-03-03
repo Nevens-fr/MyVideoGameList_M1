@@ -103,7 +103,7 @@ public class LoadingActivity extends AppCompatActivity {
                 NewsAPI.getNewsAPI().requestWithParam("articles", "");
                 try{
                     //to wait and get articles first
-                    Thread.sleep(150);
+                    Thread.sleep(500);
                 }
                 catch (Exception e){}
                 NewsAPI.getNewsAPI().requestWithParam("reviews", "");

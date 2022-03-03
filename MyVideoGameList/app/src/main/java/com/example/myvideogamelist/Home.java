@@ -124,9 +124,10 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             @Override
             public void onClick(View view) {
                 deleteFile("config.txt");//disable auto connect
-                Intent intent = new Intent(tmp,FirstScreenActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(tmp,LoadingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 tmp.startActivity(intent);
+                //finish();
             }
         });
     }

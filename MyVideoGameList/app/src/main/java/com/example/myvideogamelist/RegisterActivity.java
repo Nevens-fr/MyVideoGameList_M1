@@ -45,9 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         buttonBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, FirstScreenActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                currentActivity.startActivity(intent);
+                finish();
             }
         });
 
@@ -56,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if(checkFields()){
                     addNewUser();
                     Intent intent = new Intent(currentActivity, Home.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     currentActivity.startActivity(intent);
                 }
                 else{
