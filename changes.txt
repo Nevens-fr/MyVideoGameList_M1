@@ -4,8 +4,7 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- navigation bar, addded null to news api activity to call when leaving home
-- gamescreen : orange on value + center text
+- notification if app is running ok (todo when app is closed can notifiy), need to build content (not done yet)
 ******************************************************************************************************************
 TODO
 
