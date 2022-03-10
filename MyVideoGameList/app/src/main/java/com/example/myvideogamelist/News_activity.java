@@ -76,8 +76,8 @@ public class News_activity extends AppCompatActivity {
             ((TextView)findViewById(R.id.news_title_id)).setTextSize(15);
 
             ((TextView)findViewById(R.id.news_title_id)).setText(news.getString("title"));
-            ((TextView)findViewById(R.id.publish_date_news_id)).setText("Publish date: " + news.getString("publish_date").substring(0, news.getString("publish_date").indexOf(' ')));
-            ((TextView)findViewById(R.id.authors_news_id)).setText("Authors: " + news.getString("authors"));
+            ((TextView)findViewById(R.id.publish_date_news_id)).setText(Html.fromHtml("<span>Publish date: </span><span style=\"color:#FA8002;\">" + news.getString("publish_date").substring(0, news.getString("publish_date").indexOf(' '))+"</span>"));
+            ((TextView)findViewById(R.id.authors_news_id)).setText(Html.fromHtml("<span>Authors: </span><span style=\"color:#FA8002;\">" + news.getString("authors")+"</span>"));
             ((TextView)findViewById(R.id.lede_news_id)).setText(news.getString("lede"));
             ((TextView)findViewById(R.id.description_news_id)).setText(Html.fromHtml(news.getString("body")));
             ((TextView)findViewById(R.id.description_news_id)).setMovementMethod(LinkMovementMethod.getInstance());

@@ -14,6 +14,11 @@ import androidx.core.app.NotificationCompat;
 import com.example.myvideogamelist.LoadingActivity;
 import com.example.myvideogamelist.R;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class NotificationHelper {
     private Context mContext;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
@@ -34,7 +39,16 @@ public class NotificationHelper {
 
         // Creating data for notif
         Notification notif = new Notification(mContext);
-        if(!notif.createNotificationData("2020-0-12"))
+        Date date = new Date(); // your date
+// Choose time zone in which you want to interpret your Date
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        String date2 = String.valueOf(year) +"-"+String.valueOf(month)+"-"+String.valueOf(day);
+        System.out.println(date2);
+        if(!notif.createNotificationData(date2))
             return false;
 
 

@@ -4,14 +4,11 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- unitTest
-- notification WIP
-- display user name on home
-- fix user always connected to first user in database and not to his account
-- fix config file with strange characters
+-  notification over
+- articles and reviews : date and authors in orange
 ******************************************************************************************************************
 TODO
 
-notification
-
 lateral swipe in search
+
+notification when app is close

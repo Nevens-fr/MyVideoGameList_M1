@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 
 import com.example.myvideogamelist.ApiGestion.Database;
 
+import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -77,7 +79,39 @@ public class Notification {
             return false;
 
         //todo parcourir les jeux de l'utilisateur et regarder les dates, ajouter les jeux release à la dateN
-        return true;
+        try{
+            JSONArray games = database.getCurrentUser().getJSONArray("games");
+            JSONArray gamesDB = database.getGames().getJSONArray("games");
+            for(int i = 0; i < games.length(); i++){
+                String id = games.getJSONObject(i).getString("id");
+                for(int j = 0; j < gamesDB.length(); j++){
+                    if(gamesDB.getJSONObject(j).getString("id").compareTo(id) == 0){
+                        DateNotif dateGame = parseDate(gamesDB.getJSONObject(j).getString("released"));
+
+                        if(dateGame != null && dateN.compareTo(dateGame) == 0){
+                            if(nbReleaseToday >= 1)
+                                body +=", ";
+                            nbReleaseToday++;
+                            body += gamesDB.getJSONObject(j).getString("name");
+                        }
+                    }
+                }
+            }
+
+            if(nbReleaseToday == 1){
+                title = "A game is released today.";
+                body += " in your list is now available.";
+            }
+            else{
+                title = "Multiple games are released today.";
+                body += " from your list are now available.";
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return nbReleaseToday >0;
     }
 
     /**
