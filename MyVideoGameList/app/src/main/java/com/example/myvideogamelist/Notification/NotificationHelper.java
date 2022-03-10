@@ -22,8 +22,7 @@ public class NotificationHelper {
         mContext = context;
     }
 
-    void createNotification()
-    {
+    boolean createNotification(){
 
         Intent intent = new Intent(mContext , LoadingActivity.class);
 
@@ -33,11 +32,17 @@ public class NotificationHelper {
                 0 /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Creating data for notif
+        Notification notif = new Notification(mContext);
+        if(!notif.createNotificationData("2020-0-12"))
+            return false;
+
+
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
         mBuilder.setSmallIcon(R.drawable.logo_foreground_transparent);
-        mBuilder.setContentTitle("Title")
-                .setContentText("Content")
+        mBuilder.setContentTitle(notif.getTitle())
+                .setContentText(notif.getBody())
                 .setAutoCancel(false)
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setContentIntent(resultPendingIntent);
@@ -58,5 +63,7 @@ public class NotificationHelper {
         }
         assert mNotificationManager != null;
         mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+
+        return true;
     }
 }

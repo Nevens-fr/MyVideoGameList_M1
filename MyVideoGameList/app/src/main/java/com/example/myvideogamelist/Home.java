@@ -46,6 +46,14 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
 
         newsAPI.setCurrentActivity(this);
 
+        //display user name on home
+        try{
+            ((TextView)findViewById(R.id.textView7)).setText(getString(R.string.homeWelcome) + " " + Database.getDatabase().getCurrentUser().getString("name"));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
         articles = newsAPI.getArticles();
         reviews = newsAPI.getReviews();
 

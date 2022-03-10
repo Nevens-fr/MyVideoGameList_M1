@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void writeUserIndex(int index){
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getApplicationContext().openFileOutput("config.txt", getApplicationContext().MODE_PRIVATE));
-            outputStreamWriter.write(index);
+            outputStreamWriter.write(String.valueOf(index));
             outputStreamWriter.close();
         }
         catch (Exception e) {

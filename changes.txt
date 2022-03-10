@@ -4,7 +4,11 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- notification if app is running ok (todo when app is closed can notifiy), need to build content (not done yet)
+- unitTest
+- notification WIP
+- display user name on home
+- fix user always connected to first user in database and not to his account
+- fix config file with strange characters
 ******************************************************************************************************************
 TODO
 

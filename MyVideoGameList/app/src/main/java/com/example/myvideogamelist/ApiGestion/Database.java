@@ -18,13 +18,13 @@ import java.util.ArrayList;
  * Class allowing access to databases containing users or games datas
  */
 public class Database implements ObservableAppli {
-    private static final Database database = new Database();
+    private static Database database = null;
     private int status;
     private final String usersDB = "https://api.jsonstorage.net/v1/json/ace6b1ed-31d8-412f-a913-f7daea4e91ed";
     private final String gamesDB = "https://api.jsonstorage.net/v1/json/711efbe0-1ed7-4ae8-811b-77e998db7085";
     private StringBuffer content;
     private JSONObject games = null, users = null;
-    private int currentUser;
+    private int currentUser = -1;
     private ArrayList<Game> finished, planned, abandoned, on_hold, playing;
     private ArrayList<ObservatorAppli> observators = new ArrayList<>();
 
@@ -148,6 +148,8 @@ public class Database implements ObservableAppli {
     }
 
     public static Database getDatabase() {
+        if(database == null)
+            database = new Database();
         return database;
     }
 
@@ -166,6 +168,9 @@ public class Database implements ObservableAppli {
 
     public void setSelectedUserID(int id){
         this.currentUser = id;
+    }
+    public int getSelectedUserID(){
+        return this.currentUser;
     }
 
     /**

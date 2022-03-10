@@ -71,7 +71,7 @@ public class LoadingActivity extends AppCompatActivity {
                 }
 
                 inputStream.close();
-                user = stringBuilder.toString();
+                user = stringBuilder.toString().replace("\n", "");
             }
         }
         catch (FileNotFoundException e) {
@@ -96,7 +96,9 @@ public class LoadingActivity extends AppCompatActivity {
                 Database.getDatabase().requestGet(1);
 
                 //if user doesn't exist, necessity to call again these methods after login or register
-                Database.getDatabase().setSelectedUserID(0);
+                System.out.println(user);
+                if(user != null)
+                    Database.getDatabase().setSelectedUserID(Integer.parseInt(user));
                 Database.getDatabase().createListsGames();
                 launchApp();
             }
