@@ -127,7 +127,9 @@ public class MyLinearLayout extends LinearLayout {
      * @return boolean, true or false if we handle the event or not
      */
     private boolean actionsScroll(){
-        if((y1 - y2 < 100 || y2 - y1 < 100) && (x1 - x2 > MIN_DISTANCE || x2 - x1 > MIN_DISTANCE)){
+        float y11 = y1 > y2 ? y1 - y2 : y2 - y1;
+        float x11 = x2 > x1 ? x2 - x1 : x1 - x2;
+        if(/*(y1 - y2 < 100 || y2 - y1 < 100) && (x1 - x2 > MIN_DISTANCE || x2 - x1 > MIN_DISTANCE)*/ x11 > y11){
             if(x2 > x1){
                 //left2right swipe"
                 activity.scrollReceived(0);

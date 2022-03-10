@@ -4,11 +4,18 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
--  notification over
-- articles and reviews : date and authors in orange
+-  lateral swipe :'(
 ******************************************************************************************************************
 TODO
 
 lateral swipe in search
+prendre en compte page vide pour swipe
+
 
 notification when app is close
+
+Swipe horizontal ok entre les cartes
+swipe vertical ok partout
+swipe sur les cartes fonctionne 1 fois / 10
+swipe recherche fonctione pas du tout a gauche
+swipe fonctionne a droite pour all, tous les autres amènent à dev

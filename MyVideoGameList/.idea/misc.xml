@@ -55,7 +55,7 @@
         <entry key="app/src/main/res/layout/loading_news.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/no_internet_error.xml" value="0.25" />
         <entry key="app/src/main/res/layout/to_clone_layout.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/to_clone_layout_my_linear_layout.xml" value="0.1634963768115942" />
+        <entry key="app/src/main/res/layout/to_clone_layout_my_linear_layout.xml" value="0.33" />
       </map>
     </option>
   </component>

@@ -3,16 +3,19 @@ package com.example.myvideogamelist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -21,20 +24,27 @@ import android.widget.TextView;
 import com.example.myvideogamelist.ApiGestion.GamesAPI;
 import com.example.myvideogamelist.ApiGestion.SearchGameAPI;
 import com.example.myvideogamelist.InterfacesAppli.MyActivityImageDisplayable;
+import com.example.myvideogamelist.InterfacesAppli.Scrollable_horizontally;
+import com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout;
 import com.example.myvideogamelist.MyExceptions.EmptySearchException;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-public class SearchActivity extends AppCompatActivity implements MyActivityImageDisplayable {
+import java.util.ArrayList;
+
+public class SearchActivity extends AppCompatActivity implements MyActivityImageDisplayable, Scrollable_horizontally {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
-
+    private MyLinearLayout myLinearLayout;
     private GamesAPI gamesAPI = GamesAPI.getGamesAPI();
     private Button selectedButton;
     private String searchType;
     private int cardsInserted = 0, pageNumber = 1, maxCardByApiCAll = 40, maxElemFromArray = 4;
     private SearchGameAPI searchGameAPI;
+    private ArrayList<Button> arraybuttons;
+    private final ArrayList<String> arrayString = new ArrayList<String>();
+    private int currentButtonInd = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,10 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
 
         selectedButton = findViewById(R.id.search_name_button_id);
         searchType = "games";
+
+        myLinearLayout = (MyLinearLayout)findViewById(R.id.linearLayout_to_insert_clones_search_id);
+        myLinearLayout.setActivity(this);
+        fillArrayButton();
 
         MyActivityImageDisplayable currentActivity = this;
 
@@ -70,6 +84,19 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
     private void addNavigationBar(){
         LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = vi.inflate(R.layout.bottom_bar_navigation, findViewById(R.id.search_activity_id), true);
+    }
+
+    /**
+     * Create the button array for swipe between categories
+     */
+    private void fillArrayButton(){
+        arraybuttons = new ArrayList<Button>();
+        arraybuttons.add(findViewById(R.id.search_name_button_id));
+        arraybuttons.add(findViewById(R.id.search_devs_button_id));
+        arraybuttons.add(findViewById(R.id.search_publisher_button_id));
+        arraybuttons.add(findViewById(R.id.search_genres_button_id));
+        arraybuttons.add(findViewById(R.id.search_platforms_button_id));
+        arraybuttons.add(findViewById(R.id.search_releasedDate_button_id));
     }
 
     /**
@@ -213,7 +240,7 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             }
             game = obj.getJSONArray("results").getJSONObject(actualElem);
 
-            View v = vi.inflate(R.layout.to_clone_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
+            View v = vi.inflate(R.layout.to_clone_layout_my_linear_layout, findViewById(R.id.linearLayout_to_insert_clones_search_id), false);
 
             //Insert data in fields
             ((TextView)v.findViewById(R.id.game_name_to_clone_id)).setText(game.getString("name"));
@@ -228,6 +255,17 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             //insert image
             ImageView imgV = new ImageView(this);
             Picasso.get().load(game.getJSONArray("short_screenshots").getJSONObject(0).getString("image")).resize(400,400).centerInside().into(imgV);
+
+            ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setActivity(this);
+            ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setCard(true);
+
+            ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return false;
+                }
+            });
 
             ((LinearLayout)v.findViewById(R.id.search_for_image_id)).addView(imgV,0 );
             ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setGravity(Gravity.CENTER_VERTICAL);
@@ -297,6 +335,32 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
         catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public HorizontalScrollView getHorizontalScrollView() {
+        return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
+    }
+
+    /**
+     * An horizontal scroll is received to switch category
+     * @param direction 1 to right to left and 0 for left to right swipe
+     */
+    @Override
+    public void scrollReceived(int direction) {
+        if(direction == 0){
+            //left2right swipe
+            if(currentButtonInd > 0){
+                arraybuttons.get(currentButtonInd - 1).performClick();
+                getHorizontalScrollView().requestChildFocus(arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
+            }
+        }
+        else{
+            //right2left swipe
+            if(currentButtonInd < arraybuttons.size() - 1){
+                arraybuttons.get(currentButtonInd + 1).performClick();
+                getHorizontalScrollView().requestChildFocus(arraybuttons.get(currentButtonInd),  arraybuttons.get(currentButtonInd));
+            }
         }
     }
 }
