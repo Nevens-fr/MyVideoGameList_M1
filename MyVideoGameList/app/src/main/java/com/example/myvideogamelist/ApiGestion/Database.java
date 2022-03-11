@@ -74,7 +74,6 @@ public class Database implements ObservableAppli {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -143,10 +142,18 @@ public class Database implements ObservableAppli {
         return games;
     }
 
+    /**
+     * Getter for the list of users
+     * @return json parsed response
+     */
     public JSONObject getUsers() {
         return users;
     }
 
+    /**
+     * Getter for the databasee
+     * @return the returned or created database
+     */
     public static Database getDatabase() {
         if(database == null)
             database = new Database();
@@ -155,7 +162,7 @@ public class Database implements ObservableAppli {
 
     /**
      * Getter for the current user
-     * @return
+     * @return return the connected user
      */
     public JSONObject getCurrentUser() {
         try {
@@ -166,9 +173,17 @@ public class Database implements ObservableAppli {
         }
     }
 
+    /**
+     * Setter for the id of the current user
+     * @param id the id of the current user
+     */
     public void setSelectedUserID(int id){
         this.currentUser = id;
     }
+
+    /**
+     * Getter for the id of
+     */
     public int getSelectedUserID(){
         return this.currentUser;
     }

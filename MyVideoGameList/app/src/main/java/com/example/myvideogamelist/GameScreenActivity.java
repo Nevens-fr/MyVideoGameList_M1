@@ -24,6 +24,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Class creating a game component to show it's descriptions and all infos
+ */
 public class GameScreenActivity extends AppCompatActivity implements MyActivityImageDisplayable, ObservatorAppli {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -54,7 +57,6 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             try {//new request for all game data
                 gamesAPI.requestGameById(game.getString("id"), this);
             } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
         else{
@@ -87,6 +89,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
 
     /**
      * If user has data on this game, we use it, else default
+     * @param gameID the id of the game to look at
      */
     private void look4GameInUserData(String gameID){
         Boolean over = false;
@@ -106,7 +109,6 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             }
         }
         catch (Exception e){
-            e.printStackTrace();
         }
     }
 
@@ -186,7 +188,6 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
                 }
             });
         } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 

@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Class materializing user
+ */
 public class User {
     String id, pwd, name, mail;
     ArrayList<Rating> games = new ArrayList<>();
@@ -57,10 +60,15 @@ public class User {
         return games.get(games.size() - 1);
     }
 
+    
     public String getMail() {
         return mail;
     }
 
+    /**
+     * setter of the mail
+     * @param mail the mail to set
+     */
     public void setMail(String mail) {
         this.mail = mail;
     }
@@ -69,6 +77,10 @@ public class User {
         return id;
     }
 
+    /**
+     * setter of the user id
+     * @param id the user id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
@@ -77,6 +89,10 @@ public class User {
         return pwd;
     }
 
+    /**
+     * setter of the passwor
+     * @param developpers the developpers to set
+     */
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }

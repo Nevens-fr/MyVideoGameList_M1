@@ -102,7 +102,6 @@ public class MyLinearLayout extends LinearLayout {
      */
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        System.out.println("Entered");
         if(! isCard)
             getParent().requestDisallowInterceptTouchEvent(true);
         switch(motionEvent.getAction()) {
@@ -117,7 +116,13 @@ public class MyLinearLayout extends LinearLayout {
                 System.out.println(x2 + " x2, y2 : " + y2 +" up");
                 return actionsScroll();
             case MotionEvent.ACTION_MOVE: return true;
-            case MotionEvent.ACTION_CANCEL: System.out.println("canceled");
+            case MotionEvent.ACTION_CANCEL:
+                if(isCard) {
+                    x2 = motionEvent.getX();
+                    y2 = motionEvent.getY();
+                    System.out.println(x2 + " x2, y2 : " + y2 + " up");
+                    return actionsScroll();
+                }
         }
         return super.onTouchEvent(motionEvent);
     }
@@ -129,7 +134,8 @@ public class MyLinearLayout extends LinearLayout {
     private boolean actionsScroll(){
         float y11 = y1 > y2 ? y1 - y2 : y2 - y1;
         float x11 = x2 > x1 ? x2 - x1 : x1 - x2;
-        if(/*(y1 - y2 < 100 || y2 - y1 < 100) && (x1 - x2 > MIN_DISTANCE || x2 - x1 > MIN_DISTANCE)*/ x11 > y11){
+            System.out.println(x11 + " " + y11);
+        if(x11 > y11){
             if(x2 > x1){
                 //left2right swipe"
                 activity.scrollReceived(0);
@@ -142,7 +148,7 @@ public class MyLinearLayout extends LinearLayout {
         }
         else{
             // consider as something else - a screen tap for example
-            if(isCard){
+            if(isCard && y11 < 50){
                 this.performClick();
                 return true;
             }
@@ -170,5 +176,13 @@ public class MyLinearLayout extends LinearLayout {
     public MyLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
+    }
+
+    public void setX1(float x1) {
+        this.x1 = x1;
+    }
+
+    public void setY1(float y1) {
+        this.y1 = y1;
     }
 }

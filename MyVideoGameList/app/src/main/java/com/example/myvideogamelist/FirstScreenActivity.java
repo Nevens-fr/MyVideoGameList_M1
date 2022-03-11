@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Class creating the welcome screen when not connected
+ */
 public class FirstScreenActivity extends AppCompatActivity {
 
     private static Button buttonSignIn, buttonLogin;

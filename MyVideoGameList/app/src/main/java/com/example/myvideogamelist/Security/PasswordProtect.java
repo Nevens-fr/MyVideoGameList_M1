@@ -4,6 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 
+/**
+ * Class that managed password and hashed password
+ */
 public class PasswordProtect {
 
     private static String key = "maClefgeniale";
@@ -31,7 +34,7 @@ public class PasswordProtect {
             md.update(salt);
             return new String( md.digest(password.getBytes(StandardCharsets.UTF_8)));
         }
-        catch (Exception e){ e.printStackTrace(); }
+        catch (Exception e){}
         return null;
     }
 

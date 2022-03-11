@@ -74,7 +74,6 @@ public class GamesAPI {
             thread.join();
             currentActivity.getApiInfo(obj);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             currentActivity.getApiInfo(null);
         }
     }
@@ -82,6 +81,7 @@ public class GamesAPI {
     /**
      * Request game data from a game id
      * @param id the game id
+     * @param currentActivity the actual activit
      */
     public void requestGameById(String id, MyActivityImageDisplayable currentActivity) {
         Thread thread = new Thread(new Runnable() {
@@ -117,7 +117,6 @@ public class GamesAPI {
             thread.join();
             currentActivity.getApiInfo(obj);
         } catch (InterruptedException e) {
-            e.printStackTrace();
             currentActivity.getApiInfo(null);
         }
     }

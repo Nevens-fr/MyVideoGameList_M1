@@ -24,6 +24,9 @@ import com.example.myvideogamelist.ApiGestion.Rating;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Class managing the view where user can select a rating and a status for a game
+ */
 public class UserGameRating extends AppCompatActivity {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -65,7 +68,7 @@ public class UserGameRating extends AppCompatActivity {
     }
 
     /**
-     * Prepare game data to be save to limit GameAPI usage for those the user already possess in his lists
+     * Prepare game data to be saved to limit GameAPI usage for those the user already possess in his lists
      */
     private void createGameData(){
         int nbGenres, nbDev, nbImages, nbPublishers;
@@ -90,7 +93,6 @@ public class UserGameRating extends AppCompatActivity {
             gameToSave.setPublishers(getRelevantJSONARRAY("publishers", 1));
         }
         catch (Exception e){
-            e.printStackTrace();
         }
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.thousands_rating_id)), 0);
         addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), 0);
@@ -109,7 +111,6 @@ public class UserGameRating extends AppCompatActivity {
             return (dbToUse == 0) ? gameDataFromSearch.getJSONArray(key) : gameData.getJSONArray(key);
         }
         catch (Exception e){
-            e.printStackTrace();
             return null;
         }
     }
@@ -151,7 +152,6 @@ public class UserGameRating extends AppCompatActivity {
             addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.hundreds_rating_id)), 0);
             addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.dozens_rating_id)), 0);
             addOptionsToNumberPicker(((NumberPicker)findViewById(R.id.units_rating_id)), 0);
-            e.printStackTrace();
         }
         finally {
             if(!over){
@@ -289,7 +289,7 @@ public class UserGameRating extends AppCompatActivity {
     }
 
     /**
-     * Apply on cclick listener on status button
+     * Apply on click listener on status button
      * @param v button itself
      * @param value associated value
      */
@@ -379,7 +379,6 @@ public class UserGameRating extends AppCompatActivity {
         }
         catch(Exception e){
             selectedHours = 0;
-            e.printStackTrace();
         }
     }
 
@@ -452,7 +451,6 @@ public class UserGameRating extends AppCompatActivity {
             database.getGames().getJSONArray("games").put(gameToSave.getJSONObject());
         }
         catch (Exception e){
-            e.printStackTrace();
         }
         return false;
     }

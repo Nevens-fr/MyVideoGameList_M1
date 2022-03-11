@@ -16,6 +16,9 @@ import com.example.myvideogamelist.InterfacesAppli.ObservatorAppli;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class managing the Randomatic component of the app
+ */
 public class RandomaticActivity extends AppCompatActivity implements ObservatorAppli {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();

@@ -19,6 +19,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Class managing the news component opened when clicking on a news from the home page
+ */
 public class News_activity extends AppCompatActivity {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -87,7 +90,6 @@ public class News_activity extends AppCompatActivity {
             Picasso.get().load(news.getJSONObject("image").getString("original")).resize(1000,700).centerInside().into(imgV);
         }
         catch (Exception e){
-            e.printStackTrace();
         }
     }
 
@@ -121,6 +123,7 @@ public class News_activity extends AppCompatActivity {
      * Return a string containing all data from a json array
      * @param category category name
      * @param array json array
+     * @param elemToAdd element to add to the string
      * @return string containing data
      */
     private String computeDatasFromArray(String category, JSONArray array, String elemToAdd){

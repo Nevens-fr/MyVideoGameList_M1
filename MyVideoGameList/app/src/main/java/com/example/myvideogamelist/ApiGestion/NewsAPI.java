@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+  * Class that fetch data from the news API
+ */ 
 public class NewsAPI {
 
     private final static NewsAPI newsAPI = new NewsAPI();
@@ -88,14 +91,26 @@ public class NewsAPI {
         }
     }
 
+    /**
+     * getter of the articles
+     * @return the articles
+     */
     public JSONObject getArticles() {
         return articles;
     }
 
+    /**
+     * getter of the reviews
+     * @return the reviews
+     */
     public JSONObject getReviews() {
         return reviews;
     }
 
+    /**
+     * setter of the current activity
+     * @param cur
+     */
     public void setCurrentActivity(MyActivityImageDisplayable currentActivity) {
         this.currentActivity = currentActivity;
     }

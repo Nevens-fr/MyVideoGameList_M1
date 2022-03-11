@@ -29,6 +29,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Class managing the lists of all of the added games.
+ */
 public class GamesListActivity extends AppCompatActivity implements MyActivityImageDisplayable, Scrollable_horizontally {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -211,6 +214,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
      * @param score user score for the game
      * @param playtime user playtime on the game
      * @param userInd indice of game in user array
+     * @return boolean, if the card has been created
      */
     @SuppressLint("ClickableViewAccessibility")
     private boolean createGameCard(String id, String score, String playtime, int userInd){
@@ -289,15 +293,8 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     public void getApiInfo(JSONObject obj) {
     }
 
-    public ArrayList<Button> getArraybuttons() {
-        return arraybuttons;
-    }
-
-    public int getCurrentButtonInd() {
-        return currentButtonInd;
-    }
-
     public HorizontalScrollView getHorizontalScrollView() {
+        ((HorizontalScrollView) findViewById(R.id.linearLayout1)).scro
         return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
     }
 

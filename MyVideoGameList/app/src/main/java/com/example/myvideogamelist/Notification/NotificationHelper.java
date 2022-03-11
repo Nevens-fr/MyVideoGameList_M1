@@ -19,10 +19,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * Class managing the sending of the notification once constructed by Notification.java
+ */
 public class NotificationHelper {
     private Context mContext;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
 
+    /**
+     * Constructor of the class
+     * @param context the context
+     */
     NotificationHelper(Context context) {
         mContext = context;
     }

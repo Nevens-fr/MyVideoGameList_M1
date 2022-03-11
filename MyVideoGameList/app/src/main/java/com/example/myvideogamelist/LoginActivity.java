@@ -16,6 +16,9 @@ import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
+/**
+ * Class managing the component that allow a user to log in to the app 
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private Button buttonBack, buttonLogin;

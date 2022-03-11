@@ -1,5 +1,8 @@
 package com.example.myvideogamelist.Notification;
 
+/**
+ * Class used to compare current date and a game date
+ */
 public class DateNotif {
     private int year, month, day;
 
@@ -33,27 +36,50 @@ public class DateNotif {
         return (d2.getYear() < this.year ? 1 : -1);
     }
 
-
+    /**
+     * Getter of date
+     * @return year 
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Setter of date
+     * @param year the year to set
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * Getter of month
+     * @return the month to get
+     */
     public int getMonth() {
         return month;
     }
 
+    /** 
+     * Setter of month
+     * @param month the month to set 
+     */
     public void setMonth(int month) {
         this.month = month;
     }
 
+    /**
+     * Getter of day
+     * @return the day to get
+     */
     public int getDay() {
         return day;
     }
 
+    /**
+     * Setter of day
+     * @param day the day to set
+     */
     public void setDay(int day) {
         this.day = day;
     }

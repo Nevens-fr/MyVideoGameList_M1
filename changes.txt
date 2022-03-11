@@ -19,3 +19,5 @@ swipe vertical ok partout
 swipe sur les cartes fonctionne 1 fois / 10
 swipe recherche fonctione pas du tout a gauche
 swipe fonctionne a droite pour all, tous les autres amènent à dev
+
+search ajouter un placeholder vide pour swipe lateral

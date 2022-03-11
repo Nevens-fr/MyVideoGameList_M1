@@ -3,6 +3,9 @@ package com.example.myvideogamelist.ApiGestion;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Class that modelize a game
+ */
 public class Game {
 
     private String idGame, name, releasedDate, playtime, metacritic, description;
@@ -69,38 +72,74 @@ public class Game {
 
     }
 
+    /**
+     * getter of the id of the game
+     * @return the id of the game
+     */
     public String getIdGame() {
         return idGame;
     }
 
+    /**
+     * setter of the id of the game
+     * @param idGame the id of the game
+     */
     public void setIdGame(String idGame) {
         this.idGame = idGame;
     }
 
+    /**
+     * getter of the name of the game
+     * @return the name of the game
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * setter of the name of the game
+     * @param name the name of the game
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * getter of the release date of the game
+     * @return the release date of the game
+     */
     public String getReleasedDate() {
         return releasedDate;
     }
 
+    /**
+     * setter of the release date of the game
+     * @param releasedDate the release date of the game
+     */
     public void setReleasedDate(String releasedDate) {
         this.releasedDate = releasedDate;
     }
 
+    /**
+     * getter of the playtime of the game
+     * @return the playtime of the game
+     */
     public String getPlaytime() {
         return playtime;
     }
 
+    /**
+     * setter of the playt of the game
+     * @param idGame the id of the game
+     */
     public void setPlaytime(String playtime) {
         this.playtime = playtime;
     }
 
+    /**
+     * getter of the metacritic score of the game
+     * @return the metacritic score of the game
+     */
     public String getMetacritic() {
         return metacritic;
     }
@@ -109,6 +148,10 @@ public class Game {
         this.metacritic = metacritic;
     }
 
+    /**
+     * getter of the description of the game
+     * @return the description of the game
+     */
     public String getDescription() {
         return description;
     }
@@ -117,6 +160,10 @@ public class Game {
         this.description = description;
     }
 
+    /**
+     * getter of the genres of the game
+     * @return the genres of the game
+     */
     public String[] getGenres() {
         return genres;
     }
@@ -125,6 +172,10 @@ public class Game {
         completeStringArrayFromJsonArray(genres, this.genres,"name");
     }
 
+    /**
+     * getter of the devs of the game
+     * @return the devs of the game
+     */
     public String[] getDevs() {
         return devs;
     }
@@ -133,6 +184,10 @@ public class Game {
         completeStringArrayFromJsonArray(devs, this.devs,"name");
     }
 
+    /**
+     * getter of the images of the game
+     * @return the images of the game
+     */
     public String[] getImages() {
         return images;
     }
@@ -141,6 +196,10 @@ public class Game {
         completeStringArrayFromJsonArray(images, this.images, "image");
     }
 
+    /**
+     * getter of the publishers of the game
+     * @return the publishers of the game
+     */
     public String[] getPublishers() {
         return publishers;
     }
@@ -161,7 +220,6 @@ public class Game {
                 strings[i] = data.getJSONObject(i).getString(key);
             }
             catch (Exception e){
-                e.printStackTrace();
             }
         }
     }

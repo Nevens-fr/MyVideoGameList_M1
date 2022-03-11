@@ -21,6 +21,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+/**
+ * Class managing the home page of the app
+ */
 public class Home extends AppCompatActivity implements MyActivityImageDisplayable {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -51,7 +54,6 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             ((TextView)findViewById(R.id.textView7)).setText(getString(R.string.homeWelcome) + " " + Database.getDatabase().getCurrentUser().getString("name"));
         }
         catch(Exception e){
-            e.printStackTrace();
         }
 
         articles = newsAPI.getArticles();
@@ -184,7 +186,6 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
                 }
             }
             catch (Exception e){
-                e.printStackTrace();
                 System.exit(0);
             }
         }
@@ -217,7 +218,6 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             }
         }
         catch (Exception e){
-            e.printStackTrace();
         }
     }
 
@@ -260,7 +260,6 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
             });
         }
         catch (Exception e){
-            e.printStackTrace();
         }
     }
 

@@ -22,6 +22,10 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Class allowing the program to load all the required datas before launching the app.
+ * Manage also the creation of the notification system
+ */
 public class LoadingActivity extends AppCompatActivity {
 
     private int call = 0;

@@ -29,10 +29,22 @@ public class SearchGameAPI {
         publishers = null;
     }
 
+    /**
+     * setter of the developers
+     * @param developpers the developpers to set
+     */
     public void setDevelopers(String developpers) { this.developers = developpers; }
 
+    /**
+     * setter of the publishers
+     * @param publishers the publishers to set
+     */
     public void setPublishers(String publishers) { this.publishers = publishers; }
 
+    /**
+     * setter of the page
+     * @param pa the page to set
+     */
     public void setPage(String page) {
         this.page = page;
     }

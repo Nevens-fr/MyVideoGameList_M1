@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
+/**
+ * Class managing the creation of a notification
+ */
 public class Notification {
     private String title = "";
     private int nbReleaseToday = 0;
@@ -60,7 +62,6 @@ public class Notification {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
         return null;
@@ -108,7 +109,6 @@ public class Notification {
             }
         }
         catch(Exception e){
-            e.printStackTrace();
             return false;
         }
         return nbReleaseToday >0;
@@ -142,15 +142,22 @@ public class Notification {
             dateN = new DateNotif(y, m, d);
         }
         catch(Exception e){
-            e.printStackTrace();
         }
         return dateN;
     }
 
+    /**
+    * Getter of the title
+    * @return the title
+    */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Getter of the body
+     * @return the body
+     */
     public String getBody() {
         return body;
     }

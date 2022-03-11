@@ -33,6 +33,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Class managing the research component
+ */
 public class SearchActivity extends AppCompatActivity implements MyActivityImageDisplayable, Scrollable_horizontally {
 
     private NavigationBar navigationBar = NavigationBar.getNavigationBar();
@@ -97,6 +100,13 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
         arraybuttons.add(findViewById(R.id.search_genres_button_id));
         arraybuttons.add(findViewById(R.id.search_platforms_button_id));
         arraybuttons.add(findViewById(R.id.search_releasedDate_button_id));
+
+        arrayString.add("games");
+        arrayString.add("developers");
+        arrayString.add("publishers");
+        arrayString.add("dates");
+        arrayString.add("platforms");
+        arrayString.add("genres");
     }
 
     /**
@@ -117,6 +127,11 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
                     ((EditText)findViewById(R.id.user_search_text_id)).setHint(text);
                     ((EditText)findViewById(R.id.user_search_text_id)).setText("");
                     searchType = category;
+
+                    for(int i = 0; i < arraybuttons.size(); i++){
+                        if(arrayString.get(i).compareTo(category) == 0)
+                            currentButtonInd = i;
+                    }
                 }
             }
         });
@@ -211,7 +226,6 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
                         searchGameAPI.setGenres(obj.getJSONArray("results").getJSONObject(0).getString("id"));
                 }
                 catch (Exception e){
-                    e.printStackTrace();
                 }
 
                 searchType = "games";
@@ -289,7 +303,6 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
                 createCard(obj, ++actualElem, maxElem);
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -312,7 +325,6 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             return elem;
         }
         catch (Exception e){
-            e.printStackTrace();
             return null;
         }
     }
@@ -333,11 +345,14 @@ public class SearchActivity extends AppCompatActivity implements MyActivityImage
             }
         }
         catch (Exception e){
-            e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Return the horizontal scroll view of the component
+     * @return HorizontalScrollView object to return
+     */
     public HorizontalScrollView getHorizontalScrollView() {
         return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
     }

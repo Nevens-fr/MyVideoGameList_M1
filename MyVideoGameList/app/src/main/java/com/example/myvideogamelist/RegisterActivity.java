@@ -17,6 +17,9 @@ import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
+/**
+ * Class managing the component that allow a user to register himself to the app 
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private Button buttonBack, buttonSignin;
@@ -77,7 +80,6 @@ public class RegisterActivity extends AppCompatActivity {
             writeUserIndex(database.getUsers().getJSONArray("users").length() - 1);
         }
         catch (Exception e){
-            e.printStackTrace();
         }
     }
 
@@ -92,7 +94,6 @@ public class RegisterActivity extends AppCompatActivity {
             outputStreamWriter.close();
         }
         catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -149,7 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
         catch (Exception e){
-            e.printStackTrace();
         }
         return false;
     }
@@ -166,7 +166,6 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
         catch (Exception e){
-            e.printStackTrace();
             return false;
         }
     }

@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.example.myvideogamelist.ApiGestion.NewsAPI;
 
 /**
- * Class that allow user to navigate in the app
+ * Class that allow user to navigate in the app with a bottom bar
  */
 public class NavigationBar {
     private static final NavigationBar navigationBar = new NavigationBar();
