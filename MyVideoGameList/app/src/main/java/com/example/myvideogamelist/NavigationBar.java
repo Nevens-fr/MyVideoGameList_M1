@@ -57,11 +57,11 @@ public class NavigationBar {
                     currentActivity.startActivity(intent);
                 }
             });
-        if(currentActivity.getClass() != GamesListActivity.class)
+        if(currentActivity.getClass() != GameListFragmentActivity.class)
             buttonMyLists.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     NewsAPI.getNewsAPI().setCurrentActivity(null);
-                    Intent intent = new Intent(currentActivity, GamesListActivity.class);
+                    Intent intent = new Intent(currentActivity, GameListFragmentActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     currentActivity.startActivity(intent);
                 }

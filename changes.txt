@@ -4,20 +4,14 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
--  lateral swipe :'(
+-  lateral swipe works !!
 ******************************************************************************************************************
 TODO
 
-lateral swipe in search
-prendre en compte page vide pour swipe
+lateral swipe add button is correctly highlited when scroll (not on button action, this is done)
+button box seems odd
 
+When game rating is modified, it seems to modify visible data on card only in all category.
+If game changed category, game appears both in new and old one, swipe to another category seems to refresh old one
 
-notification when app is close
-
-Swipe horizontal ok entre les cartes
-swipe vertical ok partout
-swipe sur les cartes fonctionne 1 fois / 10
-swipe recherche fonctione pas du tout a gauche
-swipe fonctionne a droite pour all, tous les autres amènent à dev
-
-search ajouter un placeholder vide pour swipe lateral
+remove old game list activity and xml

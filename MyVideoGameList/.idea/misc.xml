@@ -18,6 +18,7 @@
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/to_clone_layout.xml" value="0.37864583333333335" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/drawable/top_border.xml" value="0.37864583333333335" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_first_screen.xml" value="0.3625" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_game_list_fragment.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_game_screen.xml" value="0.33" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_game_search.xml" value="0.33" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/activity_games_list.xml" value="0.3625" />
@@ -34,6 +35,8 @@
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/card_news_to_clone.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/empty_search.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/empty_space_for_horizontalscroll_to_perform.xml" value="0.3625" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/fragment_category.xml" value="0.3625" />
+        <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/fragment_game_list_activity.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/image_for_card.xml" value="0.1" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/no_element_found.xml" value="0.3625" />
         <entry key="..\:/bureau/MyVideoGameList_M1/MyVideoGameList/app/src/main/res/layout/no_internet_error.xml" value="0.3625" />
@@ -55,13 +58,9 @@
         <entry key="app/src/main/res/layout/loading_news.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/no_internet_error.xml" value="0.25" />
         <entry key="app/src/main/res/layout/to_clone_layout.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/to_clone_layout_my_linear_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/to_clone_layout_my_linear_layout.xml" value="0.1634963768115942" />
       </map>
     </option>
-  </component>
-  <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../.." />
-    <option name="OPTION_INCLUDE_LIBS" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

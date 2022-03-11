@@ -42,9 +42,7 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     private JSONObject user;
     private final int maxElemFromArray = 4;
     private ArrayList<Button> arraybuttons;
-    private final ArrayList<String> arrayString = new ArrayList<String>();
     private int currentButtonInd = 0;
-    private MyLinearLayout myLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +54,6 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
         addNavigationBar();
         navigationBar.init(this);
         connectButton();
-
-        arrayString.add("all");
-        arrayString.add("playing");
-        arrayString.add("planned");
-        arrayString.add("on_hold");
-        arrayString.add("finished");
-        arrayString.add("abandoned");
-
-        myLinearLayout = (MyLinearLayout)findViewById(R.id.linearLayout_to_insert_clones_list_id);
-        myLinearLayout.setActivity(this);
     }
 
     /**
@@ -141,11 +129,6 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                     listCat = cat;
                     getGamesData();
                     insertData();
-
-                    for(int i = 0; i < arraybuttons.size(); i++){
-                        if(arrayString.get(i).compareTo(listCat) == 0)
-                            currentButtonInd = i;
-                    }
                 }
             }
         });
@@ -175,13 +158,11 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
        if(user == null){
            LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
            vi.inflate(R.layout.no_internet_error, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
-           vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
        }
        else{
 
             try{
                 boolean found = false;
-                int nbAdd = 0;
 
                 for(int i = 0; i < user.getJSONArray("games").length(); i++){
                     String id = user.getJSONArray("games").getJSONObject(i).getString("id");
@@ -189,19 +170,11 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
                     String playtime = user.getJSONArray("games").getJSONObject(i).getString("hours");
                     if(createGameCard(id, score, playtime, i)){
                         found = true;
-                        nbAdd++;
                     }
                 }
                 if(!found){
                     LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     vi.inflate(R.layout.no_element_found, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
-                    vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
-                }
-                else if(nbAdd < 3){//usefull for lateral scrolls
-                    LayoutInflater vi = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    vi.inflate(R.layout.empty_space_for_horizontalscroll_to_perform, findViewById(R.id.linearLayout_to_insert_clones_list_id), true);
-                    if(nbAdd < 3)
-                        findViewById(R.id.empty_space_for_scroll).getLayoutParams().height = 200;
                 }
             }
             catch (Exception e){e.printStackTrace();}
@@ -245,17 +218,6 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
 
                 Game g = games.get(i);
 
-                ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnTouchListener(new View.OnTouchListener() {
-                    @SuppressLint("ClickableViewAccessibility")
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        return false;
-                    }
-                });
-
-                ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setActivity(this);
-                ((MyLinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setCard(true);
-
                 //start game screen activity on click on game card
                 ((LinearLayout)v.findViewById(R.id.card_search_to_clone_id)).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -294,7 +256,6 @@ public class GamesListActivity extends AppCompatActivity implements MyActivityIm
     }
 
     public HorizontalScrollView getHorizontalScrollView() {
-        ((HorizontalScrollView) findViewById(R.id.linearLayout1)).scro
         return ((HorizontalScrollView) findViewById(R.id.linearLayout1));
     }
 

@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo_foreground"
@@ -17,8 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyVideoGameList"
         android:usesCleartextTraffic="true">
-
-
+        <activity
+            android:name=".GameListFragmentActivity"
+            android:exported="false" />
         <activity
             android:name=".News_activity"
             android:exported="false" />
@@ -48,21 +48,22 @@
             android:exported="false" />
         <activity
             android:name=".Home"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".LoadingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <receiver android:name=".Notification.NotificationReceiver" />
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_foreground_transparent" />
-
     </application>
 
 </manifest>
