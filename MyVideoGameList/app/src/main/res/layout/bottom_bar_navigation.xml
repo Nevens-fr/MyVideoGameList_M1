@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/top_border"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
@@ -15,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
+            style="?android:attr/borderlessButtonStyle"
             android:text="@string/home"
             android:textSize="12sp"
             android:paddingTop="9dp"
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
+            style="?android:attr/borderlessButtonStyle"
             android:drawableTint="#9A9696"
             android:text="@string/search"
             android:textSize="12sp"
@@ -40,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
+            style="?android:attr/borderlessButtonStyle"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:text="@string/randomatic"
@@ -52,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:backgroundTint="@color/toolbar_top"
+            style="?android:attr/borderlessButtonStyle"
             android:drawableTop="@android:drawable/ic_menu_sort_by_size"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"

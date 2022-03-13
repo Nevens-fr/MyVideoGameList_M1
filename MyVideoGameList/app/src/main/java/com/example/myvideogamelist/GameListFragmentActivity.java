@@ -1,5 +1,6 @@
 package com.example.myvideogamelist;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -12,16 +13,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 
-import com.example.myvideogamelist.ApiGestion.Database;
-import com.example.myvideogamelist.ApiGestion.Game;
 import com.example.myvideogamelist.InterfacesAppli.Fragmentable;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-public class GameListFragmentActivity extends FragmentActivity {
+public class GameListFragmentActivity extends AppCompatActivity {
     private GameListFragmentActivity current = this;
     private static final int NUM_PAGES = 6;
     private ViewPager2 mPager;
@@ -29,7 +25,6 @@ public class GameListFragmentActivity extends FragmentActivity {
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private Button selectedButton;
-    private String listCat = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,28 +39,26 @@ public class GameListFragmentActivity extends FragmentActivity {
         navigationBar.init(this);
         connectButton();
         createFragments();
+/*
+        //for a fragment activity, there is the need to fix navigation bar padding manually
+        float density = getApplicationContext().getResources().getDisplayMetrics().density;
+        findViewById(R.id.home_button_id).setPadding(0,(int)(15 * density),(int)(25 * density),0);
+        findViewById(R.id.search_button_id).setPadding(0,(int)(15 * density),(int)(40 * density),0);
+        findViewById(R.id.randomatic_button_id).setPadding(0,(int)(7 * density),(int)(20 * density),0);
+        findViewById(R.id.my_lists_button_id).setPadding(0,(int)(7 * density),0,0);*/
 
-        mPager.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        //Allow scroll for category to switch when the user swipe
+        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 switch(mPager.getCurrentItem()){
-                    case 0:
-                        changeSelectedButton(findViewById(R.id.list_all_button_id), 0);
-                        break;
-                    case 1:
-                        changeSelectedButton(findViewById(R.id.list_playing_button_id), 1);
-                        break;
-                    case 2:
-                        changeSelectedButton(findViewById(R.id.list_planned_button_id), 2);
-                        break;
-                    case 3:
-                        changeSelectedButton(findViewById(R.id.list_on_hold_button_id), 3);
-                        break;
-                    case 4:
-                        changeSelectedButton(findViewById(R.id.list_finished_button_id), 4);
-                        break;
-                    case 5:
-                        changeSelectedButton(findViewById(R.id.list_abandoned_button_id), 5);
+                    case 0:changeSelectedButton(findViewById(R.id.list_all_button_id)); break;
+                    case 1:changeSelectedButton(findViewById(R.id.list_playing_button_id)); break;
+                    case 2:changeSelectedButton(findViewById(R.id.list_planned_button_id));break;
+                    case 3:changeSelectedButton(findViewById(R.id.list_on_hold_button_id));break;
+                    case 4:changeSelectedButton(findViewById(R.id.list_finished_button_id));break;
+                    case 5:changeSelectedButton(findViewById(R.id.list_abandoned_button_id));
                 }
             }
         });
@@ -92,14 +85,12 @@ public class GameListFragmentActivity extends FragmentActivity {
     /**
      * Change selected button
      * @param v view to scroll to
-     * @param index
      */
-    private void changeSelectedButton(View v, int index){
+    private void changeSelectedButton(View v){
         selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
         selectedButton = (Button) v;
         selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-        System.out.println(index);
-        //todo auto scroll to correct button focus
+        ((HorizontalScrollView) findViewById(R.id.linearLayout1)).requestChildFocus(selectedButton, selectedButton);
     }
 
     /**
@@ -208,8 +199,6 @@ public class GameListFragmentActivity extends FragmentActivity {
         addOnClickListener(findViewById(R.id.list_on_hold_button_id), "on_hold");
         addOnClickListener(findViewById(R.id.list_abandoned_button_id), "abandoned");
         addOnClickListener(findViewById(R.id.list_finished_button_id), "finished");
-
-        listCat = "all";
     }
 
     /**
@@ -225,7 +214,6 @@ public class GameListFragmentActivity extends FragmentActivity {
                     selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.grey, null));
                     selectedButton = (Button)currentButton;
                     selectedButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.white, null));
-                    listCat = cat;
                     switch (cat){
                         case "all" : mPager.setCurrentItem(0); break;
                         case "finished" : mPager.setCurrentItem(4); break;

@@ -4,14 +4,16 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
--  lateral swipe works !!
+-  lateral swipe (game list) button active category changed when scroll
+- game list button box fixed
+- navigation bar fix
 ******************************************************************************************************************
 TODO
 
-lateral swipe add button is correctly highlited when scroll (not on button action, this is done)
-button box seems odd
+rework lateral swipe in search
 
 When game rating is modified, it seems to modify visible data on card only in all category.
 If game changed category, game appears both in new and old one, swipe to another category seems to refresh old one
 
 remove old game list activity and xml
+remove old search when new is implemented

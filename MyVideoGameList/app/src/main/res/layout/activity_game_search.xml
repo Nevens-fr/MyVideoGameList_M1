@@ -178,7 +178,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:id="@+id/search_activity_id"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
