@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  */
 public class Category extends Fragment implements Fragmentable {
 
-    private FragmentActivity currentActivity = null;
+    private AppCompatActivity currentActivity = null;
 
     private static Category catAll = new Category("");
     private static Category catPlanned = new Category("");
@@ -229,7 +230,7 @@ public class Category extends Fragment implements Fragmentable {
     //***********************************************************************************************
 
     @Override
-    public void setFragmentActivity(FragmentActivity fra) {
+    public void setFragmentActivity(AppCompatActivity fra) {
         if(currentActivity == null)
             currentActivity = fra;
     }

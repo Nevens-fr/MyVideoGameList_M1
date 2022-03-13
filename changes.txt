@@ -4,7 +4,7 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
--  lateral swipe (game list) button active category changed when scroll
+- lateral swipe (game list) button active category changed when scroll
 - game list button box fixed
 - navigation bar fix
 ******************************************************************************************************************
