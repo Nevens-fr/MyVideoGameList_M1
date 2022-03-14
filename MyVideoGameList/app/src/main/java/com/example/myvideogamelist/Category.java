@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -277,5 +278,11 @@ public class Category extends Fragment implements Fragmentable {
         isBuilt = built;
         view = null;
         currentActivity = null;
+    }
+
+    public void clearViewAndAllowBuild(){
+        if(isBuilt)
+            ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeAllViews();
+        isBuilt = false;
     }
 }

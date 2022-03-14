@@ -8,4 +8,5 @@ public interface Fragmentable {
     void setType(String type);
     String getType();
     void build();
+    void clearViewAndAllowBuild();
 }

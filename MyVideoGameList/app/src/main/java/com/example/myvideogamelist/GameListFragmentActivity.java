@@ -22,6 +22,7 @@ public class GameListFragmentActivity extends AppCompatActivity {
     private static final int NUM_PAGES = 6;
     private ViewPager2 mPager;
     private FragmentStateAdapter pagerAdapter;
+    private boolean isLaunched = true;
 
     private final NavigationBar navigationBar = NavigationBar.getNavigationBar();
     private Button selectedButton;
@@ -39,13 +40,6 @@ public class GameListFragmentActivity extends AppCompatActivity {
         navigationBar.init(this);
         connectButton();
         createFragments();
-/*
-        //for a fragment activity, there is the need to fix navigation bar padding manually
-        float density = getApplicationContext().getResources().getDisplayMetrics().density;
-        findViewById(R.id.home_button_id).setPadding(0,(int)(15 * density),(int)(25 * density),0);
-        findViewById(R.id.search_button_id).setPadding(0,(int)(15 * density),(int)(40 * density),0);
-        findViewById(R.id.randomatic_button_id).setPadding(0,(int)(7 * density),(int)(20 * density),0);
-        findViewById(R.id.my_lists_button_id).setPadding(0,(int)(7 * density),0,0);*/
 
         //Allow scroll for category to switch when the user swipe
         mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -125,16 +119,27 @@ public class GameListFragmentActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(Category.getCatAll().isBuilt()){
-            setBuiltFalse();
-            createFragments();
+        if(Category.getCatAll().isBuilt() && !isLaunched){
+            Category.getCatAbandoned().clearViewAndAllowBuild();
             Category.getCatAbandoned().build();
+
+            Category.getCatAll().clearViewAndAllowBuild();
             Category.getCatAll().build();
+
+            Category.getCatPlanned().clearViewAndAllowBuild();
             Category.getCatPlanned().build();
+
+            Category.getCatOnHold().clearViewAndAllowBuild();
             Category.getCatOnHold().build();
+
+            Category.getCatFinished().clearViewAndAllowBuild();
             Category.getCatFinished().build();
+
+            Category.getCatPlaying().clearViewAndAllowBuild();
             Category.getCatPlaying().build();
         }
+        else
+            isLaunched = false;
     }
 
     @Override
@@ -150,8 +155,7 @@ public class GameListFragmentActivity extends AppCompatActivity {
     }
 
     /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
+     * A simple pager adapter
      */
     private class GameListPagerAdapter extends FragmentStateAdapter {
         public GameListPagerAdapter(FragmentActivity fm) {
@@ -171,7 +175,6 @@ public class GameListFragmentActivity extends AppCompatActivity {
             }
             return (Fragment) c;
         }
-
 
         @Override
         public int getItemCount() {

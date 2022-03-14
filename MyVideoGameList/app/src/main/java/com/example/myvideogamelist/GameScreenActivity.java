@@ -139,7 +139,6 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             }
         }
         catch(Exception e){
-            e.printStackTrace();
         }
         if(nb == 0)
             return "no data";
