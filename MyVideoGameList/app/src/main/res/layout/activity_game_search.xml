@@ -133,49 +133,13 @@
             app:iconTint="@color/grey" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView_search_id"
+    <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="470dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/search_activity_id"
         app:layout_constraintTop_toBottomOf="@id/linearLayout4"
-        tools:ignore="SpeakableTextPresentCheck">
-
-        <com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout
-            android:id="@+id/linearLayout_to_insert_clones_search_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/loading_search_text_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:layout_weight="1"
-                android:drawableTop="@android:drawable/stat_notify_sync"
-                android:text="@string/loading"
-                android:textAlignment="center"
-                android:textColor="@color/text_orange_color"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/error_fetch_data_text_search_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/error_on_fetching_data"
-                android:textAlignment="center"
-                android:textColor="@color/text_orange_color"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:drawableTopCompat="?android:attr/alertDialogIcon" />
-        </com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout>
-    </ScrollView>
+        android:id="@+id/insert_fragments_id"/>
 
     <LinearLayout
         android:layout_width="match_parent"

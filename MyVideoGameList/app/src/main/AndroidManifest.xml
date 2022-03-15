@@ -29,9 +29,6 @@
             android:name=".RandomaticActivity"
             android:exported="false" />
         <activity
-            android:name=".GamesListActivity"
-            android:exported="false" />
-        <activity
             android:name=".GameScreenActivity"
             android:exported="false" />
         <activity
@@ -44,7 +41,7 @@
             android:name=".UserGameRating"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".GameSearchActivity"
             android:exported="false" />
         <activity
             android:name=".Home"

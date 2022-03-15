@@ -39,11 +39,11 @@ public class NavigationBar {
                     currentActivity.startActivity(intent);
                 }
             });
-        if(currentActivity.getClass() != SearchActivity.class)
+        if(currentActivity.getClass() != GameSearchActivity.class)
             buttonSearch.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     NewsAPI.getNewsAPI().setCurrentActivity(null);
-                    Intent intent = new Intent(currentActivity, SearchActivity.class);
+                    Intent intent = new Intent(currentActivity, GameSearchActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     currentActivity.startActivity(intent);
                 }

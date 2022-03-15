@@ -4,11 +4,15 @@ url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
 VERSION CHANGE
-- fix game list not updating after modification on user games
+- remove old game list activity and xml
+- Creating new search activity from old xml
+- rework lateral swipe in search (nearly over)
 ******************************************************************************************************************
 TODO
 
-rework lateral swipe in search
+error on swipe to bottom, not all games displayed
+error to new request, seems to find null
 
-remove old game list activity and xml
+2 todo in SearchCategory
+
 remove old search when new is implemented
