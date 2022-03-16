@@ -122,8 +122,8 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
             Fragmentable c = null;
             switch (position){
                 case 0 : c = SearchCategory.getName(); break;
-                case 2 : c = SearchCategory.getDevs(); break;
-                case 1 : c = SearchCategory.getPublishers(); break;
+                case 1 : c = SearchCategory.getDevs(); break;
+                case 2 : c = SearchCategory.getPublishers(); break;
                 case 3 : c = SearchCategory.getGenre(); break;
                 case 4 : c = SearchCategory.getPlatform(); break;
                 case 5 : c = SearchCategory.getRelease(); break;
@@ -167,12 +167,12 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
     private void connectButtonSearch(){
         MyActivityImageDisplayable currentActivity = this;
 
-        addListener(findViewById(R.id.search_name_button_id), "games", getString(R.string.searchNameEditText));
-        addListener(findViewById(R.id.search_devs_button_id), "developers", getString(R.string.searchDevsEditText));
-        addListener(findViewById(R.id.search_publisher_button_id), "publishers", getString(R.string.searchPublisherEditText));
-        addListener(findViewById(R.id.search_releasedDate_button_id), "dates", getString(R.string.searchReleasedDateEditText));
-        addListener(findViewById(R.id.search_platforms_button_id), "platforms", getString(R.string.searchPlatformsEditText));
-        addListener(findViewById(R.id.search_genres_button_id), "genres", getString(R.string.searchGenresEditText));
+        addListener(findViewById(R.id.search_name_button_id), "games", getString(R.string.searchNameEditText),0);
+        addListener(findViewById(R.id.search_devs_button_id), "developers", getString(R.string.searchDevsEditText),1);
+        addListener(findViewById(R.id.search_publisher_button_id), "publishers", getString(R.string.searchPublisherEditText),2);
+        addListener(findViewById(R.id.search_releasedDate_button_id), "dates", getString(R.string.searchReleasedDateEditText),5);
+        addListener(findViewById(R.id.search_platforms_button_id), "platforms", getString(R.string.searchPlatformsEditText),4);
+        addListener(findViewById(R.id.search_genres_button_id), "genres", getString(R.string.searchGenresEditText),3);
 
         //on click on search button to launch an API call
         findViewById(R.id.launch_search_button_id).setOnClickListener(new View.OnClickListener() {
@@ -205,7 +205,7 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
                 searchGameAPI.setPage(String.valueOf(((Searchable)getCurrentFragment()).getPageNumber()));
                 ((Searchable)getCurrentFragment()).scrollUp();
 
-                gamesAPI.requestWithParam(searchGameAPI, currentActivity, searchType);
+                gamesAPI.requestWithParam(searchGameAPI, currentActivity, ((Fragmentable)getCurrentFragment()).getType());
             }
         });
     }
@@ -213,8 +213,11 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
     /**
      * Add a listener on a view
      * @param v the view to add a listener on
+     * @param category search category
+     * @param text hint for search text box
+     * @param newCurrent new category to display
      */
-    private void addListener(View v, String category, String text){
+    private void addListener(View v, String category, String text, int newCurrent){
         v.setOnClickListener(new View.OnClickListener() {
             @Override
 
@@ -226,6 +229,7 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
                     ((EditText)findViewById(R.id.user_search_text_id)).setHint(text);
                     ((EditText)findViewById(R.id.user_search_text_id)).setText("");
                     searchType = category;
+                    mPager.setCurrentItem(newCurrent);
                 }
             }
         });
@@ -267,14 +271,15 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
      */
     @Override
     public void getApiInfo(JSONObject obj) {
-        if(obj == null)
+        if(obj == null)//error when getting data
             ((Searchable)getCurrentFragment()).networkError();
         else{
-            ((Searchable)getCurrentFragment()).removeErrorAndLoading();
-            if(searchType.compareTo("games") == 0 || searchType.compareTo("dates") == 0){
+            ((Searchable)getCurrentFragment()).removeError();
+            ((Searchable)getCurrentFragment()).removeLoading();
+            if(searchType.compareTo("games") == 0 || searchType.compareTo("dates") == 0){//display data
                 ((Searchable)getCurrentFragment()).createCards(obj, 0);
             }
-            else{
+            else{//new request
                 ((Searchable)getCurrentFragment()).setLoading();
                 searchGameAPI = new SearchGameAPI();
                 searchGameAPI.setPage_size("40");

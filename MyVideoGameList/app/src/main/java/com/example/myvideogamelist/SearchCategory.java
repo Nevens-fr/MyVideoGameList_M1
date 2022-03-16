@@ -228,13 +228,19 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
     @Override
     public void setLoading() {
         LayoutInflater vi = (LayoutInflater)currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //vi.inflate(R.layout.loading_search_text_id, view.findViewById(R.id.linear_layout_to_insert_id), true);
-        //todo put loading message
+        vi.inflate(R.layout.loading_search, view.findViewById(R.id.linear_layout_to_insert_id), true);
     }
 
+    @SuppressLint("ResourceType")
     @Override
-    public void removeErrorAndLoading(){
-        //todo remove loading and network error messages
+    public void removeError(){
+        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.layout.no_internet_error));
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void removeLoading(){
+        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.layout.loading_search));
     }
 
     /**
@@ -289,7 +295,7 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
 
             cardsInserted++;
 
-            if(actualElement + 1 < maxElemFromArray)//to build next card
+            if(actualElement + 1 < maxCardByApiCAll)//to build next card
                 createCards(obj, ++actualElement);
 
         }

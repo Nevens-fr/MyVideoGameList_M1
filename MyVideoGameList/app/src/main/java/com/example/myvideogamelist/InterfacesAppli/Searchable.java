@@ -11,7 +11,8 @@ public interface Searchable {
     String getHint();
     void setHint(String hint);
     void networkError();
-    void removeErrorAndLoading();
+    void removeError();
+    void removeLoading();
     void setLoading();
     void createCards(JSONObject obj, int actualElement);
 }
