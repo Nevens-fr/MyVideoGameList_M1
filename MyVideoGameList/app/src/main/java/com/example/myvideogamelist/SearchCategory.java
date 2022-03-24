@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myvideogamelist.InterfacesAppli.Fragmentable;
 import com.example.myvideogamelist.InterfacesAppli.Searchable;
-import com.example.myvideogamelist.ModifiedAndroidElements.MyLinearLayout;
 import com.example.myvideogamelist.MyExceptions.EmptySearchException;
 import com.squareup.picasso.Picasso;
 
@@ -241,6 +239,7 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
     @Override
     public void removeLoading(){
         ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.layout.loading_search));
+        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeAllViews();
     }
 
     /**
