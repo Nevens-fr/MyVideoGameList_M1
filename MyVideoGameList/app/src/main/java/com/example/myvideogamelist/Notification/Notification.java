@@ -79,7 +79,6 @@ public class Notification {
         if(dateN == null || !isNetworkConnected() || database.getSelectedUserID() == -1)
             return false;
 
-        //todo parcourir les jeux de l'utilisateur et regarder les dates, ajouter les jeux release à la dateN
         try{
             JSONArray games = database.getCurrentUser().getJSONArray("games");
             JSONArray gamesDB = database.getGames().getJSONArray("games");

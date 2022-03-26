@@ -104,20 +104,9 @@
                 android:layout_marginRight="80sp"
                 />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:backgroundTint="@color/black"
-                android:text="@string/loginPassword"
-                android:textColor="@color/text_orange_color"
-                android:textSize="10sp"
-                android:layout_marginTop="10dp"
-                />
 
             <Button
-                android:layout_marginTop="40sp"
+                android:layout_marginTop="70sp"
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

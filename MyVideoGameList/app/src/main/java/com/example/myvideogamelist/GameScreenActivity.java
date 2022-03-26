@@ -104,7 +104,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
             }
 
             if(!over){//user has no data for this game
-                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(Html.fromHtml("<span>Your score<br/></span><span style=\"color:#FA8002;\">no record</span>"));
+                ((TextView)findViewById(R.id.user_time_game_screen_id)).setText(Html.fromHtml("<span>Your time<br/></span><span style=\"color:#FA8002;\">no record</span>"));
                 ((TextView)findViewById(R.id.user_score_game_screen_id)).setText(Html.fromHtml("<span>Your score<br/></span><span style=\"color:#FA8002;\">no record</span>"));
             }
         }
@@ -141,7 +141,7 @@ public class GameScreenActivity extends AppCompatActivity implements MyActivityI
         catch(Exception e){
         }
         if(nb == 0)
-            return "no data";
+            return "no record";
         return String.valueOf(found / nb) + textAfter;
     }
 
