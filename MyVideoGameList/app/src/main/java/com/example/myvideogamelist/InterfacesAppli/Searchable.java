@@ -15,4 +15,8 @@ public interface Searchable {
     void removeLoading();
     void setLoading();
     void createCards(JSONObject obj, int actualElement);
+    String getSearch();
+    void setSearch(String search);
+    void setId(String id);
+    String getIds();
 }

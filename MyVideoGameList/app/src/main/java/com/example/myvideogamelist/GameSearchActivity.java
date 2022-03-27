@@ -74,6 +74,11 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     /**
      * Create data in fragments
      */
@@ -179,10 +184,11 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
             @Override
             public void onClick(View view) {
                 searchGameAPI = new SearchGameAPI();
+                ((Searchable)getCurrentFragment()).setSearch(((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
                 switch (((Fragmentable)getCurrentFragment()).getType()){
-                    case "genres" :     searchGameAPI.setGenres( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString()); break;
-                    case "platforms" :  searchGameAPI.setPlatforms( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString()); break;
-                    case "dates" :      searchGameAPI.setDates( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString());
+                    case "genres" :     searchGameAPI.setGenres( ((Searchable)getCurrentFragment()).getSearch()); break;
+                    case "platforms" :  searchGameAPI.setPlatforms( ((Searchable)getCurrentFragment()).getSearch()); break;
+                    case "dates" :      searchGameAPI.setDates( ((Searchable)getCurrentFragment()).getSearch());
                                         searchType = "games";
                                         searchGameAPI.setOrdering("released");
                                         break;
@@ -190,7 +196,7 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
                     case "publishers" :
                     case "games" :
                     case "developers" :
-                        searchGameAPI.setSearch( ((EditText)findViewById(R.id.user_search_text_id)).getText().toString()); break;
+                        searchGameAPI.setSearch( ((Searchable)getCurrentFragment()).getSearch()); break;
                 }
 
                 //Hide keyboard
@@ -237,10 +243,23 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
 
     /**
      * Set the page number for next request
-     * @param nb
+     * @param nb page number
+     * @param name search name
      */
-    public void setSearchGameAPIPageNumber(int nb){
+    public void setSearchGameAPIData(int nb, String name, String type, String id){
+        searchGameAPI = new SearchGameAPI();
         searchGameAPI.setPage(String.valueOf(nb));
+        searchGameAPI.setPage_size("40");
+        switch (type){
+            case "genres" :     searchGameAPI.setGenres( id); break;
+            case "platforms" :  searchGameAPI.setPlatforms(id); break;
+            case "dates" :      searchGameAPI.setDates( id);
+                searchGameAPI.setOrdering("released");
+                break;
+            case "publishers" : searchGameAPI.setPublishers(id);break;
+            case "developers" : searchGameAPI.setDevelopers(id);break;
+            case "games" : searchGameAPI.setSearch(name);
+        }
     }
 
     /**
@@ -287,6 +306,7 @@ public class GameSearchActivity extends AppCompatActivity implements MyActivityI
                 searchGameAPI.setPage(String.valueOf(((Searchable)getCurrentFragment()).getPageNumber()));
 
                 try{//get result from previous request to make a new one
+                    ((Searchable)getCurrentFragment()).setId(obj.getJSONArray("results").getJSONObject(0).getString("id"));
                     if(searchType.compareTo("developers") == 0)
                         searchGameAPI.setDevelopers(obj.getJSONArray("results").getJSONObject(0).getString("id"));
                     if(searchType.compareTo("publishers") == 0)

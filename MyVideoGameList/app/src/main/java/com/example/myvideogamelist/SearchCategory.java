@@ -23,6 +23,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 public class SearchCategory extends Fragment implements Fragmentable, Searchable {
 
     private static final SearchCategory name = new SearchCategory("");
@@ -36,9 +38,11 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
 
     private View view;
 
-    private String type, hint;
+    private String type, hint, search, id ="";
 
     private boolean isBuilt = false;
+
+    private long time, space = 1000;
 
     private int cardsInserted = 0, pageNumber = 1, maxCardByApiCAll = 40, maxElemFromArray = 4;
 
@@ -56,6 +60,7 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        time = Calendar.getInstance().getTimeInMillis();
     }
 
     @Override
@@ -75,9 +80,10 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
         ((ScrollView)view.findViewById(R.id.scrollView_search_id)).setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                if (!((ScrollView)view.findViewById(R.id.scrollView_search_id)).canScrollVertically(1) && cardsInserted > 0) {
+                if (!((ScrollView)view.findViewById(R.id.scrollView_search_id)).canScrollVertically(1) && cardsInserted > 0 && time + space < Calendar.getInstance().getTimeInMillis()) {
+                    time = Calendar.getInstance().getTimeInMillis();
                     pageNumber++;
-                    ((GameSearchActivity)currentActivity).setSearchGameAPIPageNumber(pageNumber);
+                    ((GameSearchActivity)currentActivity).setSearchGameAPIData(pageNumber, search, type, id);
                     ((GameSearchActivity)currentActivity).executeRequest();
                 }
             }
@@ -232,14 +238,13 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
     @SuppressLint("ResourceType")
     @Override
     public void removeError(){
-        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.layout.no_internet_error));
+        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.id.no_internet_to_clone_id));
     }
 
     @SuppressLint("ResourceType")
     @Override
     public void removeLoading(){
-        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.layout.loading_search));
-        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeAllViews();
+        ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.id.loading_search_to_clone_id));
     }
 
     /**
@@ -299,5 +304,21 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
 
         }
         catch (Exception e) {}
+    }
+
+    @Override
+    public String getSearch(){ return search; }
+
+    @Override
+    public void setSearch(String search){ this.search = search; }
+
+    @Override
+    public void setId(String id){
+        this.id = id;
+    }
+
+    @Override
+    public String getIds(){
+        return id;
     }
 }

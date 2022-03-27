@@ -303,7 +303,7 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
      */
     @Override
     public void getApiInfo(JSONObject obj) {
-        if(launch == true){
+        if(launch){
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {

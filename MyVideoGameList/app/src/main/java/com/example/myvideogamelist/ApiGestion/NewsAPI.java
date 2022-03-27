@@ -63,9 +63,9 @@ public class NewsAPI {
                     parseResponse(category);
                     if(currentActivity != null)
                         currentActivity.getApiInfo(category.compareTo("articles") == 0? articles : reviews);
-                } catch (
-                        Exception e) {
-                    System.out.println(e.getMessage() + e.getCause() + e.getClass());
+                } catch (Exception e) {
+                    System.out.println(e.getMessage() + " "+ e.getCause()+ " " + e.getClass());
+                    e.printStackTrace();
                 }
             }
         });
@@ -109,7 +109,7 @@ public class NewsAPI {
 
     /**
      * setter of the current activity
-     * @param cur
+     * @param currentActivity
      */
     public void setCurrentActivity(MyActivityImageDisplayable currentActivity) {
         this.currentActivity = currentActivity;
