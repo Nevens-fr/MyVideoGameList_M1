@@ -67,6 +67,8 @@
     <string name="no_internet_access">Turn on network and relaunch application</string>
     <string name="no_internet_access_to_save_data">Turn on network to apply changes</string>
 
+    <string name="api_internal_error_string">Looks like our news API is KO, we are sorry for the disturbance</string>
+
     <string name="emptySearch">We have\'nt found anything relevant to your search :(</string>
 
     <string name="searchName">Name</string>

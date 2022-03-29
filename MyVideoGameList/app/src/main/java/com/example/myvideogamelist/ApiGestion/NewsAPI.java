@@ -19,6 +19,7 @@ public class NewsAPI {
     private StringBuffer content;
     private JSONObject articles, reviews;
     private MyActivityImageDisplayable currentActivity = null;
+    private int status;
 
     /**
      * Private constructor for singleton
@@ -43,13 +44,13 @@ public class NewsAPI {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://www.gamespot.com/api/"+category+"?api_key=" + apiKey + "&format=json&sort=publish_date:desc" + otherParams);
+                    URL url = new URL("https://www.gamespot.com/api/"+category+"/?api_key=" + apiKey + "&format=json&sort=publish_date:desc" + otherParams);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
 
                     con.setRequestProperty("Content-Type", "application/json");
 
-                    int status = con.getResponseCode();
+                    status = con.getResponseCode();
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(con.getInputStream()));
                     String inputLine;
@@ -64,8 +65,10 @@ public class NewsAPI {
                     if(currentActivity != null)
                         currentActivity.getApiInfo(category.compareTo("articles") == 0? articles : reviews);
                 } catch (Exception e) {
-                    System.out.println(e.getMessage() + " "+ e.getCause()+ " " + e.getClass());
+                    System.out.println(e.getMessage() + " "+ e.getCause()+ " " + e.getClass() + " " + status);
                     e.printStackTrace();
+                    if(currentActivity != null)
+                        currentActivity.getApiInfo(null);
                 }
             }
         });

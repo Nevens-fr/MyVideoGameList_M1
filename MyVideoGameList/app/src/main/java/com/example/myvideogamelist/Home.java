@@ -36,6 +36,7 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
     private final NewsAPI newsAPI = NewsAPI.getNewsAPI();
     private boolean articleRequest = true, reviewRequest =true, launch = true;
     private Handler mainHandler = new Handler();
+    private Home home = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,7 +304,7 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
      */
     @Override
     public void getApiInfo(JSONObject obj) {
-        if(launch){
+        if(launch && obj != null){
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -318,6 +319,16 @@ public class Home extends AppCompatActivity implements MyActivityImageDisplayabl
                         ((LinearLayout)findViewById(R.id.home_to_clone_id)).removeView(findViewById(R.id.no_internet_to_clone_id));
                         launchCreation();
                     }
+                }
+            });
+        }
+        else if(launch){//news API is KO
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ((LinearLayout) findViewById(R.id.home_to_clone_id)).removeAllViews();
+                    LayoutInflater vi = (LayoutInflater) home.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    vi.inflate(R.layout.api_internal_error, findViewById(R.id.home_to_clone_id), true);
                 }
             });
         }
