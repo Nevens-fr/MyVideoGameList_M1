@@ -2,6 +2,9 @@ package com.example.myvideogamelist.InterfacesAppli;
 
 import org.json.JSONObject;
 
+/**
+ * Search interface for activity to manage fragments
+ */
 public interface Searchable {
 
     void clearViewsAndWaitSearch();

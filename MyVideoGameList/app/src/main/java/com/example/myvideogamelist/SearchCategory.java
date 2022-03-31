@@ -25,6 +25,9 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
+/**
+ * View that allow the user to browse games that he doesn't already have in his lists
+ */
 public class SearchCategory extends Fragment implements Fragmentable, Searchable {
 
     private static final SearchCategory name = new SearchCategory("");
@@ -137,26 +140,50 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
     // Getter for singletons
     //**********************************************************************************************
 
+    /**
+     * Getter that allow you to get name category fragment
+     * @return  SearchCategory name fragment
+     */
     public static SearchCategory getName() {
         return name;
     }
 
+    /**
+     * Getter that allow you to get devs category fragment
+     * @return  SearchCategory devs fragment
+     */
     public static SearchCategory getDevs() {
         return devs;
     }
 
+    /**
+     * Getter that allow you to get publishers category fragment
+     * @return  SearchCategory publishers fragment
+     */
     public static SearchCategory getPublishers() {
         return publishers;
     }
 
+    /**
+     * Getter that allow you to get genre category fragment
+     * @return  SearchCategory genre fragment
+     */
     public static SearchCategory getGenre() {
         return genre;
     }
 
+    /**
+     * Getter that allow you to get platform category fragment
+     * @return  SearchCategory platform fragment
+     */
     public static SearchCategory getPlatform() {
         return platform;
     }
 
+    /**
+     * Getter that allow you to get release category fragment
+     * @return  SearchCategory release fragment
+     */
     public static SearchCategory getRelease() {
         return release;
     }
@@ -164,16 +191,28 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
     //**********************************************************************************************
     // Interface's methods
     //**********************************************************************************************
+
+    /**
+     * Unused fragmentable method
+     */
     @Override
     public void build() {
 
     }
 
+    /**
+     * Setter for parent activity
+     * @param fra parent activity
+     */
     @Override
     public void setFragmentActivity(AppCompatActivity fra) {
         this.currentActivity = fra;
     }
 
+    /**
+     * Setter for the fragment type of category
+     * @param type category's type
+     */
     @Override
     public void setType(String type) {
         this.type = type;
@@ -184,6 +223,9 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
         return type;
     }
 
+    /**
+     * Clear the view, remove all cards inside
+     */
     @Override
     public void clearViewAndAllowBuild() {
         ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeAllViews();
@@ -191,6 +233,9 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
         isBuilt = false;
     }
 
+    /**
+     * Clear views and wait for new search to fill it
+     */
     @Override
     public void clearViewsAndWaitSearch() {
         ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeAllViews();
@@ -198,50 +243,79 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
         pageNumber = 1;
     }
 
+    /**
+     * Getter for page number of the actual search
+     * @return page number
+     */
     @Override
     public int getPageNumber() {
         return pageNumber;
     }
 
+    /**
+     * Setter for page number
+     * @param pnb new page number
+     */
     @Override
     public void setPageNumber(int pnb){
         this.pageNumber = pnb;
     }
 
+    /**
+     * Allow fragment to scroll to top
+     */
     @Override
     public void scrollUp() {
         ((ScrollView)view.findViewById(R.id.scrollView_search_id)).fullScroll(ScrollView.FOCUS_UP);//go to top of scroll view
     }
 
+    /**
+     * Getter for search area's hint
+     * @return String hint
+     */
     @Override
     public String getHint() {
         return hint;
     }
 
+    /**
+     * Setter for a new hint
+     * @param hint new hint
+     */
     @Override
     public void setHint(String hint) {
         this.hint = hint;
     }
 
+    /**
+     * Display an error message is network isn't working properly
+     */
     @Override
     public void networkError(){
         LayoutInflater vi = (LayoutInflater)currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vi.inflate(R.layout.no_internet_error, view.findViewById(R.id.linear_layout_to_insert_id), true);
     }
 
+    /**
+     * Display a loading screen
+     */
     @Override
     public void setLoading() {
         LayoutInflater vi = (LayoutInflater)currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vi.inflate(R.layout.loading_search, view.findViewById(R.id.linear_layout_to_insert_id), true);
     }
 
-    @SuppressLint("ResourceType")
+    /**
+     * Remove network error message
+     */
     @Override
     public void removeError(){
         ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.id.no_internet_to_clone_id));
     }
 
-    @SuppressLint("ResourceType")
+    /**
+     * Remove loading message
+     */
     @Override
     public void removeLoading(){
         ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeView(view.findViewById(R.id.loading_search_to_clone_id));
@@ -306,17 +380,33 @@ public class SearchCategory extends Fragment implements Fragmentable, Searchable
         catch (Exception e) {}
     }
 
+    /**
+     * Getter for the text written by the user
+     * @return user's text
+     */
     @Override
     public String getSearch(){ return search; }
 
+    /**
+     * Setter for the text entered by the user
+     * @param search new text writtent by the user
+     */
     @Override
     public void setSearch(String search){ this.search = search; }
 
+    /**
+     * Getter the id for the search
+     * @param id dev or publisher or platform id
+     */
     @Override
     public void setId(String id){
         this.id = id;
     }
 
+    /**
+     * Getter the id for the search
+     * @return dev or publisher or platform id
+     */
     @Override
     public String getIds(){
         return id;

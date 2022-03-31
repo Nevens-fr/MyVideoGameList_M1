@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Write user index in config file
-     * @param index
+     * @param index user's index in JSON
      */
     private void writeUserIndex(int index){
         try {

@@ -14,6 +14,10 @@ public class Rating {
     String status;
     String score;
 
+    /**
+     * Constructor
+     * @param id game's id
+     */
     public Rating(String id){
         this.id = id;
     }
@@ -130,7 +134,7 @@ public class Rating {
 
     /**
      * setter of the game score
-     * @param id the game i to set
+     * @param score the game score to set
      */
     public void setScore(String score) {
         this.score = score;

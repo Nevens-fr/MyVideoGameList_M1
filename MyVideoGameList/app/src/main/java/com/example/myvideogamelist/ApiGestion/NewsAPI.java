@@ -112,7 +112,7 @@ public class NewsAPI {
 
     /**
      * setter of the current activity
-     * @param currentActivity
+     * @param currentActivity current activity on foreground
      */
     public void setCurrentActivity(MyActivityImageDisplayable currentActivity) {
         this.currentActivity = currentActivity;

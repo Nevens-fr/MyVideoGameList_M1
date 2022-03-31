@@ -181,7 +181,7 @@ public class UserGameRating extends AppCompatActivity {
     /**
      * Create all data for number picker from user's game data
      * @param data json object containing user data
-     * @throws Exception
+     * @throws Exception raise an exception if numbers are broken
      */
     private void createNumberPickerWithData(JSONObject data)throws Exception{
         String hours = data.getString("hours");

@@ -148,6 +148,7 @@ public class RandomaticActivity extends AppCompatActivity implements ObservatorA
 
     /**
      * Received a notification from observed database
+     * @param status api's return code
      */
     @Override
     public void notified(int status) {

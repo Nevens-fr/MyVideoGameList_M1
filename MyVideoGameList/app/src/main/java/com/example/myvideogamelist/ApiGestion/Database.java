@@ -336,22 +336,42 @@ public class Database implements ObservableAppli {
             newList.add(g);
     }
 
+    /**
+     * Getter for user's finished games list
+     * @return finished games list
+     */
     public ArrayList<Game> getFinished() {
         return finished;
     }
 
+    /**
+     * Getter for user's planned games list
+     * @return planned games list
+     */
     public ArrayList<Game> getPlanned() {
         return planned;
     }
 
+    /**
+     * Getter for user's abandoned games list
+     * @return abandoned games list
+     */
     public ArrayList<Game> getAbandoned() {
         return abandoned;
     }
 
+    /**
+     * Getter for user's on-hold games list
+     * @return on-hold games list
+     */
     public ArrayList<Game> getOn_hold() {
         return on_hold;
     }
 
+    /**
+     * Getter for user's playing games list
+     * @return playing games list
+     */
     public ArrayList<Game> getPlaying() {
         return playing;
     }
@@ -376,6 +396,10 @@ public class Database implements ObservableAppli {
         }
     }
 
+    /**
+     * Allow observators to unsubscribe
+     * @param obs the observator who want to unsubscribe
+     */
     @Override
     public void unsubscribe(ObservatorAppli obs) {
         observators.remove(obs);

@@ -61,8 +61,15 @@ public class Category extends Fragment implements Fragmentable {
     // Constructors area
     //***********************************************************************************************
 
+    /**
+     * Private constructor for singleton purpose
+     * @param useless unused param
+     */
     private Category(String useless){}
 
+    /**
+     * Empty constructor for viewpager's call
+     */
     public Category() {
         // Required empty public constructor
     }
@@ -230,56 +237,103 @@ public class Category extends Fragment implements Fragmentable {
     // Getter and setter area
     //***********************************************************************************************
 
+    /**
+     * Setter for parent activity
+     * @param fra parent activity
+     */
     @Override
     public void setFragmentActivity(AppCompatActivity fra) {
         if(currentActivity == null)
             currentActivity = fra;
     }
 
+    /**
+     * Getter for all games category
+     * @return all games category
+     */
     public static Category getCatAll() {
         return catAll;
     }
 
+    /**
+     * Getter for planned category
+     * @return planned category
+     */
     public static Category getCatPlanned() {
         return catPlanned;
     }
 
+    /**
+     * Getter for on-hold finished category
+     * @return on-hold finished category
+     */
     public static Category getCatFinished() {
         return catFinished;
     }
 
+    /**
+     * Getter for on-hold games category
+     * @return on-hold games category
+     */
     public static Category getCatOnHold() {
         return catOnHold;
     }
 
+    /**
+     * Getter for abandoned games category
+     * @return abandoned games category
+     */
     public static Category getCatAbandoned() {
         return catAbandoned;
     }
 
+    /**
+     * Getter for playing games category
+     * @return playing games category
+     */
     public static Category getCatPlaying() {
         return catPlaying;
     }
 
+    /**
+     * Setter for category's type
+     * @param category category's type
+     */
     @Override
     public void setType(String category) {
         this.category = category;
     }
 
+    /**
+     * Getter for category's type
+     * @return category's type
+     */
     @Override
     public String getType() {
         return category;
     }
 
+    /**
+     * Return a boolean isBuilt, true if the category content exists, false otherwise
+     * @return boolean isBuilt
+     */
     public boolean isBuilt() {
         return isBuilt;
     }
 
+    /**
+     * Setter for boolean isBuilt and resetting values
+     * @param built boolean isBuilt
+     */
     public void setBuilt(boolean built) {
         isBuilt = built;
         view = null;
         currentActivity = null;
     }
 
+    /**
+     * Remove all views from category's content
+     */
     public void clearViewAndAllowBuild(){
         if(isBuilt)
             ((LinearLayout)view.findViewById(R.id.linear_layout_to_insert_id)).removeAllViews();

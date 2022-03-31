@@ -25,6 +25,9 @@ import com.example.myvideogamelist.InterfacesAppli.Searchable;
 
 import org.json.JSONObject;
 
+/**
+ * Activity that allow the user to search games that he doesn't own in his lists. He can search throught multiples categories
+ */
 public class GameSearchActivity extends AppCompatActivity implements MyActivityImageDisplayable{
 
     private static final int NUM_PAGES = 6;

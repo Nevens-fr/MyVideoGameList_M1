@@ -9,8 +9,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-//String pageName = obj.getJSONObject("pageInfo").getString("pageName");
-//System.out.println(obj.getJSONArray("results").getJSONObject(0).getString("name"));
 
 /**
  * Class that fetch data from the games API

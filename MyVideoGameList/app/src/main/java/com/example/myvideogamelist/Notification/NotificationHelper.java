@@ -34,6 +34,10 @@ public class NotificationHelper {
         mContext = context;
     }
 
+    /**
+     * Create the notification content
+     * @return true if notification has been built
+     */
     boolean createNotification(){
 
         Intent intent = new Intent(mContext , LoadingActivity.class);

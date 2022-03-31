@@ -60,7 +60,10 @@ public class User {
         return games.get(games.size() - 1);
     }
 
-    
+    /**
+     * Getter for mail
+     * @return user's mail address
+     */
     public String getMail() {
         return mail;
     }
@@ -73,6 +76,10 @@ public class User {
         this.mail = mail;
     }
 
+    /**
+     * Getter for id
+     * @return user id
+     */
     public String getId() {
         return id;
     }
@@ -85,30 +92,50 @@ public class User {
         this.id = id;
     }
 
+    /**
+     * Password's getter
+     * @return user's password
+     */
     public String getPwd() {
         return pwd;
     }
 
     /**
-     * setter of the passwor
-     * @param developpers the developpers to set
+     * setter of the password
+     * @param pwd the password to set
      */
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
 
+    /**
+     * Getter for the user's name
+     * @return user's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter for user's name
+     * @param name user's name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter for user's games
+     * @return user's games
+     */
     public ArrayList<Rating> getGames() {
         return games;
     }
 
+    /**
+     * Setter for user's games
+     * @param games user's games
+     */
     public void setGames(ArrayList<Rating> games) {
         this.games = games;
     }

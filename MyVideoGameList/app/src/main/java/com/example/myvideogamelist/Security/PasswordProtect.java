@@ -38,6 +38,10 @@ public class PasswordProtect {
         return null;
     }
 
+    /**
+     * Setter for key
+     * @param key key
+     */
     public static void setKey(String key) {
         PasswordProtect.key = key;
     }

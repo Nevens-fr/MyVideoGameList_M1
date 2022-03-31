@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Write user index in config file
-     * @param index
+     * @param index user's index in json
      */
     private void writeUserIndex(int index){
         try {

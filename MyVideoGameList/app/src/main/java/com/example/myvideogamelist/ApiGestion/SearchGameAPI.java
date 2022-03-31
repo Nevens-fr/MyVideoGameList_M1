@@ -31,7 +31,7 @@ public class SearchGameAPI {
 
     /**
      * setter of the developers
-     * @param developpers the developpers to set
+     * @param developpers the developers to set
      */
     public void setDevelopers(String developpers) { this.developers = developpers; }
 
@@ -43,37 +43,61 @@ public class SearchGameAPI {
 
     /**
      * setter of the page
-     * @param pa the page to set
+     * @param page the page to set
      */
     public void setPage(String page) {
         this.page = page;
     }
 
+    /**
+     * setter of the page_size
+     * @param page_size the page_size to set
+     */
     public void setPage_size(String page_size) {
         this.page_size = page_size;
     }
 
+    /**
+     * setter of the search
+     * @param search the search to set
+     */
     public void setSearch(String search) {
         this.search = search;
     }
 
+    /**
+     * setter of the platforms
+     * @param platforms the platforms to set
+     */
     public void setPlatforms(String platforms) {
         this.platforms = platforms;
     }
 
+    /**
+     * setter of the genres
+     * @param genres the genres to set
+     */
     public void setGenres(String genres) {
         this.genres = genres;
     }
 
+    /**
+     * setter of the dates
+     * @param dates the dates to set
+     */
     public void setDates(String dates) {
         this.dates = dates;
     }
 
+    /**
+     * setter of the ordering type
+     * @param type the ordering type to set
+     */
     public void setOrdering(String type) { ordering = type; }
 
     /**
      * Return parameters for the search
-     * @return
+     * @return string from all fields
      */
     @Override
     public String toString(){

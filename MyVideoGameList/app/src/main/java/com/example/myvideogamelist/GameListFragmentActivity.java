@@ -17,6 +17,9 @@ import android.widget.HorizontalScrollView;
 
 import com.example.myvideogamelist.InterfacesAppli.Fragmentable;
 
+/**
+ * Activity that allow the user to browse his lists and modify his ratings
+ */
 public class GameListFragmentActivity extends AppCompatActivity {
     private GameListFragmentActivity current = this;
     private static final int NUM_PAGES = 6;

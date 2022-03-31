@@ -45,7 +45,7 @@ public class Game {
      * Create an json array from string array
      * @param strings string array
      * @return json array containing data
-     * @throws Exception
+     * @throws Exception json exception for not found element
      */
     private JSONArray createArray(String [] strings, String key) throws  Exception{
         JSONArray jsonArray = new JSONArray();
@@ -130,7 +130,7 @@ public class Game {
 
     /**
      * setter of the playt of the game
-     * @param idGame the id of the game
+     * @param playtime the id of the game
      */
     public void setPlaytime(String playtime) {
         this.playtime = playtime;
@@ -180,6 +180,10 @@ public class Game {
         return devs;
     }
 
+    /**
+     * Setter for devs json array
+     * @param devs devs json array
+     */
     public void setDevs(JSONArray devs) {
         completeStringArrayFromJsonArray(devs, this.devs,"name");
     }
@@ -192,6 +196,10 @@ public class Game {
         return images;
     }
 
+    /**
+     * Setter for images json array
+     * @param images images json array
+     */
     public void setImages(JSONArray images) {
         completeStringArrayFromJsonArray(images, this.images, "image");
     }
@@ -204,6 +212,10 @@ public class Game {
         return publishers;
     }
 
+    /**
+     * Setter for publishers json array
+     * @param publishers publishers json array
+     */
     public void setPublishers(JSONArray publishers) {
         completeStringArrayFromJsonArray(publishers, this.publishers, "name");
     }
