@@ -20,8 +20,8 @@ import java.util.ArrayList;
 public class Database implements ObservableAppli {
     private static Database database = null;
     private int status;
-    private final String usersDB = "https://api.jsonstorage.net/v1/json/ace6b1ed-31d8-412f-a913-f7daea4e91ed";
-    private final String gamesDB = "https://api.jsonstorage.net/v1/json/711efbe0-1ed7-4ae8-811b-77e998db7085";
+    private final String usersDB = "https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/ace6b1ed-31d8-412f-a913-f7daea4e91ed";
+    private final String gamesDB = "https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/711efbe0-1ed7-4ae8-811b-77e998db7085";
     private StringBuffer content;
     private JSONObject games = null, users = null;
     private int currentUser = -1;

@@ -1,5 +1,7 @@
 url users table https://api.jsonstorage.net/v1/json/ace6b1ed-31d8-412f-a913-f7daea4e91ed
+https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/ace6b1ed-31d8-412f-a913-f7daea4e91ed
 url games table https://api.jsonstorage.net/v1/json/711efbe0-1ed7-4ae8-811b-77e998db7085
+https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/711efbe0-1ed7-4ae8-811b-77e998db7085
 url request https://api.rawg.io/api/games?key=fe8335a6f6cc49b3af85f2fbea4b89c9
 
 ******************************************************************************************************************
